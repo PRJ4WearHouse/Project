@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analyse af ASP_net", "Analyse af ASP_net\Analyse af ASP_net.csproj", "{1C292BD2-C379-47B8-BC25-A9DC807D5C6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analyse af ASP NET", "Analyse af ASP NET\Analyse af ASP NET.csproj", "{4C22B4A9-8CB8-48EB-A65E-CD60B2297738}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C292BD2-C379-47B8-BC25-A9DC807D5C6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C292BD2-C379-47B8-BC25-A9DC807D5C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C292BD2-C379-47B8-BC25-A9DC807D5C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C292BD2-C379-47B8-BC25-A9DC807D5C6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C22B4A9-8CB8-48EB-A65E-CD60B2297738}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C22B4A9-8CB8-48EB-A65E-CD60B2297738}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C22B4A9-8CB8-48EB-A65E-CD60B2297738}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C22B4A9-8CB8-48EB-A65E-CD60B2297738}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C860D4BF-A435-4F2C-A992-C7282D6C7C3D}
+	EndGlobalSection
+EndGlobal

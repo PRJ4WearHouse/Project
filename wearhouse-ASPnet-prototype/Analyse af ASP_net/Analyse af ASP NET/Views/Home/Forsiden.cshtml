@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Forsideforslag";
+}
+
+<header>
+    <h1>
+        Logo + Wearhouse: Dit sted at ditten og datten
+    </h1>
+</header>
+<div class="float-right">
+    <form class="" action="/index">
+        <input type="text" class="search" placeholder="Search me..." required>
+        <input type="button" class="button" value="Search"> <!--onclick="Et script">-->
+    </form>
+    <figure class="floatright">
+        <a href="~/images/profpic.jpg">
+            <img class="nav-link" asp-controller="Home" asp-action="Profil" src="~/images/profpic.jpg" height="80" width="400" alt="Sigurd">
+        </a>
+        <asp:Button ID="btnRedirect" runat="Home" Text="Redirect" OnClick="btnRedirect_Click" />
+        <!--asp:TextBox ID="TextBox5" runat="server"></!--asp:TextBox-->
+    </figure>
+    <p>
+        Sigurd Skov Jensen
+        Køber af tøj
+    </p>
+</div>
+<body>
+    <h3>
+        Prøv at se hvad vi har til dig
+    </h3>
+    <p>En hat</p>
+    <p>De vildeste sneaks</p>
+    <p>Trumpetbukser</p>
+</body>
