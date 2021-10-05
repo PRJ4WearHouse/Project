@@ -5,6 +5,7 @@ a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
+  color: green;
 }
 
 /* Provide sufficient contrast against white background */
@@ -29,6 +30,7 @@ a {
 html {
   font-size: 14px;
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -84,3 +86,18 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
+h1 {
+  color: green;
+  text-align: center;
+}
+
+h2 {
+  color: green;
+  text-align: center;
+  font-family: "Caveat";
+}
+
+input {
+  font-family: "lato", sans-serif;
+  opacity: 0.9;
+}
