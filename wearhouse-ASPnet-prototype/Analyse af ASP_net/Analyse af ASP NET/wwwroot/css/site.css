@@ -101,3 +101,18 @@ input {
   font-family: "lato", sans-serif;
   opacity: 0.9;
 }
+
+
+/*Forsøg 2 - Sigurd - Virker*/
+
+.column {
+    float: left;
+    width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
