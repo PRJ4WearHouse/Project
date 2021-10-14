@@ -1,6 +1,6 @@
 using System;
 
-namespace Analyse_af_ASP_NET.Models
+namespace Prototype02.Models
 {
 
     public abstract class Wearable
