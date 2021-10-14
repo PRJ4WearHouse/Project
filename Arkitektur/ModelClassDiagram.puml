@@ -1,0 +1,52 @@
+@startuml
+
+package "Class Diagram - WearHouse" <<Frame>> {
+  skinparam classAttributeIconSize 0
+
+  namespace Models {
+
+    class "User" as US {
+      -name : string
+      -userName : string
+      -profileImage : string
+      -posts : List<WearablePost>
+    }
+
+    abstract class "Wearable" as WE {
+      -size : uint
+      -wearableImagePath : string
+      -brand : string
+      -description : string
+      -type : string
+    }
+
+    enum "Gender" as GE {
+      Mens
+      Womens
+      Unisex
+    }
+
+    class "WearablePost" as WP {
+      -wearable : Wearable
+      -date : DateTime
+      -state : WearablePostState
+      -price : double?
+      +ChangeState(state: WearablePostState, price: double? = null) : void
+    }
+
+    enum "WearablePostState" as WPS {
+      Unavailable
+      GiveAway
+      Borrow
+      Lease
+      Sale
+    }
+
+    US *-- WP
+    WP *-- WE
+    WP ..> WPS
+    WE ..> GE
+  }
+}
+
+@enduml
