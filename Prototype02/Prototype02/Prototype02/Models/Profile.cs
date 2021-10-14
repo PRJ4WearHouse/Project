@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Prototype02.Areas.Identity.Data;
 
 namespace Prototype02.Models
 {
-    public class Profile
+    public class Profile : IProfile
     {
-        private string ID_;
-        private string name_;
-        private string picture_;
-    }
-    /* protected void btnRedirect_Click(object sender, EventArgs e)
+        public Profile()
         {
-            //Redirecting with value from textbox
-            Response.Redirect("Page2.aspx?Value=" + TextBox5.Text);
-        }*/
+            this.Name = "";
+            this.ProfileImage = "";
+            this.UserName = "";
+        }
+
+        public Profile(string name, string profileImage, string userName) {
+            Name = name;
+            ProfileImage = profileImage;
+            UserName = userName;
+        }
+    }
 }
