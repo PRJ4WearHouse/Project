@@ -5,10 +5,6 @@ package "Class Diagram - WearHouse" <<Frame>> {
 
   namespace Models {
 
-    interface "IProfile" {
-
-    }
-
     class "User" as US {
       -name : string
       -userName : string
@@ -45,6 +41,11 @@ package "Class Diagram - WearHouse" <<Frame>> {
       Lease
       Sale
     }
+
+    US *-- WP
+    WP *-- WE
+    WP ..> WPS
+    WE ..> GE
   }
 }
 
