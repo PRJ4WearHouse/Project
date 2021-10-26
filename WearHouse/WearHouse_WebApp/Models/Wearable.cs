@@ -1,6 +1,6 @@
 using System;
 
-namespace Prototype02.Models
+namespace WearHouse_WebApp.Models
 {
 
     public abstract class Wearable

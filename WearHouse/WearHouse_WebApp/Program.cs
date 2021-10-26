@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Prototype02
+namespace WearHouse_WebApp
 {
     public class Program
     {

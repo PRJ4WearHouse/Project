@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace Prototype02.Data.Migrations
+namespace WearHouse_WebApp.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Prototype02.Areas.Identity.Data;
+using WearHouse_WebApp.Areas.Identity.Data;
 
-namespace Prototype02.Models
+namespace WearHouse_WebApp.Models
 {
     public class Profile : IProfile
     {

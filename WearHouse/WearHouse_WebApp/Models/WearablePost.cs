@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Prototype02.Models
+namespace WearHouse_WebApp.Models
 {
     public class WearablePost
     {

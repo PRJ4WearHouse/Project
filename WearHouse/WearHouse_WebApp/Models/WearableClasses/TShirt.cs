@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Prototype02.Models.WearableClasses
+namespace WearHouse_WebApp.Models.WearableClasses
 {
     public class TShirt : Wearable
     {

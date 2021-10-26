@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
-using Prototype02.Models;
+using WearHouse_WebApp.Models;
 
-namespace Prototype02.Areas.Identity.Data
+namespace WearHouse_WebApp.Areas.Identity.Data
 {
     public abstract class IProfile : IdentityUser
     {

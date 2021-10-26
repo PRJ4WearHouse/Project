@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Prototype02.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using WearHouse_WebApp.Models;
 
-namespace Prototype02.Controllers
+namespace WearHouse_WebApp.Controllers
 {
     public class HomeController : Controller
     {
