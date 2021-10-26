@@ -20,12 +20,22 @@ namespace Prototype02.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("LandingPage");
+        }
+
+        public IActionResult Profile()
+        {
+            return View("Profile");
+        }
+
+        public IActionResult Posts()
+        {
+            return View("Posts");
         }
 
         public IActionResult Privacy()
         {
-            return View();
+            return View("Privacy");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
