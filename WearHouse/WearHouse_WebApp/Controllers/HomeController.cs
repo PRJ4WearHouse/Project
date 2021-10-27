@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,9 +12,15 @@ namespace WearHouse_WebApp.Controllers
 {
     public class HomeController : Controller
     {
+
         public IActionResult Index()
         {
             return View("LandingPage");
+        }
+
+        public IActionResult ListUsers()
+        {
+            return View();
         }
 
         public IActionResult Profile()
