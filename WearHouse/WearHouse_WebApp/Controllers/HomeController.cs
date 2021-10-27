@@ -13,14 +13,22 @@ namespace WearHouse_WebApp.Controllers
     public class HomeController : Controller
     {
 
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public HomeController(UserManager<ApplicationUser> userManager)
+        {
+            this.userManager = userManager;
+        }
+
         public IActionResult Index()
         {
             return View("LandingPage");
         }
 
-        public IActionResult ListUsers()
+        public IActionResult Users()
         {
-            return View();
+            var users = userManager.Users;
+            return View(users);
         }
 
         public IActionResult Profile()

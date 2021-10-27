@@ -9,5 +9,7 @@ namespace WearHouse_WebApp.Models
     public class ApplicationUser : IdentityUser
     {
         public string Location { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

@@ -28,6 +28,7 @@ namespace WearHouse_WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("SqliteDeveloper")));
             services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -54,6 +55,9 @@ namespace WearHouse_WebApp
                             options.User.AllowedUserNameCharacters =
                                         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                             options.User.RequireUniqueEmail = false;
+                            options.SignIn.RequireConfirmedEmail = false;
+                            options.SignIn.RequireConfirmedAccount = false;
+                            options.SignIn.RequireConfirmedPhoneNumber = false;
                         });
 
             services.AddControllersWithViews();
@@ -66,7 +70,7 @@ namespace WearHouse_WebApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {
