@@ -1,10 +1,20 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WearHouse_WebApp.Models
 {
 
-    public abstract class Wearable
+    public class Wearable
     {
+        [Key]
+        public int WearableId { get; set; }
+        [StringLength(30)]
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string ImageUrls { get; set; }
+
+        /*
         public uint size { get; private set; }
         public string wearableImagePath { get; private set; }
         public string brand { get; private set; }
@@ -19,7 +29,7 @@ namespace WearHouse_WebApp.Models
             this.brand = brand;
             this.description = description;
             this.gender = gender;
-        }
+        }*/
     }
 
     public enum Gender
