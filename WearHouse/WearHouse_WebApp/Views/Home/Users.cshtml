@@ -12,7 +12,7 @@ foreach (var user in Model) {
     <div>
         <div>
             <h4>@user.FirstName @user.LastName</h4> 
-            <h5>@user.UserName</h5>
+            <a class="nav-link text-dark" asp-area="" asp-route-id="@user.Id" asp-controller="Home" asp-action="Profile">&#64;@user.UserName</a>
         </div>
         <div>
             Email: @user.Email

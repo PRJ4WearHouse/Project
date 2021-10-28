@@ -12,7 +12,6 @@ namespace WearHouse_WebApp.Controllers
 {
     public class HomeController : Controller
     {
-
         private readonly UserManager<ApplicationUser> userManager;
 
         public HomeController(UserManager<ApplicationUser> userManager)
@@ -31,9 +30,13 @@ namespace WearHouse_WebApp.Controllers
             return View(users);
         }
 
-        public IActionResult Profile()
+        public IActionResult Profile(string id = null)
         {
-            return View("Profile");
+            if (id == null)
+                return View();
+
+            ApplicationUser user = userManager.Users.First(u => u.Id == id);
+            return View(user);
         }
 
         public IActionResult Posts()
