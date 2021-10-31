@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +15,12 @@ namespace WearHouse_WebApp.Controllers
     public class WearablesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment hostEnvironment;
 
-        public WearablesController(ApplicationDbContext context)
+        public WearablesController(ApplicationDbContext context,IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this.hostEnvironment = hostEnvironment;
         }
 
         // GET: Wearables
@@ -54,10 +58,23 @@ namespace WearHouse_WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WearableId,Title,Description,ImageUrls")] Wearable wearable)
+        public async Task<IActionResult> Create([Bind("WearableId,Title,Description,ImageUrls,ImageFile")] Wearable wearable)
         {
             if (ModelState.IsValid)
             {
+                //create image in Files and save it.
+                string wwwRootPath = hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(wearable.ImageFile.FileName);
+                string extension = Path.GetExtension(wearable.ImageFile.FileName);
+                wearable.ImageUrls = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/Image", fileName);
+                using (var fileStream = new FileStream(path,FileMode.Create))
+                {
+                    await wearable.ImageFile.CopyToAsync(fileStream);
+
+                }
+
+                //add wearable to db.
                 _context.Add(wearable);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -140,6 +157,13 @@ namespace WearHouse_WebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var wearable = await _context.Wearables.FindAsync(id);
+
+            //delete image from wwwroot/image
+            var imagePath = Path.Combine(hostEnvironment.WebRootPath, "Image", wearable.ImageUrls);
+            if (System.IO.File.Exists(imagePath))
+                System.IO.File.Delete(imagePath);
+
+            //delete record of wearable
             _context.Wearables.Remove(wearable);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

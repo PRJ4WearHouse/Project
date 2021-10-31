@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WearHouse_WebApp.Models
 {
@@ -14,7 +16,8 @@ namespace WearHouse_WebApp.Models
         public string Description { get; set; }
         public string ImageUrls { get; set; }
         public string Username { get; set; }
-
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
         /*
         public uint size { get; private set; }
         public string wearableImagePath { get; private set; }
