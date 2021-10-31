@@ -49,6 +49,27 @@ namespace WearHouse_WebApp.Controllers
             return View("Privacy");
         }
 
+        public IActionResult WearablePost(WearablePost wearablePost = null)
+        {
+            // Preset wearable post
+            Wearable wearable = new(25, "" , "Adidas", "Mens shorts, light fabric, good for running", Gender.Mens);
+            WearablePost wearablePostMock = new(
+                wearable,
+                WearablePostState.Sale,
+                9.95
+            );
+
+            /* Udkommenteres i release
+            
+            ViewData["wearable"] = wearablePost;
+
+             */
+
+            ViewData["wearable"] = wearablePostMock;
+
+            return View("WearablePost");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
