@@ -103,11 +103,29 @@ namespace WearHouse_WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("WearableId,Title,Description,ImageUrls")] Wearable wearable)
+        public async Task<IActionResult> Edit(int id, [Bind("WearableId,Title,Description,ImageFile,ImageUrls")] Wearable wearable)
         {
             if (id != wearable.WearableId)
             {
                 return NotFound();
+            }
+            if(wearable.ImageFile!=null)
+            {
+                //delete old image
+                var imagePath = Path.Combine(hostEnvironment.WebRootPath, "Image", wearable.ImageUrls);
+                if (System.IO.File.Exists(imagePath))
+                    System.IO.File.Delete(imagePath);
+                //create new filename
+                string wwwRootPath = hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(wearable.ImageFile.FileName);
+                string extension = Path.GetExtension(wearable.ImageFile.FileName);
+                wearable.ImageUrls = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/Image", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await wearable.ImageFile.CopyToAsync(fileStream);
+
+                }
             }
 
             if (ModelState.IsValid)
