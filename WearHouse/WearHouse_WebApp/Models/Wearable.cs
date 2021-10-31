@@ -17,7 +17,7 @@ namespace WearHouse_WebApp.Models
         public string ImageUrls { get; set; }
         public string Username { get; set; }
         [NotMapped]
-        public IFormFile ImageFile { get; set; }
+        public IFormFile[] ImageFile { get; set; }
         /*
         public uint size { get; private set; }
         public string wearableImagePath { get; private set; }
