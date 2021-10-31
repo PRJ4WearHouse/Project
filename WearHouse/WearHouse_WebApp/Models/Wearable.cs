@@ -13,6 +13,7 @@ namespace WearHouse_WebApp.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string ImageUrls { get; set; }
+        public string Username { get; set; }
 
         /*
         public uint size { get; private set; }
