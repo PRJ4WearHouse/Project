@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace WearHouse_WebApp.Models
 {
@@ -18,6 +19,14 @@ namespace WearHouse_WebApp.Models
         public string Username { get; set; }
         [NotMapped]
         public IFormFile[] ImageFile { get; set; }
+
+        [NotMapped] public List<string> ImageUrlsList { get; set; }
+
+        public Wearable(string imageUrls)
+        {
+            ImageUrlsList = imageUrls.Split('\n').ToList();
+        }
+
         /*
         public uint size { get; private set; }
         public string wearableImagePath { get; private set; }
