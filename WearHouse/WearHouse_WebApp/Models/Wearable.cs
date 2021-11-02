@@ -14,22 +14,29 @@ namespace WearHouse_WebApp.Models
         public string Description { get; set; }
         public List<string> ImageUrls { get; set; }
         public string Username { get; set; }
+        public string UserContactInfo { get; set; }
+        public State WearableState { get; set; }
+
 
         public Wearable() { }
 
-        public Wearable(string title, string description, string imageUrls, string username)
+        public Wearable(string title, string description, string imageUrls, string username, string contactInfo, State state = State.Inactive)
         {
             Title = title;
             Description = description;
             ImageUrls = imageUrls.Split("\n").ToList();
             Username = username;
+            UserContactInfo = contactInfo;
+            WearableState = state;
         }
     }
 
-    public enum Gender
+    public enum State
     {
-        Mens,
-        Womens,
-        Unisex
+        Selling,
+        Renting,
+        Borrowing,
+        Giving,
+        Inactive
     }
 }
