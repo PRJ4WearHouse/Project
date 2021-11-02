@@ -56,7 +56,8 @@ namespace WearHouse_WebApp.Controllers
                 "Adidas shorts",
                 "Nice, comfortable and sporty shorts for running and at-home comfort",
                 "/Default/Image",
-                "DefaultUsername"
+                "DefaultUsername",
+                "DefaultContactInfo"
             );
 
 #if DEBUG
