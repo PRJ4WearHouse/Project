@@ -1,0 +1,100 @@
+﻿@model WearHouse_WebApp.Models.Wearable
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style type="text/css">
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto;
+    }
+
+    .grid-item {
+        padding: 20px;
+        
+    }
+
+    .preview-img {
+        width: 150px;
+        max-height: 170px;
+    }
+
+</style>
+
+<h1>Create</h1>
+
+<h4>Add your wearable item</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <!-->Remove summary for no validation</-->
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label">X number of images left</label>
+                <input multiple asp-for="ImageFile" accept="image/*" onchange="preview()" type="file" id="files"/>
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="grid-container">
+                @for (int i = 0; i < 9; i++)
+                {
+                    string frameId = "frame0" + i; 
+                    <div class="grid-item">
+                        <img id="@frameId" src="/Image/noShirtSmall.png" class="preview-img"/>
+                        <button type="button" onclick="removePreview(@frameId, @i)">Slet</button>
+                    </div>
+                }
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    function preview() {
+        // Check for the various File API support.
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            // Great success! All the File APIs are supported.
+            var files = document.getElementById('files').files; // FileList object
+            console.log(files);
+            // files is a FileList of File objects. List some properties.
+            var output = [];
+            for (var i = 0; i < files.length; i++) {
+                document.getElementById('frame0' + i).src = window.URL.createObjectURL(files[i]);
+            }
+
+        } else {
+            alert('The File APIs are not fully supported in this browser.');
+        }
+    }
+
+    function removePreview(frame, i) {
+        var id = frame.id;
+        console.log(id);
+        console.log(i);
+        console.log(document.getElementById(id));
+        document.getElementById(id).src = "/Image/noShirtSmall.png";
+        document.getElementById('files').files[parseInt(i)].delete;
+    }
+
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

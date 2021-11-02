@@ -14,5 +14,6 @@ namespace WearHouse_WebApp.Data
         {
 
         }
+        public DbSet<Wearable> Wearables { get; set; }
     }
 }
