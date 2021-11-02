@@ -59,10 +59,17 @@ namespace WearHouse_WebApp.Controllers
                 "DefaultUsername"
             );
 
+#if DEBUG
             if (wearable.Title == null)
                 ViewData["wearable"] = wearableMock;
             else
                 ViewData["wearable"] = wearable;
+#else
+            if(wearable.Title == null)
+                return View("Error");
+            else
+                ViewData["wearable"] = wearable;
+#endif
 
             return View("WearablePost");
         }
