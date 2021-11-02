@@ -19,7 +19,7 @@ namespace WearHouse_WebApp.Models
         public string Username { get; set; }
         public string UserContactInfo { get; set; }
         public State WearableState { get; set; }
-        [NotMapped] public IFormFile[] ImageFile { get; set; }
+        [NotMapped] public IFormFile[] ImageFiles { get; set; }
 
 
 
