@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["title"] = "Wearable Post";
+    Wearable wearable = (Wearable)ViewData["wearable"];
+}
+
+<div class="text-center">
+    <h1>@wearable.Title</h1>
+
+    <div id="post-image" style="float:right">
+        <img src="/Presets/wearable_image_template.JPG" width="200" />
+    </div>
+
+    <div id="post-information" style="text-align:left;float:none" >
+        <label style="font-weight:bold">Post owner</label>
+        <p>@wearable.Username</p>
+        <label style="font-weight:bold">Description</label>
+        <p>@wearable.Description</p>
+    </div>
+</div>

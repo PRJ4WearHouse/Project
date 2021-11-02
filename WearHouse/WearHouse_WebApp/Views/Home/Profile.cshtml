@@ -1,0 +1,32 @@
+@model ApplicationUser
+@{
+    ViewData["Title"] = "Profile - ";
+}
+
+@if (Model != null)
+{
+
+<h1> @ViewData["Title"] @Model.FirstName @Model.LastName</h1>
+    <div>
+        <div>
+            <a class="nav-link text-dark" asp-area="" asp-route-id="@Model.Id" asp-controller="Home" asp-action="Profile">&#64;@Model.UserName</a>
+        </div>
+        <div>
+            <img src="https://img.icons8.com/fluency-systems-filled/90/000000/user.png"/>
+        </div>
+        <div>
+            Email: @Model.Email
+        </div>
+
+        <div>
+            Location: @Model.Location
+        </div>
+    </div>
+    <br/>
+}
+else
+{
+    <div>
+        <p>No profile found</p>
+    </div>
+}

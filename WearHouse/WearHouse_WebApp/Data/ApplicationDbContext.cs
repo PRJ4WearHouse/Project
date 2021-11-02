@@ -7,7 +7,7 @@ using WearHouse_WebApp.Models;
 
 namespace WearHouse_WebApp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

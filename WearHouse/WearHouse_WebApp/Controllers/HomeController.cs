@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,14 +12,31 @@ namespace WearHouse_WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public HomeController(UserManager<ApplicationUser> userManager)
+        {
+            this.userManager = userManager;
+        }
+
         public IActionResult Index()
         {
             return View("LandingPage");
         }
 
-        public IActionResult Profile()
+        public IActionResult Users()
         {
-            return View("Profile");
+            var users = userManager.Users;
+            return View(users);
+        }
+
+        public IActionResult Profile(string id = null)
+        {
+            if (id == null)
+                return View();
+
+            ApplicationUser user = userManager.Users.First(u => u.Id == id);
+            return View(user);
         }
 
         public IActionResult Posts()
@@ -29,6 +47,31 @@ namespace WearHouse_WebApp.Controllers
         public IActionResult Privacy()
         {
             return View("Privacy");
+        }
+
+        public IActionResult WearablePost(Wearable wearable)
+        {
+            // Preset wearable post
+            Wearable wearableMock = new(
+                "Adidas shorts",
+                "Nice, comfortable and sporty shorts for running and at-home comfort",
+                "/Default/Image",
+                "DefaultUsername"
+            );
+
+#if DEBUG
+            if (wearable.Title == null)
+                ViewData["wearable"] = wearableMock;
+            else
+                ViewData["wearable"] = wearable;
+#else
+            if(wearable.Title == null)
+                return View("Error");
+            else
+                ViewData["wearable"] = wearable;
+#endif
+
+            return View("WearablePost");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
