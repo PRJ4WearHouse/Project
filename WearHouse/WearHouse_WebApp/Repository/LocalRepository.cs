@@ -38,6 +38,7 @@ namespace WearHouse_WebApp.Repository
 
                     await using var fileStream = new FileStream(imagePath, FileMode.Create);
                     //OBS A try catch would be an excellent idea in this case
+                    //OBS Cannot override files.
                     await image.CopyToAsync(fileStream);
                 }
             }

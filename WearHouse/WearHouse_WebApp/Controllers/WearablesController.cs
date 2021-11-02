@@ -37,7 +37,7 @@ namespace WearHouse_WebApp.Controllers
         // GET: Wearables
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Wearables.ToListAsync());
+            return View(await _context.dbWearables.ToListAsync());
         }
 
         // GET: Wearables/Details/5
@@ -48,7 +48,7 @@ namespace WearHouse_WebApp.Controllers
                 return NotFound();
             }
 
-            var wearable = await _context.Wearables
+            var wearable = await _context.dbWearables
                 .FirstOrDefaultAsync(m => m.WearableId == id);
             if (wearable == null)
             {
@@ -108,7 +108,7 @@ namespace WearHouse_WebApp.Controllers
                 return NotFound();
             }
 
-            var wearable = await _context.Wearables.FindAsync(id);
+            var wearable = await _context.dbWearables.FindAsync(id);
             if (wearable == null)
             {
                 return NotFound();
@@ -178,7 +178,7 @@ namespace WearHouse_WebApp.Controllers
                 return NotFound();
             }
 
-            var wearable = await _context.Wearables
+            var wearable = await _context.dbWearables
                 .FirstOrDefaultAsync(m => m.WearableId == id);
             if (wearable == null)
             {
@@ -209,7 +209,7 @@ namespace WearHouse_WebApp.Controllers
 
         private bool WearableExists(int id)
         {
-            return _context.Wearables.Any(e => e.WearableId == id);
+            return _context.dbWearables.Any(e => e.WearableId == id);
         }
     }
 }

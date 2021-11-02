@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 using WearHouse_WebApp.Models;
+using WearHouse_WebApp.Models.dbModels;
 
 namespace WearHouse_WebApp.Data
 {
@@ -14,6 +16,20 @@ namespace WearHouse_WebApp.Data
         {
 
         }
-        public DbSet<Wearable> Wearables { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelbuilder)
+        {
+            modelbuilder.Entity<ApplicationUser>()
+                .HasMany<dbWearable>(u => u.Wearables)
+                .WithOne(w => w.ApplicationUser)
+                .HasForeignKey(k => k.UserId)
+                .IsRequired();
+
+            base.OnModelCreating(modelbuilder);
+        }
+
+        //https://stackoverflow.com/questions/51934680/add-relationships-to-the-applicationuser-class-in-asp-net-identity-database-fir
+        //public DbSet<ApplicationUser> applicationUser { get; set; }
+        public DbSet<dbWearable> dbWearables { get; set; }
     }
 }
