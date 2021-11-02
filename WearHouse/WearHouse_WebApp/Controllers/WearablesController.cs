@@ -18,18 +18,13 @@ namespace WearHouse_WebApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IImageRepository repository;
-
-        //To save files locally on server
-        //private readonly IWebHostEnvironment hostEnvironment;
-
+        
         //To save files on public server
         BlobServiceClient blobServiceClient;
 
         public WearablesController(ApplicationDbContext context,IWebHostEnvironment hostEnvironment)
         {
             _context = context;
-            //Any way to avoid this? And does this even contain any value? Can this be moved to my class?
-            //this.hostEnvironment = hostEnvironment;
             blobServiceClient = new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
             repository = new LocalRepository(hostEnvironment.WebRootPath);
         }
@@ -74,7 +69,7 @@ namespace WearHouse_WebApp.Controllers
             if (ModelState.IsValid)
             {
                 //Save images from post thing
-                if (await repository.SaveImages(wearable.Username, wearable.Title, wearable.ImageFiles) != null)
+                if (await repository.SaveImages(wearable.WearableId, wearable.ImageFiles) != null)
                 {
                     //For debugging
                     Console.WriteLine("No images saved");

@@ -9,6 +9,7 @@ namespace WearHouse_WebApp.Models.dbModels
 {
     public class dbWearable
     {
+        //Consider changing key to random generated string.
         [Key]
         public int WearableId { get; set; }
         public string Title { get; set; }

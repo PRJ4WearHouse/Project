@@ -19,7 +19,7 @@ namespace WearHouse_WebApp.Repository
             _urlList = new();
         }
 
-        public async Task<List<string>> SaveImages(string UserName, string itemTitle, IFormFile[] images)
+        public async Task<List<string>> SaveImages(int itemId, IFormFile[] images)
         {
             if (images != null)
             {
@@ -27,7 +27,7 @@ namespace WearHouse_WebApp.Repository
                 foreach (var image in images)
                 {
                     string imageName = "Img" + i++ + Path.GetExtension(image.FileName);
-                    string subPath = Path.Combine(_wwwRootPath + "/Image", UserName, itemTitle);
+                    string subPath = Path.Combine(_wwwRootPath + "/Image", itemId.ToString());
 
                     //Check if dir exists
                     if (!Directory.Exists(subPath))
@@ -37,8 +37,7 @@ namespace WearHouse_WebApp.Repository
                     _urlList.Add(imagePath);
 
                     await using var fileStream = new FileStream(imagePath, FileMode.Create);
-                    //OBS A try catch would be an excellent idea in this case
-                    //OBS Cannot override files.
+                    //OBS A try catch would be an excellent idea in this case run out of space etc.
                     await image.CopyToAsync(fileStream);
                 }
             }
@@ -46,7 +45,7 @@ namespace WearHouse_WebApp.Repository
             return _urlList;
         }
 
-        public async Task<bool> DeleteImages(string UserName, string itemTitle, IFormFile[] images)
+        public async Task<bool> DeleteImages(int itemId, IFormFile[] images)
         {
             throw new NotImplementedException();
         }
