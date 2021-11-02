@@ -1,23 +1,19 @@
 ﻿@{
     ViewData["title"] = "Wearable Post";
-    WearablePost wearable = (WearablePost)ViewData["wearable"];
+    Wearable wearable = (Wearable)ViewData["wearable"];
 }
 
 <div class="text-center">
-    <h1>Wearable Post</h1>
+    <h1>@wearable.Title</h1>
 
     <div id="post-image" style="float:right">
         <img src="/Presets/wearable_image_template.JPG" width="200" />
     </div>
 
     <div id="post-information" style="text-align:left;float:none" >
-        <label style="font-weight:bold">Brand</label>
-        <p>@wearable.wearable.brand</p>
-        <label style="font-weight:bold">Size</label>
-        <p>@wearable.wearable.size</p>
-        <label style="font-weight:bold">Gender</label>
-        <p>@wearable.wearable.gender</p>
+        <label style="font-weight:bold">Post owner</label>
+        <p>@wearable.Username</p>
         <label style="font-weight:bold">Description</label>
-        <p>@wearable.wearable.description</p>
+        <p>@wearable.Description</p>
     </div>
 </div>

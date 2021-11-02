@@ -1,26 +1,28 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace WearHouse_WebApp.Models
 {
-
     public class Wearable
     {
-        public uint size { get; private set; }
-        public string wearableImagePath { get; private set; }
-        public string brand { get; private set; }
-        public string description { get; private set; }
-        public string type { get; set; } = default;
-        public Gender gender { get; private set; }
+        [Key]
+        public int WearableId { get; set; }
+        [StringLength(30)]
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public List<string> ImageUrls { get; set; }
+        public string Username { get; set; }
 
         public Wearable() { }
 
-        public Wearable(uint size, string wearableImagePath, string brand, string description, Gender gender)
+        public Wearable(string title, string description, string imageUrls, string username)
         {
-            this.size = size;
-            this.wearableImagePath = wearableImagePath;
-            this.brand = brand;
-            this.description = description;
-            this.gender = gender;
+            Title = title;
+            Description = description;
+            ImageUrls = imageUrls.Split("\n").ToList();
+            Username = username;
         }
     }
 
