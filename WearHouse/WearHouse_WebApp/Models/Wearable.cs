@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace WearHouse_WebApp.Models
 {
@@ -12,10 +14,13 @@ namespace WearHouse_WebApp.Models
         [StringLength(30)]
         public string Title { get; set; }
         public string Description { get; set; }
-        public List<string> ImageUrls { get; set; }
+        public string ImageUrls { get; set; }
+        public List<string> ImageUrlsList { get; set; }
         public string Username { get; set; }
         public string UserContactInfo { get; set; }
         public State WearableState { get; set; }
+        [NotMapped] public IFormFile[] ImageFile { get; set; }
+
 
 
         public Wearable() { }
@@ -24,7 +29,7 @@ namespace WearHouse_WebApp.Models
         {
             Title = title;
             Description = description;
-            ImageUrls = imageUrls.Split("\n").ToList();
+            ImageUrlsList = imageUrls.Split("\n").ToList();
             Username = username;
             UserContactInfo = contactInfo;
             WearableState = state;

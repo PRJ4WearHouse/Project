@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.10.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.11" />
@@ -19,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\dbModels\" />
+    <Folder Include="Models\ViewModels\" />
     <Folder Include="wwwroot\Presets\" />
   </ItemGroup>
 
