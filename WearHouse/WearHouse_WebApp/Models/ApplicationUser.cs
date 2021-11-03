@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WearHouse_WebApp.Models.dbModels;
 
 namespace WearHouse_WebApp.Models
 {
@@ -11,5 +12,7 @@ namespace WearHouse_WebApp.Models
         public string Location { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        
+        public List<dbWearable> Wearables { get; set; }
     }
 }

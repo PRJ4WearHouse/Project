@@ -1,4 +1,4 @@
-﻿@model WearHouse_WebApp.Models.Wearable
+﻿@model WearHouse_WebApp.Models.ViewModels.WearableViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -23,7 +23,7 @@
 
 <h1>Create</h1>
 
-<h4>Add your wearable item</h4>
+<h4>Add your wearableViewModel item</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -37,13 +37,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea cols="2" rows="5" asp-for="Description" class="form-control" placeholder="Describe your product"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImageFile" class="control-label">X number of images left</label>
-                <input multiple asp-for="ImageFile" accept="image/*" onchange="preview()" type="file" id="files"/>
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                <label asp-for="ImageFiles" class="control-label">X number of images left</label>
+                <input multiple asp-for="ImageFiles" accept="image/*" onchange="preview()" type="file" id="files"/>
+                <span asp-validation-for="ImageFiles" class="text-danger"></span>
             </div>
             <div class="grid-container">
                 @for (int i = 0; i < 9; i++)

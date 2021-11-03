@@ -20,8 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\dbModels\" />
-    <Folder Include="Models\ViewModels\" />
     <Folder Include="wwwroot\Presets\" />
   </ItemGroup>
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,31 +11,35 @@ using Microsoft.EntityFrameworkCore;
 using WearHouse_WebApp.Data;
 using WearHouse_WebApp.Models;
 using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Identity;
+using WearHouse_WebApp.Models.dbModels;
+using WearHouse_WebApp.Models.ViewModels;
+using WearHouse_WebApp.Repository;
 
 namespace WearHouse_WebApp.Controllers
 {
     public class WearablesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IImageRepository repository;
 
-        //To save files locally on server
-        private readonly IWebHostEnvironment hostEnvironment;
+        //private readonly UserManager<ApplicationUser> _userManager;
 
         //To save files on public server
         BlobServiceClient blobServiceClient;
 
-        public WearablesController(ApplicationDbContext context,IWebHostEnvironment hostEnvironment)
+        public WearablesController(/*UserManager<ApplicationUser> userManager,*/ ApplicationDbContext context,IWebHostEnvironment hostEnvironment)
         {
+            //_userManager = userManager;
             _context = context;
-            this.hostEnvironment = hostEnvironment;
             blobServiceClient = new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
-
+            repository = new LocalRepository(hostEnvironment.WebRootPath);
         }
 
         // GET: Wearables
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Wearables.ToListAsync());
+            return View(await _context.dbWearables.ToListAsync());
         }
 
         // GET: Wearables/Details/5
@@ -45,14 +50,14 @@ namespace WearHouse_WebApp.Controllers
                 return NotFound();
             }
 
-            var wearable = await _context.Wearables
+            var wearable = await _context.dbWearables
                 .FirstOrDefaultAsync(m => m.WearableId == id);
             if (wearable == null)
             {
                 return NotFound();
             }
 
-            return View(wearable);
+            return View(new WearableViewModel(wearable));
         }
 
         // GET: Wearables/Create
@@ -66,55 +71,40 @@ namespace WearHouse_WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WearableId,Title,Description,ImageUrls,Username,ImageFile")] Wearable wearable)
+        public async Task<IActionResult> Create([Bind("WearableId,Title,Description,Username,ImageFiles")] WearableViewModel wearableViewModel)
         {
             if (ModelState.IsValid)
             {
-                //await SaveImagesWearableImagesLocally(wearable);
-                await SaveImagesWearableImagesBlob(wearable);
-
-                //add wearable to db. OBS Check username is correct and logged in!
-                _context.Add(wearable);
+                //Save images from post thing
+                //Also need to only save / delete again, if not succesfull on database
+                wearableViewModel.ImageUrlsList = await repository.SaveImages(wearableViewModel.WearableId, wearableViewModel.ImageFiles);
+                if (wearableViewModel.ImageUrlsList != null)
+                {
+                    //For debugging
+                    Console.WriteLine("No images saved");
+                }
+                //OBS delete this
+                wearableViewModel.State = WearableState.Selling;
+                wearableViewModel.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //add wearableViewModel to db. OBS Check username is correct and logged in!
+                _context.Add(new dbWearable(wearableViewModel));
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(wearable);
+            return View(wearableViewModel);
         }
 
-        async Task<bool> SaveImagesWearableImagesBlob(Wearable wearable)
+        async Task<bool> SaveImagesWearableImagesBlob(WearableViewModel wearableViewModel)
         {
             //OBS Could make sense to check if already exists first. https://stackoverflow.com/questions/52561285/how-to-upload-image-from-asp-net-core-iformfile-to-azure-blob-storage/52561985
-            BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync("itemid"+wearable.WearableId.ToString());
+            BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync("itemid"+wearableViewModel.WearableId.ToString());
 
-            foreach (var image in wearable.ImageFile)
+            foreach (var image in wearableViewModel.ImageFiles)
                 await containerClient.UploadBlobAsync(image.FileName, image.OpenReadStream());
 
             return true;
         }
-
-        async Task<bool> SaveImagesWearableImagesLocally(Wearable wearable)
-        {
-            if (wearable.ImageFile != null)
-            {
-                //create image in Files and save it.
-                string wwwRootPath = hostEnvironment.WebRootPath;
-                foreach (var image in wearable.ImageFile)
-                {
-                    string fileName = Path.GetFileNameWithoutExtension(image.FileName);
-                    string extension = Path.GetExtension(image.FileName);
-                    wearable.ImageUrls = fileName = wearable.Title + DateTime.Now.ToString("yymmssfff") + extension;
-                    string path = Path.Combine(wwwRootPath + "/Image", fileName);
-
-                    using (var fileStream = new FileStream(path, FileMode.Create))
-                    {
-                        await image.CopyToAsync(fileStream);
-                    }
-                }
-                return true;
-            }
-            else
-                return false;
-        }
+        
 
         // GET: Wearables/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -124,7 +114,7 @@ namespace WearHouse_WebApp.Controllers
                 return NotFound();
             }
 
-            var wearable = await _context.Wearables.FindAsync(id);
+            var wearable = await _context.dbWearables.FindAsync(id);
             if (wearable == null)
             {
                 return NotFound();
@@ -137,28 +127,28 @@ namespace WearHouse_WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("WearableId,Title,Description,ImageFile,ImageUrls")] Wearable wearable)
+        public async Task<IActionResult> Edit(int id, [Bind("WearableId,Title,Description,ImageFiles,ImageUrls")] WearableViewModel wearableViewModel)
         {
-            if (id != wearable.WearableId)
+            if (id != wearableViewModel.WearableId)
             {
                 return NotFound();
             }
-            if(wearable.ImageFile!=null)
+            if(wearableViewModel.ImageFiles!=null)
             {
                 /*
                 //delete old image
-                var imagePath = Path.Combine(hostEnvironment.WebRootPath, "Image", wearable.ImageUrls);
+                var imagePath = Path.Combine(hostEnvironment.WebRootPath, "Image", wearableViewModel.ImageUrls);
                 if (System.IO.File.Exists(imagePath))
                     System.IO.File.Delete(imagePath);
                 //create new filename
                 string wwwRootPath = hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(wearable.ImageFile.FileName);
-                string extension = Path.GetExtension(wearable.ImageFile.FileName);
-                wearable.ImageUrls = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string fileName = Path.GetFileNameWithoutExtension(wearableViewModel.ImageFiles.FileName);
+                string extension = Path.GetExtension(wearableViewModel.ImageFiles.FileName);
+                wearableViewModel.ImageUrls = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
                 string path = Path.Combine(wwwRootPath + "/Image", fileName);
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
-                    await wearable.ImageFile.CopyToAsync(fileStream);
+                    await wearableViewModel.ImageFiles.CopyToAsync(fileStream);
 
                 }*/
             }
@@ -167,12 +157,12 @@ namespace WearHouse_WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(wearable);
+                    _context.Update(wearableViewModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!WearableExists(wearable.WearableId))
+                    if (!WearableExists(wearableViewModel.WearableId))
                     {
                         return NotFound();
                     }
@@ -183,7 +173,7 @@ namespace WearHouse_WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(wearable);
+            return View(wearableViewModel);
         }
 
         // GET: Wearables/Delete/5
@@ -194,7 +184,7 @@ namespace WearHouse_WebApp.Controllers
                 return NotFound();
             }
 
-            var wearable = await _context.Wearables
+            var wearable = await _context.dbWearables
                 .FirstOrDefaultAsync(m => m.WearableId == id);
             if (wearable == null)
             {
@@ -209,22 +199,23 @@ namespace WearHouse_WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var wearable = await _context.Wearables.FindAsync(id);
+            /*
+            var wearableViewModel = await _context.Wearables.FindAsync(id);
 
             //delete image from wwwroot/image
-            var imagePath = Path.Combine(hostEnvironment.WebRootPath, "Image", wearable.ImageUrls);
+            var imagePath = Path.Combine(hostEnvironment.WebRootPath, "Image", wearableViewModel.ImageUrls);
             if (System.IO.File.Exists(imagePath))
                 System.IO.File.Delete(imagePath);
-
-            //delete record of wearable
-            _context.Wearables.Remove(wearable);
-            await _context.SaveChangesAsync();
+            
+            //delete record of wearableViewModel
+            _context.Wearables.Remove(wearableViewModel);
+            await _context.SaveChangesAsync();*/
             return RedirectToAction(nameof(Index));
         }
 
         private bool WearableExists(int id)
         {
-            return _context.Wearables.Any(e => e.WearableId == id);
+            return _context.dbWearables.Any(e => e.WearableId == id);
         }
     }
 }
