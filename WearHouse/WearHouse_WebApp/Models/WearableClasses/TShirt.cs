@@ -5,7 +5,7 @@
 
 //namespace WearHouse_WebApp.Models.WearableClasses
 //{
-//    public class TShirt : Wearable
+//    public class TShirt : WearableViewModel
 //    {
 //        public TShirt(uint size, string wearableImagePath, string brand, string description, Gender gender) : base(size, wearableImagePath, brand, description, gender)
 //        {

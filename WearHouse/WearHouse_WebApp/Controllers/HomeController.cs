@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WearHouse_WebApp.Models;
+using WearHouse_WebApp.Models.ViewModels;
 
 namespace WearHouse_WebApp.Controllers
 {
@@ -49,10 +50,10 @@ namespace WearHouse_WebApp.Controllers
             return View("Privacy");
         }
 
-        public IActionResult WearablePost(Wearable wearable)
+        public IActionResult WearablePost(WearableViewModel wearableViewModel)
         {
-            // Preset wearable post
-            Wearable wearableMock = new(
+            // Preset wearableViewModel post
+            WearableViewModel wearableViewModelMock = new(
                 "Adidas shorts",
                 "Nice, comfortable and sporty shorts for running and at-home comfort",
                 "/Default/Image",
@@ -61,15 +62,15 @@ namespace WearHouse_WebApp.Controllers
             );
 
 #if DEBUG
-            if (wearable.Title == null)
-                ViewData["wearable"] = wearableMock;
+            if (wearableViewModel.Title == null)
+                ViewData["wearableViewModel"] = wearableViewModelMock;
             else
-                ViewData["wearable"] = wearable;
+                ViewData["wearableViewModel"] = wearableViewModel;
 #else
-            if(wearable.Title == null)
+            if(wearableViewModel.Title == null)
                 return View("Error");
             else
-                ViewData["wearable"] = wearable;
+                ViewData["wearableViewModel"] = wearableViewModel;
 #endif
 
             return View("WearablePost");
