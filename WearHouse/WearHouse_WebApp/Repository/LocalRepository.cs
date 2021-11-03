@@ -49,5 +49,24 @@ namespace WearHouse_WebApp.Repository
         {
             throw new NotImplementedException();
         }
+
+        public async Task<string> SaveProfileImage(string userId, IFormFile image)
+        {
+            string imagePath = null;
+            if (image != null)
+            {
+                string imageName = "PrImg" + Path.GetExtension(image.FileName);
+                string subPath = Path.Combine(_wwwRootPath + "/Image", userId);
+
+                if (!Directory.Exists(subPath))
+                    System.IO.Directory.CreateDirectory(subPath);
+
+                imagePath = Path.Combine(subPath, imageName);
+
+                await using var fileStream = new FileStream(imagePath, FileMode.Create);
+                await image.CopyToAsync(fileStream);
+            }
+            return imagePath;
+        }
     }
 }

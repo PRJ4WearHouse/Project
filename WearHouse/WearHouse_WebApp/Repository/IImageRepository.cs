@@ -12,5 +12,7 @@ namespace WearHouse_WebApp.Repository
         Task<List<string>> SaveImages(int itemId, IFormFile[] images);
         //Perhaps ItemId is enough. There should be a version that only takes Id.
         Task<bool> DeleteImages(int itemId, IFormFile[] images);
+
+        Task<string> SaveProfileImage(string userId, IFormFile image);
     }
 }
