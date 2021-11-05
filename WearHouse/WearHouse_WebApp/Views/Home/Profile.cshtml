@@ -11,15 +11,46 @@
         <div>
             <a class="nav-link text-dark" asp-area="" asp-route-id="@Model.Id" asp-controller="Home" asp-action="Profile">&#64;@Model.UserName</a>
         </div>
-        <div>
-            <img src="https://img.icons8.com/fluency-systems-filled/90/000000/user.png"/>
-        </div>
+        
+        @if (Model.ProfileImageUrl != "" && Model.ProfileImageUrl != null) {
+            <div>
+                <img alt="Profile Picture" src="@("~/Image/"+Model.ProfileImageUrl)" asp-append-version="true" width="250px" height="250px"/>
+            </div>
+        } else {
+            <div>
+                <img src="https://img.icons8.com/fluency-systems-filled/90/000000/user.png"/>
+            </div>
+        }
+
         <div>
             Email: @Model.Email
         </div>
 
         <div>
             Location: @Model.Location
+        </div>
+
+        <div>
+            <h2> Posts </h2>
+        </div>
+
+        @if (Model.Wearables != null && Model.Wearables.Any()) {
+
+            foreach (var wearable in Model.Wearables) {
+                <div>
+                    <h3><a class="nav-link text-dark" asp-area="" asp-route-id="@wearable.WearableId" asp-controller="Wearable" asp-action="Details">@wearable.Title</a></h3>
+                </div>
+                <div>
+                    <a class="nav-link text-dark" asp-area="" asp-route-id="@wearable.ApplicationUser.Id" asp-controller="Home" asp-action="Profile">&#64;@wearable.ApplicationUser.UserName</a>
+                </div>
+                <div>
+                    <h4>@wearable.State</h4>
+                </div>
+            }
+        }
+
+        <div>
+
         </div>
     </div>
     <br/>

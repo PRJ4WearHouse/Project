@@ -12,7 +12,9 @@ namespace WearHouse_WebApp.Models
         public DateTime date { get; set; }
         public WearablePostState state { get; set; }
         public double? price { get; set; }
+
         public WearablePost() { }
+
         public WearablePost(WearableViewModel wearableViewModel, WearablePostState state = WearablePostState.Unavailable, double? price = null)
         {
             this.WearableViewModel = wearableViewModel;
@@ -20,7 +22,8 @@ namespace WearHouse_WebApp.Models
             this.state = state;
             this.price = price;
         }
-        public void ChangeState(WearablePostState newState, double? newPrice=null)
+
+        public void ChangeState(WearablePostState newState, double? newPrice = null)
         {
             state = newState;
             price = newPrice;
