@@ -24,6 +24,38 @@ a {
   border-color: #1861ac;
 }
 
+/* Profile styling
+-------------------------------------------------- */
+#profile-content{
+    display:flex;
+    justify-content: space-between;
+}
+
+#profile-leftside {
+    width: 30%;
+}
+
+.profile-border {
+    border: solid black 1px;
+    width: 100%;
+    padding: 10px;
+}
+.profile-image-location{
+    width: 100px;
+    height: 100px;
+}
+.profile-image-div{
+    text-align: center;
+}
+
+#profile-rightside{
+    width: 60%;
+}
+
+.profile-add-wearables{
+    width: 100%;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

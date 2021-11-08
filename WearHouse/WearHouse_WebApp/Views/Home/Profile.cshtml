@@ -1,24 +1,29 @@
+@using Microsoft.AspNetCore.Identity
+@using WearHouse_WebApp.Models
 @model ApplicationUser
+@inject SignInManager<ApplicationUser> signInManager
+
 @{
     ViewData["Title"] = "Profile - ";
 }
-
-@if (Model != null)
+@if (Model != null && !signInManager.IsSignedIn(User))
 {
-
-<h1> @ViewData["Title"] @Model.FirstName @Model.LastName</h1>
+    <h1> @ViewData["Title"] @Model.FirstName @Model.LastName</h1>
     <div>
         <div>
             <a class="nav-link text-dark" asp-area="" asp-route-id="@Model.Id" asp-controller="Home" asp-action="Profile">&#64;@Model.UserName</a>
         </div>
-        
-        @if (Model.ProfileImageUrl != "" && Model.ProfileImageUrl != null) {
+
+        @if (Model.ProfileImageUrl != "" && Model.ProfileImageUrl != null)
+        {
             <div>
-                <img alt="Profile Picture" src="@("~/Image/"+Model.ProfileImageUrl)" asp-append-version="true" width="250px" height="250px"/>
+                <img alt="Profile Picture" src="@("~/Image/"+Model.ProfileImageUrl)" asp-append-version="true" width="250px" height="250px" />
             </div>
-        } else {
+        }
+        else
+        {
             <div>
-                <img src="https://img.icons8.com/fluency-systems-filled/90/000000/user.png"/>
+                <img src="https://img.icons8.com/fluency-systems-filled/90/000000/user.png" />
             </div>
         }
 
@@ -34,9 +39,11 @@
             <h2> Posts </h2>
         </div>
 
-        @if (Model.Wearables != null && Model.Wearables.Any()) {
+        @if (Model.Wearables != null && Model.Wearables.Any())
+        {
 
-            foreach (var wearable in Model.Wearables) {
+            foreach (var wearable in Model.Wearables)
+            {
                 <div>
                     <h3><a class="nav-link text-dark" asp-area="" asp-route-id="@wearable.WearableId" asp-controller="Wearable" asp-action="Details">@wearable.Title</a></h3>
                 </div>
@@ -53,7 +60,52 @@
 
         </div>
     </div>
-    <br/>
+    <br />
+}
+else if (Model != null && signInManager.IsSignedIn(User))
+{
+    <h1>Personal Profile</h1>
+    <div id="profile-content">
+
+        <div id="profile-leftside">
+            <div class="profile-border profile-image-div" >
+                @if (Model.ProfileImageUrl != "" && Model.ProfileImageUrl != null)
+                {
+                    <img alt="Profile Picture" src="@("~/Image/"+Model.ProfileImageUrl)" asp-append-version="true" width="250" height="250"/>
+                }
+                else
+                {
+                    <img src="https://img.icons8.com/fluency-systems-filled/90/000000/user.png" width="250" height="250" />
+                }
+            </div>
+            <div>
+                <h2>
+                    Username: @Model.UserName
+                </h2>
+                <p class="profile-border">
+                    Description: <br />
+                    Little about who i am...
+                </p>
+
+                <div class="profile-image-div profile-border">
+                    <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
+                </div>
+                <div>
+                    @Model.Location
+                </div>
+                <button style="margin-top: 10px">
+                    Edit Profile
+                </button>
+            </div>
+        </div>
+
+        <div id="profile-rightside">
+            <button class="profile-add-wearables">
+                Add Wearables
+            </button>
+        </div>
+    </div>
+
 }
 else
 {
