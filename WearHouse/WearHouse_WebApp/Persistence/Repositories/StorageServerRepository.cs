@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace WearHouse_WebApp.Repository
 {/*
-    public class StorageServerRepository : IImageRepository
+    public class StorageServerRepository : IImageStorage
     {
         public bool SaveImages(IFormFile[] images)
         {

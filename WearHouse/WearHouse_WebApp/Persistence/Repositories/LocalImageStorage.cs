@@ -9,11 +9,11 @@ using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace WearHouse_WebApp.Repository
 {
-    public class LocalRepository : IImageRepository
+    public class LocalImageStorage : IImageStorage
     {
         private List<string> _urlList;
         private string _wwwRootPath;
-        public LocalRepository(string wwwRootPath)
+        public LocalImageStorage(string wwwRootPath)
         {
             _wwwRootPath = wwwRootPath;
             _urlList = new();
