@@ -12,7 +12,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using WearHouse_WebApp.Models;
-using WearHouse_WebApp.Repository;
+using WearHouse_WebApp.Persistence.Core.RepositoriesIF;
+using WearHouse_WebApp.Persistence.Repositories;
 
 namespace WearHouse_WebApp.Areas.Identity.Pages.Account
 {
@@ -38,7 +39,7 @@ namespace WearHouse_WebApp.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _hostingEnvironment = hostEnvironment;
-            _repository = new LocalRepository(_hostingEnvironment.WebRootPath);
+            _repository = new LocalImageRepository(_hostingEnvironment.WebRootPath);
         }
 
         [BindProperty]
