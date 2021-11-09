@@ -12,9 +12,10 @@ using WearHouse_WebApp.Data;
 using WearHouse_WebApp.Models;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Identity;
+using WearHouse_WebApp.Core.Repositories;
 using WearHouse_WebApp.Models.dbModels;
 using WearHouse_WebApp.Models.ViewModels;
-using WearHouse_WebApp.Repository;
+using WearHouse_WebApp.Persistence.Repositories;
 
 namespace WearHouse_WebApp.Controllers
 {

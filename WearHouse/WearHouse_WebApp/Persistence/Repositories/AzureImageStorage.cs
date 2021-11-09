@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-
-namespace WearHouse_WebApp.Repository
+﻿namespace WearHouse_WebApp.Persistence.Repositories
 {/*
     public class StorageServerRepository : IImageStorage
     {

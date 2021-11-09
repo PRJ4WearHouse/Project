@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
+using WearHouse_WebApp.Core.Repositories;
 
-namespace WearHouse_WebApp.Repository
+namespace WearHouse_WebApp.Persistence.Repositories
 {
     public class LocalImageStorage : IImageStorage
     {
