@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,15 +23,16 @@ namespace WearHouse_WebApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IImageRepository _storage;
+        private readonly UserManager<ApplicationUser> userManager;
 
         //private readonly UserManager<ApplicationUser> _userManager;
 
         //To save files on public server
         BlobServiceClient blobServiceClient;
 
-        public WearablesController(/*UserManager<ApplicationUser> userManager,*/ ApplicationDbContext context,IWebHostEnvironment hostEnvironment)
+        public WearablesController(UserManager<ApplicationUser> userManager, ApplicationDbContext context,IWebHostEnvironment hostEnvironment)
         {
-            //_userManager = userManager;
+            this.userManager = userManager;
             _context = context;
             blobServiceClient = new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
             _storage = new LocalImageRepository(hostEnvironment.WebRootPath);
@@ -61,19 +62,21 @@ namespace WearHouse_WebApp.Controllers
             {
                 //Save images from post thing
                 //Also need to only save / delete again, if not succesfull on database
-                wearableViewModel.ImageUrlsList = await _storage.SaveImages(wearableViewModel.WearableId, wearableViewModel.ImageFiles);
+                wearableViewModel.ImageUrlsList =
+                    await _storage.SaveImages(wearableViewModel.WearableId, wearableViewModel.ImageFiles);
                 if (wearableViewModel.ImageUrlsList != null)
                 {
                     //For debugging
                     Console.WriteLine("No images saved");
                 }
+
                 //OBS delete this
                 wearableViewModel.State = WearableState.Selling;
                 wearableViewModel.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 //add wearableViewModel to db. OBS Check username is correct and logged in!
                 _context.Add(new dbWearable(wearableViewModel));
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Profile", "Home", new { userManager.Users.FirstOrDefault()?.Id });
             }
             return View(wearableViewModel);
         }
