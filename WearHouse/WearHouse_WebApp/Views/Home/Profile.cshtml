@@ -93,16 +93,52 @@ else if (Model != null && signInManager.IsSignedIn(User))
                 <div>
                     @Model.Location
                 </div>
-                <button style="margin-top: 10px">
-                    Edit Profile
-                </button>
+                <form asp-controller="Home" asp-action="Error">
+                    <button style="margin-top: 10px">
+                        Edit Profile
+                    </button>
+                </form>
             </div>
         </div>
 
         <div id="profile-rightside">
-            <button class="profile-add-wearables">
-                Add Wearables
-            </button>
+            <div>
+                <input type="button" value="Add Wearable" onclick="location.href='@Url.Action("Create", "Wearables")'" class="profile-add-wearables" />
+            </div>
+
+            <div id="wearable-posts">
+                @for (int i = 0; i < 6; i++)
+                {
+                    <div class="profile-wearable" >
+                        <button href="@Url.Action("Error", "Home")" class="seethrough-button"/>
+
+                        <div style="float: none">
+                            <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
+                        </div>
+
+                        <p class="profile-wearable-title">
+                            Wearable Post Title
+                        </p>
+                    </div>
+                }
+
+                @*@if (Model.Wearables != null)
+        {
+            @foreach (var post in Model.Wearables)
+            {
+                <p>
+                    This is a post
+                </p>
+            }
+        }
+        else
+        {
+            <p>
+                No posts were found
+            </p>
+        }*@
+
+            </div>
         </div>
     </div>
 

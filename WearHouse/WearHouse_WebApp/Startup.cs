@@ -90,7 +90,18 @@ namespace WearHouse_WebApp
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action}/{id?}",
+                    new { controller = "Home", action = "Index"});
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action}",
+                    new { controller = "Home", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "default2",
+                    pattern: "{controller}/{action}");
+
                 endpoints.MapRazorPages();
             });
         }
