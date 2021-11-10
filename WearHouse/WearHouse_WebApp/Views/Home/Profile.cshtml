@@ -10,7 +10,7 @@
 @if (Model == null && signInManager.IsSignedIn(User))
 {
     <p>
-        No user were found! Seems like something went webt wrong...
+        No user were found! Seems like something went wrong...
     </p>
 }
 
@@ -84,12 +84,15 @@ else if (Model != null && signInManager.IsSignedIn(User))
                     }
                     else
                     {
-                        <p>
-                            No Wearables found on this profile
-                        </p>
+                        <div>
+                            <p>
+                                No Wearables found on this profile
+                            </p>
+                        </div>
                     }
                 }
-                else if (Model.Wearables == null)
+
+                else if (Model.Wearables == null && Model != null)
                 {
                     @for (int i = 0; i < 6; i++)
                     {
