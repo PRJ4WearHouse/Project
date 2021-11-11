@@ -8,15 +8,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using WearHouse_WebApp.Models;
 using WearHouse_WebApp.Models.ViewModels;
+using WearHouse_WebApp.Data;
+using Microsoft.EntityFrameworkCore;
+using WearHouse_WebApp.Models.dbModels;
+using WearHouse_WebApp.Core.Domain;
 
 namespace WearHouse_WebApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ApplicationDbContext dbContext;
 
-        public HomeController(UserManager<ApplicationUser> userManager)
+        public HomeController(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
         {
+            this.dbContext = dbContext;
             this.userManager = userManager;
         }
 
@@ -36,7 +42,24 @@ namespace WearHouse_WebApp.Controllers
             if (id == null)
                 return View();
 
+            /*
+             *  WearableModel model = new WearableModel();
+                model.dbmodel = _context.dbWearables
+                    .Where(w => w.UserId == _userManager.Users.FirstOrDefault().Id).FirstOrDefault());
+                _userManager.Users.FirstOrDefault().Id
+             */
+
             ApplicationUser user = userManager.Users.First(u => u.Id == id);
+
+            List<dbWearable> wearables = new List<dbWearable>();
+            foreach (var dbmodel in dbContext.dbWearables
+                .Where(m => m.UserId == id))
+            {
+                wearables.Add(dbmodel);
+            }
+
+            user.Wearables = wearables;
+
             return View(user);
         }
 
