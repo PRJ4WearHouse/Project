@@ -2,7 +2,102 @@
     ViewData["Title"] = "Landing Page";
 }
 
-<div class="text-center">
+<!--Henter denne model, da den indeholder wearables med states, titel, description, user-->
+@model List<WearHouse_WebApp.Models.Domain.WearableModel>
+<!--Alle Wearables opdeles i deres status - Alle Wearables fremvises-->
+<div class="row">
+    <div class="column1">
+        @foreach (var post in Model)
+        {
+            @if (post.dbModel.Title != "" && post.dbModel.Title != null && post.dbModel.State != "Inactive")
+            {
+                @if (post.dbModel.State == "Selling")
+                {
+                    <div>
+                        <div class="align-content-center" style="float: none">
+                            <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
+                        </div>
+
+                        <div style="white-space: pre">
+                            @post.dbModel.Title
+                            @post.dbModel.Description
+                            @post.Username
+                        </div>
+                    </div>
+                }
+            }
+        }
+    </div>
+    <div class="column2">
+        @foreach (var post in Model)
+        {
+            @if (post.dbModel.Title != "" && post.dbModel.Title != null && post.dbModel.State != "Inactive")
+            {
+                @if (post.dbModel.State == "Renting")
+                {
+                    <div class="column2">
+                        <div style="float: none">
+                            <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
+                        </div>
+
+                        <p class="profile-wearable-title">
+                            @post.dbModel.Title
+                            @post.dbModel.Description
+                            @post.Username
+                        </p>
+                    </div>
+                }
+
+            }
+        }
+    </div>
+    <div class="column3">
+        @foreach (var post in Model)
+        {
+            @if (post.dbModel.Title != "" && post.dbModel.Title != null && post.dbModel.State != "Inactive")
+            {
+                @if (post.dbModel.State == "Borrowing")
+                {
+                    <div class="column3">
+                        <div style="float: none">
+                            <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
+                        </div>
+
+                        <p class="profile-wearable-title">
+                            @post.dbModel.Title
+                            @post.dbModel.Description
+                            @post.Username
+                        </p>
+                    </div>
+                }
+            }
+        }
+    </div>
+    <div class="column4">
+        @foreach (var post in Model)
+        {
+            @if (post.dbModel.Title != "" && post.dbModel.Title != null && post.dbModel.State != "Inactive")
+            {
+                @if (post.dbModel.State == "Giving")
+                {
+                    <div class="column4">
+                        <div style="float: none">
+                            <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
+                        </div>
+
+                        <p class="profile-wearable-title">
+                            @post.dbModel.Title
+                            @post.dbModel.Description
+                            @post.Username
+                        </p>
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>
+
+<!--div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+</--div>-->

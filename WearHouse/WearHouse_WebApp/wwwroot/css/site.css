@@ -24,6 +24,38 @@ a {
   border-color: #1861ac;
 }
 
+/* Landing Page Styling
+-------------------------------------------------- */
+.row {
+    display: flex;
+}
+
+.column1 {
+    flex: 25%;
+    flex-wrap: wrap;
+}
+.column2 {
+    flex: 25%;
+}
+.column3 {
+    flex: 25%;
+}
+.column4 {
+    flex: 25%;
+}
+
+/*.column {
+    float: left;
+    width: 50%;*/
+    /*border: 0px 20px;*/
+/*}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}*/
+
 /* Profile styling
 -------------------------------------------------- */
 #profile-content{

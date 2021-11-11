@@ -20,6 +20,7 @@ namespace WearHouse_WebApp.Models.Domain
         }
 
         public IFormFile[] ImageFiles { get; set; }
+        public string Username { get; set; }
         public dbWearable dbModel { get; set; }
         
         //OBS Never really used
@@ -57,9 +58,7 @@ namespace WearHouse_WebApp.Models.Domain
         {
             State = WearableState.Inactive;
         }
-
     }
-
 
     public enum WearableState
     {
