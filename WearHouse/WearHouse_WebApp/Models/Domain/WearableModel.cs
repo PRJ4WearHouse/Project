@@ -1,53 +1,63 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using WearHouse_WebApp.Models.dbModels;
+using WearHouse_WebApp.Models.Entities;
 
-namespace WearHouse_WebApp.Core.Domain
+namespace WearHouse_WebApp.Models.Domain
 {
     public class WearableModel
     {
+        private WearableState _state;
         public WearableState State
         {
-            get
-            {
-                return State;
-            }
+            get => _state;
             set
             {
-                State = value;
-                dbmodel.State = Enum.GetName(typeof(WearableState), State);
+                _state = value;
+                if (dbModel == null)
+                    dbModel = new dbWearable(); 
+                dbModel.State = Enum.GetName(typeof(WearableState), value);
             }
         }
 
         public IFormFile[] ImageFiles { get; set; }
-
-        public string Username { get; set; }
-
-        public WearableModel() { }
-
-
-        public dbWearable dbmodel { get; set; }
-
+        public dbWearable dbModel { get; set; }
+        
+        //OBS Never really used
         public WearableModel(string title, string description, WearableState wearableState = WearableState.Inactive)
         {
-            dbmodel = new dbWearable();
-            dbmodel.Title = title;
-            dbmodel.Description = description;
+            dbModel = new dbWearable
+            {
+                Title = title,
+                Description = description
+            };
             State = wearableState;
-            
         }
 
+        //Copy constructor
         public WearableModel(WearableModel wearableModel)
         {
-            dbmodel = new dbWearable();
-            dbmodel.Title = wearableModel.dbmodel.Title;
-            dbmodel.Description = wearableModel.dbmodel.Description;
+            dbModel = new dbWearable
+            {
+                Title = wearableModel.dbModel.Title,
+                Description = wearableModel.dbModel.Description
+            };
             State = wearableModel.State;
             ImageFiles = wearableModel.ImageFiles;
-        }   
+        }
+
+        //OBS conversion. Take care of image URL's
+        public WearableModel(dbWearable dbWearable)
+        {
+            dbModel = dbWearable;
+            State = (WearableState)Enum.Parse(typeof(WearableState), dbModel.State);
+        }
+
+        //OBS So far only used in test
+        public WearableModel()
+        {
+            State = WearableState.Inactive;
+        }
+
     }
 
 

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Models.ViewModels;
 
-namespace WearHouse_WebApp.Models.dbModels
+namespace WearHouse_WebApp.Models.Entities
 {
     public class dbWearable
     {
@@ -22,12 +18,14 @@ namespace WearHouse_WebApp.Models.dbModels
         public string State { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
-        public dbWearable()
+        public dbWearable() { }
+
+        public WearableModel ConvertToModel()
         {
-            
+            return new WearableModel(this);
         }
 
-        //Something feels fishy. Do we need to make a conversion pattern or something?
+        //OBS Could use some smart mapping tools instead
         public dbWearable(WearableViewModel vm)
         {
             WearableId = vm.WearableId;

@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using WearHouse_WebApp.Persistence.Repositories;
 
-namespace WearHouse_WebApp.Core
+namespace WearHouse_WebApp.Persistence.Core
 {
-    public class IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
+        WearableRepository Wearables { get; }
+        AzureImageStorage ImageStorage { get; }
+        Task<int> Complete();
     }
 }

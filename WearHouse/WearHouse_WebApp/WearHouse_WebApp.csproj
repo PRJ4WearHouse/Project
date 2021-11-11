@@ -7,13 +7,18 @@
 
   <ItemGroup>
     <Compile Remove="Models\WearableClasses\**" />
+    <Compile Remove="Persistence\Core\RepositoriesIF\**" />
     <Content Remove="Models\WearableClasses\**" />
+    <Content Remove="Persistence\Core\RepositoriesIF\**" />
     <EmbeddedResource Remove="Models\WearableClasses\**" />
+    <EmbeddedResource Remove="Persistence\Core\RepositoriesIF\**" />
     <None Remove="Models\WearableClasses\**" />
+    <None Remove="Persistence\Core\RepositoriesIF\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Models\WearablePost.cs" />
+    <Compile Remove="Persistence\Repositories\Repository.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +40,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="NunitXml.TestLogger" Version="3.0.117" />
   </ItemGroup>
 
 </Project>

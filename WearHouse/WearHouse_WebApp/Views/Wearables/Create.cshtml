@@ -1,4 +1,5 @@
-﻿@model WearHouse_WebApp.Models.ViewModels.WearableViewModel
+﻿@using Microsoft.Extensions.Hosting
+@model WearHouse_WebApp.Models.Domain.WearableModel
 
 @{
     ViewData["Title"] = "Create";
@@ -31,14 +32,14 @@
             <!-->Remove summary for no validation</-->
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label asp-for="dbModel.Title" class="control-label"></label>
+                <input asp-for="dbModel.Title" class="form-control" />
+                <span asp-validation-for="dbModel.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea cols="2" rows="5" asp-for="Description" class="form-control" placeholder="Describe your product"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="dbModel.Description" class="control-label"></label>
+                <textarea cols="2" rows="5" asp-for="dbModel.Description" class="form-control" placeholder="Describe your product"></textarea>
+                <span asp-validation-for="dbModel.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ImageFiles" class="control-label">X number of images left</label>
@@ -63,7 +64,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a href="javascript:history.back();" >Go back</a>
 </div>
 
 <script>

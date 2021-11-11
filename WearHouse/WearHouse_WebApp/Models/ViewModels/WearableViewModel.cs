@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.CodeAnalysis;
-using WearHouse_WebApp.Models.dbModels;
+using WearHouse_WebApp.Models.Entities;
 
 namespace WearHouse_WebApp.Models.ViewModels
 {

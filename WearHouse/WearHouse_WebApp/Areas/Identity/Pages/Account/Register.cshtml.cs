@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using WearHouse_WebApp.Models;
-using WearHouse_WebApp.Persistence.Core.RepositoriesIF;
 using WearHouse_WebApp.Persistence.Repositories;
 
 namespace WearHouse_WebApp.Areas.Identity.Pages.Account
@@ -24,7 +23,7 @@ namespace WearHouse_WebApp.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly IImageRepository _repository;
+        private readonly LocalImageRepository _repository;
         private readonly IWebHostEnvironment _hostingEnvironment;
 
         public RegisterModel(

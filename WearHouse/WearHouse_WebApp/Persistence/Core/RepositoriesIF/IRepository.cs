@@ -5,13 +5,13 @@ using System.Linq.Expressions;
 //Taget direkte fra Mosh Hamadani
 namespace WearHouse_WebApp.Persistence.Core.RepositoriesIF
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity, TModel> where TEntity : class
     {
-        TEntity Get(int id);
-        IEnumerable<TEntity> GetAll();
-        IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
+        TModel Get(int id);
+        IEnumerable<TModel> GetAll();
+        IEnumerable<TModel> Find(Expression<Func<TEntity, bool>> predicate);
         
-        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
+        TModel SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
 
         void Add(TEntity entity);
         void AddRange(IEnumerable<TEntity> entities);

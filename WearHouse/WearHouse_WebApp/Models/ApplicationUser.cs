@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Threading.Tasks;
-using WearHouse_WebApp.Models.dbModels;
+using WearHouse_WebApp.Models.Entities;
 
 namespace WearHouse_WebApp.Models
 {

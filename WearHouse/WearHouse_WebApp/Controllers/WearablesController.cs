@@ -1,51 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using WearHouse_WebApp.Data;
 using WearHouse_WebApp.Models;
-using Azure.Storage.Blobs;
-using Microsoft.AspNetCore.Identity;
- using WearHouse_WebApp.Models.dbModels;
+using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Models.ViewModels;
- using WearHouse_WebApp.Persistence.Core.RepositoriesIF;
- using WearHouse_WebApp.Persistence.Repositories;
+using WearHouse_WebApp.Persistence;
+using WearHouse_WebApp.Persistence.Core;
+using WearHouse_WebApp.Persistence.Repositories;
+using WearableState = WearHouse_WebApp.Models.ViewModels.WearableState;
 
 namespace WearHouse_WebApp.Controllers
 {
     public class WearablesController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IImageRepository _storage;
-        private readonly UserManager<ApplicationUser> userManager;
-
-        //private readonly UserManager<ApplicationUser> _userManager;
-
-        //To save files on public server
-        BlobServiceClient blobServiceClient;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public WearablesController(UserManager<ApplicationUser> userManager, ApplicationDbContext context,IWebHostEnvironment hostEnvironment)
         {
-            this.userManager = userManager;
-            _context = context;
-            blobServiceClient = new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
-            _storage = new LocalImageRepository(hostEnvironment.WebRootPath);
+            this._userManager = userManager;
+            _unitOfWork = new UnitOfWorkCreatingWearable(context, "DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
         }
-        /*
-        // GET: Wearables
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.dbWearables.ToListAsync());
-        }*/
-        
 
         // GET: Wearables/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -54,48 +39,39 @@ namespace WearHouse_WebApp.Controllers
         // POST: Wearables/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WearableId,Title,Description,Username,ImageFiles")] WearableViewModel wearableViewModel)
+        public async Task<IActionResult> Create([Bind("Title,Description,ImageFiles","dbModel")] WearableModel wearable)
         {
             if (ModelState.IsValid)
             {
-                //Save images from post thing
-                //Also need to only save / delete again, if not succesfull on database
-                wearableViewModel.ImageUrlsList =
-                    await _storage.SaveImages(wearableViewModel.WearableId, wearableViewModel.ImageFiles);
-                if (wearableViewModel.ImageUrlsList != null)
+                //Get user
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                wearable.dbModel.UserId = currentUser.Id;
+
+                //Add model to db
+                await _unitOfWork.Wearables.Add(wearable.dbModel);
+
+                //Save changes to generate unchangeable wearableID. 
+                await _unitOfWork.Complete();
+
+                //Get wearableID
+                int itemId = wearable.dbModel.WearableId;
+
+                //Save images at 
+                if (wearable.ImageFiles != null)
                 {
-                    //For debugging
-                    Console.WriteLine("No images saved");
+                    wearable.dbModel.ImageUrls = await _unitOfWork.ImageStorage.SaveImagesToWearable(wearable.ImageFiles, itemId);
+
+                    //Save changes
+                    await _unitOfWork.Complete();
                 }
-
-                //OBS delete this
-                wearableViewModel.State = WearableState.Selling;
-                wearableViewModel.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                //add wearableViewModel to db. OBS Check username is correct and logged in!
-                _context.Add(new dbWearable(wearableViewModel));
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Profile", "Home", new { userManager.Users.FirstOrDefault()?.Id });
+                
+                //Redirect
+                return RedirectToAction("Profile", "Home", new {currentUser.Id });
             }
-            return View(wearableViewModel);
+            return View(wearable);
         }
-
-        async Task<bool> SaveImagesWearableImagesBlob(WearableViewModel wearableViewModel)
-        {
-            //OBS Could make sense to check if already exists first. https://stackoverflow.com/questions/52561285/how-to-upload-image-from-asp-net-core-iformfile-to-azure-blob-storage/52561985
-            BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync("itemid"+wearableViewModel.WearableId.ToString());
-
-            foreach (var image in wearableViewModel.ImageFiles)
-                await containerClient.UploadBlobAsync(image.FileName, image.OpenReadStream());
-
-            return true;
-        }
-        
-        /*
-        private bool WearableExists(int id)
-        {
-            return _context.dbWearables.Any(e => e.WearableId == id);
-        }*/
     }
 }

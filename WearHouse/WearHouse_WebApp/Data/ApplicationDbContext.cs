@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using WearHouse_WebApp.Models;
-using WearHouse_WebApp.Models.dbModels;
+using WearHouse_WebApp.Models.Entities;
 
 namespace WearHouse_WebApp.Data
 {

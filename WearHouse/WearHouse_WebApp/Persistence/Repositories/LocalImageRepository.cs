@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using WearHouse_WebApp.Persistence.Core.RepositoriesIF;
 
 namespace WearHouse_WebApp.Persistence.Repositories
 {
-    public class LocalImageRepository : IImageRepository
+    public class LocalImageRepository
     {
         private List<string> _urlList;
         private string _wwwRootPath;
