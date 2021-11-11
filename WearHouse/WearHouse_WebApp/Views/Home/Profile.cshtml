@@ -45,19 +45,24 @@ else if (Model != null && signInManager.IsSignedIn(User))
                 <div>
                     @Model.Location
                 </div>
-                <form asp-controller="Home" asp-action="Error">
-                    <button style="margin-top: 10px">
-                        Edit Profile
-                    </button>
-                </form>
+                @if (Model.UserName == User.Identity.Name)
+                {
+                    <form asp-controller="Home" asp-action="Error">
+                        <button>
+                            Edit Profile
+                        </button>
+                    </form>
+                }
             </div>
         </div>
 
         <div id="profile-rightside">
-            <div>
-                <input type="button" value="Add Wearable" onclick="location.href='@Url.Action("Create", "Wearables")'" class="profile-add-wearables" />
-            </div>
-
+            @if (Model.UserName == User.Identity.Name)
+            {
+                <div>
+                    <input type="button" value="Add Wearable" onclick="location.href='@Url.Action("Create", "Wearables")'" class="profile-add-wearables" />
+                </div>
+            }
             <div id="wearable-posts">
 
                 @if (Model.Wearables != null && Model.Wearables.Count >= 0)
@@ -71,7 +76,7 @@ else if (Model != null && signInManager.IsSignedIn(User))
                                 <div class="profile-wearable">
                                     <button class="seethrough-button" />
 
-                                    <div style="float: none">
+                                    <div>
                                         <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
                                     </div>
 
@@ -99,7 +104,7 @@ else if (Model != null && signInManager.IsSignedIn(User))
                         <div class="profile-wearable">
                             <button class="seethrough-button" />
 
-                            <div style="float: none">
+                            <div>
                                 <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
                             </div>
 
