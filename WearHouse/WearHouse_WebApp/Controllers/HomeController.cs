@@ -10,8 +10,7 @@ using WearHouse_WebApp.Models;
 using WearHouse_WebApp.Models.ViewModels;
 using WearHouse_WebApp.Data;
 using Microsoft.EntityFrameworkCore;
-using WearHouse_WebApp.Models.dbModels;
-using WearHouse_WebApp.Core.Domain;
+using WearHouse_WebApp.Models.Entities;
 
 namespace WearHouse_WebApp.Controllers
 {
