@@ -27,7 +27,16 @@ namespace WearHouse_WebApp.Controllers
 
         public IActionResult Index()
         {
-            return View("LandingPage");
+            var wearables = dbContext.dbWearables
+                .Where(l => l.State != "Inactive")
+                .Select(item => item.ConvertToModel())
+                .ToList();
+            /*.Username == userManager.Users.Where(uid => item.UserId == uid.Id).First().UserName*/
+            foreach(var post in wearables)
+            {
+                post.Username = userManager.Users.Where(uid => post.dbModel.UserId == uid.Id).First().UserName;
+            }
+            return View("LandingPage", wearables);
         }
 
         public IActionResult Users()

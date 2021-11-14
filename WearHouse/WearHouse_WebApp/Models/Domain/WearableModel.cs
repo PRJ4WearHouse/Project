@@ -57,7 +57,6 @@ namespace WearHouse_WebApp.Models.Domain
         }
     }
 
-
     public enum WearableState
     {
         Selling,

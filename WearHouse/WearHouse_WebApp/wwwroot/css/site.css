@@ -24,6 +24,38 @@ a {
   border-color: #1861ac;
 }
 
+/* Landing Page Styling
+-------------------------------------------------- */
+.row {
+    display: flex;
+}
+
+.column1 {
+    flex: 25%;
+    flex-wrap: wrap;
+}
+.column2 {
+    flex: 25%;
+}
+.column3 {
+    flex: 25%;
+}
+.column4 {
+    flex: 25%;
+}
+
+/*.column {
+    float: left;
+    width: 50%;*/
+    /*border: 0px 20px;*/
+/*}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}*/
+
 /* Profile styling
 -------------------------------------------------- */
 #profile-content{
@@ -64,7 +96,7 @@ a {
 }
 
 .profile-wearable{
-    margin: 20px 0px; 
+    margin-bottom: 20px; 
     border: solid black 1px;
     width: 30%;
     flex-basis: 30%;
@@ -81,6 +113,7 @@ a {
     height:100%; 
     border:none; 
     background-color: transparent;
+    float: none;
 }
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -126,4 +159,20 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
+}
+
+
+/* CSS for Add Wearable*/
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.grid-item {
+    padding: 20px;
+}
+
+.preview-img {
+    width: 150px;
+    max-height: 170px;
 }
