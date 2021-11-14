@@ -12,7 +12,7 @@ using WearHouse_WebApp.Models;
 using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Models.ViewModels;
 using WearHouse_WebApp.Persistence;
-using WearHouse_WebApp.Persistence.Core;
+using WearHouse_WebApp.Persistence.Interfaces;
 using WearHouse_WebApp.Persistence.Repositories;
 using WearableState = WearHouse_WebApp.Models.ViewModels.WearableState;
 
@@ -47,29 +47,12 @@ namespace WearHouse_WebApp.Controllers
             if (ModelState.IsValid)
             {
                 //Get user
-                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-                wearable.dbModel.UserId = currentUser.Id;
+                wearable.Owner = await _userManager.GetUserAsync(HttpContext.User);
 
-                //Add model to db
-                await _unitOfWork.Wearables.Add(wearable.dbModel);
+                if(await _unitOfWork.SaveWearableWithImages(wearable))
 
-                //Save changes to generate unchangeable wearableID. 
-                await _unitOfWork.Complete();
-
-                //Get wearableID
-                int itemId = wearable.dbModel.WearableId;
-
-                //Save images at 
-                if (wearable.ImageFiles != null)
-                {
-                    wearable.dbModel.ImageUrls = await _unitOfWork.ImageStorage.SaveImagesToWearable(wearable.ImageFiles, itemId);
-
-                    //Save changes
-                    await _unitOfWork.Complete();
-                }
-                
                 //Redirect
-                return RedirectToAction("Profile", "Home", new {currentUser.Id });
+                return RedirectToAction("Profile", "Home", new {wearable.Owner.Id });
             }
             return View(wearable);
         }

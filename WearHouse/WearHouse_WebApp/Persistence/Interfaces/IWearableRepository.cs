@@ -1,0 +1,12 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using WearHouse_WebApp.Models.Domain;
+using WearHouse_WebApp.Models.Entities;
+
+namespace WearHouse_WebApp.Persistence.Interfaces
+{
+    public interface IWearableRepository : IRepository<dbWearable>
+    {
+        Task<List<dbWearable>> GetWearablesByUserId(string userId);
+    }
+}

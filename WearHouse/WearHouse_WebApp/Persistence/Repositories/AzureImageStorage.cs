@@ -12,13 +12,8 @@ namespace WearHouse_WebApp.Persistence.Repositories
     public class AzureImageStorage
     {
         //To save files on public server
-        BlobServiceClient _blobServiceClient;
         private string _connectionString;
-        public AzureImageStorage(string connectionString)
-        {
-            _connectionString = connectionString;
-            _blobServiceClient = new BlobServiceClient(connectionString);
-        }
+        public AzureImageStorage(string connectionString) { _connectionString = connectionString; }
 
         public async Task<string> SaveImagesToWearable(IFormFile[] imagesFiles, int itemId)
         {
@@ -33,29 +28,39 @@ namespace WearHouse_WebApp.Persistence.Repositories
                 string imageName = "Img" + i++ + Path.GetExtension(image.FileName);
                 await containerClient.UploadBlobAsync(imageName, image.OpenReadStream());
             }
-
             return i.ToString();
         }
 
         //OBS! Download image files doesn't work yet!
-        /*
+        
         public async Task<IFormFile[]> RetriveImagesByWearableId(int id)
         {
             BlobContainerClient containerClient = new BlobContainerClient(_connectionString, "itemid" + id.ToString());
             if (containerClient.Exists())
             {
-                var files = new List<IFormFile>();
-
+                List<IFormFile> files = new List<IFormFile>();
                 // List all blobs in the container
                 await foreach (BlobItem blobItem in containerClient.GetBlobsAsync())
                 {
                     var blobClient = containerClient.GetBlobClient(blobItem.Name);
-                    files.Add(blobClient.DownloadStreaming());
+                    var blobDownStream = await blobClient.DownloadStreamingAsync(); 
+                    var blobResponse = blobDownStream.GetRawResponse();
+                    var blobStream = blobResponse?.ContentStream;
+                    if (blobStream != null)
+                    {
+                        files.Add(new FormFile(
+                            blobStream,
+                            0,
+                            blobStream.Length,
+                            "Name",
+                            blobItem.Name)
+                        );
+                    }
                 }
             }
 
             return null;
         }
-        */
+        
     }
 }

@@ -24,19 +24,5 @@ namespace WearHouse_WebApp.Models.Entities
         {
             return new WearableModel(this);
         }
-
-        //OBS Could use some smart mapping tools instead
-        public dbWearable(WearableViewModel vm)
-        {
-            WearableId = vm.WearableId;
-            Title = vm.Title;
-            Description = vm.Description;
-            if(vm.ImageUrlsList != null)
-                ImageUrls = string.Join("\n", vm.ImageUrlsList);
-            UserId = vm.UserId;
-            UserContactInfo = vm.UserContactInfo;
-            //OBS Should always have a state! Just for testing
-            State = vm.State.ToString();
-        }
     }
 }
