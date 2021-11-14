@@ -34,7 +34,7 @@ namespace WearHouse_WebApp.Controllers
             /*.Username == userManager.Users.Where(uid => item.UserId == uid.Id).First().UserName*/
             foreach(var post in wearables)
             {
-                post.Username = userManager.Users.Where(uid => post.dbModel.UserId == uid.Id).First().UserName;
+                post.Owner = userManager.Users.Where(uid => post.dbModel.UserId == uid.Id).First();
             }
             return View("LandingPage", wearables);
         }
