@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -25,10 +26,21 @@ namespace WearHouse_WebApp.Persistence.Repositories
             get { return Context as ApplicationDbContext; }
         }
 
-        
+        public Task<List<dbWearable>> GetAllWearablesWithUsers()
+        {
+            return DbContext.dbWearables.Include(w => w.ApplicationUser).ToListAsync();
+        }
+
+        public Task<dbWearable> GetSingleWearablesWithUser(int id)
+        {
+            return DbContext.dbWearables
+                .Include(w => w.ApplicationUser)
+                .FirstOrDefaultAsync(w => w.WearableId == id);
+        }
+
         public Task<List<dbWearable>> GetWearablesByUserId(string userId)
         {
-            return DbContext.dbWearables.Where(w => w.UserId == userId).ToListAsync();
+            return _entities.Where(w => w.UserId == userId).ToListAsync();
         }
     }
 }

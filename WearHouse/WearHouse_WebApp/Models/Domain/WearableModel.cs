@@ -27,8 +27,10 @@ namespace WearHouse_WebApp.Models.Domain
             Description = dbWearable.Description;
             ID = dbWearable.WearableId;
             Owner = new ApplicationUser() {Id = dbWearable.UserId}; //May be a better way to do this.
+            State = (WearableState)Enum.Parse(typeof(WearableState), dbWearable.State);
+
+            //OBS Slet også mig!
             dbModel = dbWearable;
-            State = (WearableState)Enum.Parse(typeof(WearableState), dbModel.State);
         }
 
         //Can only convert, if user is set. (User is Primary key)

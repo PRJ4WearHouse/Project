@@ -1,32 +1,24 @@
-﻿using Azure.Storage.Blobs;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using WearHouse_WebApp.Data;
-using WearHouse_WebApp.Models;
 using WearHouse_WebApp.Models.Domain;
-using WearHouse_WebApp.Models.ViewModels;
+using WearHouse_WebApp.Models.Entities;
 using WearHouse_WebApp.Persistence;
-using WearHouse_WebApp.Persistence.Interfaces;
-using WearHouse_WebApp.Persistence.Repositories;
-using WearableState = WearHouse_WebApp.Models.ViewModels.WearableState;
 
 namespace WearHouse_WebApp.Controllers
 {
     public class WearablesController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly UnitOfWorkCreatingWearable _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public WearablesController(UserManager<ApplicationUser> userManager, ApplicationDbContext context,IWebHostEnvironment hostEnvironment)
         {
             this._userManager = userManager;
-            _unitOfWork = new UnitOfWorkCreatingWearable(context, "DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
+            _unitOfWork = new UnitOfWorkCreatingWearable(context, userManager, "DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
         }
 
         // GET: Wearables/Create

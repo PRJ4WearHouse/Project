@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Models.Entities;
 
 namespace WearHouse_WebApp.Persistence.Interfaces

@@ -11,6 +11,7 @@ using WearHouse_WebApp.Models.ViewModels;
 using WearHouse_WebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using WearHouse_WebApp.Models.Entities;
+using WearHouse_WebApp.Persistence;
 
 namespace WearHouse_WebApp.Controllers
 {
@@ -18,11 +19,13 @@ namespace WearHouse_WebApp.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ApplicationDbContext dbContext;
+        private readonly UnitOfWorkGettingWearables _unitOfWork;
 
         public HomeController(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
+            _unitOfWork = new UnitOfWorkGettingWearables(dbContext, userManager, "DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
         }
 
         public IActionResult Index()
