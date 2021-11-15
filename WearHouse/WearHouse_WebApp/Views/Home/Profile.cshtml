@@ -75,15 +75,18 @@ else if (Model != null && signInManager.IsSignedIn(User))
                             @if (post.Title != "" && post.Title != null)
                             {
                                 <div class="profile-wearable">
-                                    <button class="seethrough-button" />
+                                    <form  asp-controller="Home" asp-action="WearablePost" asp-route-id="@post.WearableId">
+                                        @*onclick="location.href='@Url.Action("WearablePost", "Home", post.WearableId)'"*@
+                                        <button class="seethrough-button" />
 
-                                    <div>
-                                        <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
-                                    </div>
+                                        <div>
+                                            <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
+                                        </div>
 
-                                    <p class="profile-wearable-title">
-                                        @post.Title
-                                    </p>
+                                        <p class="profile-wearable-title">
+                                            @post.Title
+                                        </p>
+                                    </form>
                                 </div>
                             }
                         }

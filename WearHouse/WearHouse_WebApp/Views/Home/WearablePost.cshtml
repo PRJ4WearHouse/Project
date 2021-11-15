@@ -1,20 +1,22 @@
 ﻿@using WearHouse_WebApp.Models.ViewModels
+@using WearHouse_WebApp.Models.Domain
+@model WearableModel
 @{
     ViewData["title"] = "WearableViewModel Post";
-    WearableViewModel wearableViewModel = (WearableViewModel)ViewData["wearableViewModel"];
 }
 
-<div class="text-center">
-    <h1>@wearableViewModel.Title</h1>
+<div id="wearablePost-user-info">
+    <h1>@Model.dbModel.Title</h1>
+    <div class="profile-border">
+        <p>
+            @Model.dbModel.Description
+        </p>
+    </div>  
+    <div>
 
-    <div id="post-image" style="float:right">
-        <img src="/Presets/wearable_image_template.JPG" width="200" />
     </div>
+</div>
 
-    <div id="post-information" style="text-align:left;float:none" >
-        <label style="font-weight:bold">Post owner</label>
-        <p>@wearableViewModel.Username</p>
-        <label style="font-weight:bold">Description</label>
-        <p>@wearableViewModel.Description</p>
-    </div>
+<div id="wearablePost-images">
+
 </div>
