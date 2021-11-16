@@ -53,13 +53,6 @@ namespace WearHouse_WebApp.Controllers
             if (id == null)
                 return View();
 
-            /*
-             *  WearableModel model = new WearableModel();
-                model.dbmodel = _context.dbWearables
-                    .Where(w => w.UserId == _userManager.Users.FirstOrDefault().Id).FirstOrDefault());
-                _userManager.Users.FirstOrDefault().Id
-             */
-
             ApplicationUser user = userManager.Users.First(u => u.Id == id);
 
             List<dbWearable> wearables = new List<dbWearable>();

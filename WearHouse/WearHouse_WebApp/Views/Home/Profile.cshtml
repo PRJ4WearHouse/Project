@@ -21,9 +21,9 @@ else if (Model != null && signInManager.IsSignedIn(User))
 
         <div id="profile-leftside">
             <div class="profile-border profile-image-div">
-                @if (Model.ProfileImageUrl != "" && Model.ProfileImageUrl != null)
+                @if(Model.ProfileImageUrl != "")
                 {
-                    <img alt="Profile Picture" src="@("~/Image/"+Model.ProfileImageUrl)" asp-append-version="true" width="250" height="250" />
+                    <img src=@Model.ProfileImageUrl width="250" height="250" />
                 }
                 else
                 {
