@@ -15,7 +15,7 @@ namespace WearHouse_WebApp.Models.Domain
         public string Title { get; set; }
         [Required]
         public string Description { get; set; }
-        public ApplicationUser Owner { get; set; }
+        public UserModel Owner { get; set; }
         public IFormFile[] ImageFiles { get; set; }
 
         //OBS Slet mig!
@@ -26,7 +26,7 @@ namespace WearHouse_WebApp.Models.Domain
             Title = dbWearable.Title;
             Description = dbWearable.Description;
             ID = dbWearable.WearableId;
-            Owner = new ApplicationUser() {Id = dbWearable.UserId}; //May be a better way to do this.
+            Owner = dbWearable.ApplicationUser.ConvertToUserModel(); //May be a better way to do this.
             State = (WearableState)Enum.Parse(typeof(WearableState), dbWearable.State);
 
             //OBS Slet også mig!
@@ -43,8 +43,8 @@ namespace WearHouse_WebApp.Models.Domain
                     Description = this.Description,
                     Title = this.Title,
                     State = Enum.GetName(typeof(WearableState), this.State),
-                    UserContactInfo = this.Owner.Email,
-                    UserId = Owner.Id,
+                    UserContactInfo = this.Owner.ContactInfo,
+                    UserId = Owner.UserId,
                 };
             else
             {

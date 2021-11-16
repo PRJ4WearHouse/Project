@@ -31,7 +31,7 @@ namespace WearHouse_WebApp.Persistence.Repositories
             return DbContext.dbWearables.Include(w => w.ApplicationUser).ToListAsync();
         }
 
-        public Task<dbWearable> GetSingleWearablesWithUser(int id)
+        public Task<dbWearable> GetSingleWearableWithUser(int id)
         {
             return DbContext.dbWearables
                 .Include(w => w.ApplicationUser)
