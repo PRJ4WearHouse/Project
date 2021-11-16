@@ -80,7 +80,7 @@ namespace WearHouse_WebApp.Controllers
 
         public IActionResult WearablePost(int id)
         {
-            WearableModel wearableModel = new(_unitOfWork.Wearables.GetSingleWearablesWithUser(id).Result);
+            WearableModel wearableModel = new(_unitOfWork.Wearables.GetSingleWearableWithUser(id).Result);
             
             return View(wearableModel);           
         }
