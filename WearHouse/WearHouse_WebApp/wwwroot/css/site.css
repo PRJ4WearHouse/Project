@@ -115,6 +115,39 @@ a {
     background-color: transparent;
     float: none;
 }
+
+/* Wearable Details styling*/
+#wearablePost-content{
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#wearablePost-user-info{
+    width: 30%;
+}
+
+#wearablePost-images{
+    display: flex;
+    flex-wrap: wrap;
+    width: 60%;
+}
+
+.wearablePost-text-field{
+    padding: 5px;
+    border:solid black 1px;
+}
+
+.wearablePost-wearable-image{
+    margin: 5px;
+    width: 150px;
+    height: 150px;
+    padding: 5px;
+    border: solid black 1px;
+}
+
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

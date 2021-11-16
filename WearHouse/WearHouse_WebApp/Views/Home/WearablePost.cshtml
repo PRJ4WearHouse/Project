@@ -1,22 +1,49 @@
 ﻿@using WearHouse_WebApp.Models.ViewModels
 @using WearHouse_WebApp.Models.Domain
+@using WearHouse_WebApp.Models.Entities
 @model WearableModel
 @{
     ViewData["title"] = "WearableViewModel Post";
 }
 
-<div id="wearablePost-user-info">
-    <h1>@Model.dbModel.Title</h1>
-    <div class="profile-border">
-        <p>
-            @Model.dbModel.Description
+<div id="wearablePost-content">
+    <div id="wearablePost-user-info">
+        <h1>
+            @Model.dbModel.Title
+        </h1>
+        <p class="wearablePost-text-field">
+            Description: <br />
+            @Model.Description
         </p>
-    </div>  
-    <div>
+        <p class="wearablePost-text-field">
+            Username: <br />
+            @Model.Username
+        </p>
+        <div class="profile-image-div">
+            <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
+        </div>
+        <p class="wearablePost-text-field">
+            City: <br />
+            @Model.Location
+        </p>
+    </div>
 
+    <div id="wearablePost-images">
+        @if (Model.ImageFiles != null && Model.ImageFiles.Length > 0)
+        {
+            @foreach (var img in Model.ImageFiles)
+            {
+                <img src="~/Presets/image-not-found.jpg" class="wearablePost-wearable-image" />
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                <img src="~/Presets/image-not-found.jpg" class="wearablePost-wearable-image" />
+            }
+        }
+        <input type="button" asp-controller="Home" asp-action="Error" />
     </div>
 </div>
 
-<div id="wearablePost-images">
-
-</div>
