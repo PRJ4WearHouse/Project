@@ -37,10 +37,10 @@ namespace WearHouse_WebApp.Controllers
             if (ModelState.IsValid)
             {
                 //Get user
-                wearable.Owner = await _unitOfWork.GetCurrentUserWithoutWearables(HttpContext);
+                wearable.Owner = _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModel();
 
                 if(await _unitOfWork.SaveWearableWithImages(wearable))
-                    return RedirectToAction("Profile", "Home", new {wearable.Owner.Id });
+                    return RedirectToAction("Profile", "Home", new {wearable.Owner.UserId });
             }
             return View(wearable);
         }
