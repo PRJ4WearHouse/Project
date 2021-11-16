@@ -80,7 +80,8 @@ namespace WearHouse_WebApp.Controllers
 
         public IActionResult WearablePost(int id)
         {
-            WearableModel wearableModel = dbContext.dbWearables.FirstOrDefault(w => w.WearableId == id).ConvertToModel();
+            WearableModel wearableModel = new(_unitOfWork.Wearables.GetSingleWearablesWithUser(id).Result);
+            
             return View(wearableModel);           
         }
 
