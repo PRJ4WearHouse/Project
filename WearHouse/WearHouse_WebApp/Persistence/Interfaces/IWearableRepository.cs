@@ -7,5 +7,6 @@ namespace WearHouse_WebApp.Persistence.Interfaces
     public interface IWearableRepository : IRepository<dbWearable>
     {
         Task<List<dbWearable>> GetWearablesByUserId(string userId);
+        Task<dbWearable> GetSingleWearableWithUser(int id);
     }
 }
