@@ -7,13 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="Models\WearableClasses\**" />
-    <Compile Remove="Persistence\Core\RepositoriesIF\**" />
+    <Compile Remove="Persistence\Interfaces\RepositoriesIF\**" />
     <Content Remove="Models\WearableClasses\**" />
-    <Content Remove="Persistence\Core\RepositoriesIF\**" />
+    <Content Remove="Persistence\Interfaces\RepositoriesIF\**" />
     <EmbeddedResource Remove="Models\WearableClasses\**" />
-    <EmbeddedResource Remove="Persistence\Core\RepositoriesIF\**" />
+    <EmbeddedResource Remove="Persistence\Interfaces\RepositoriesIF\**" />
     <None Remove="Models\WearableClasses\**" />
-    <None Remove="Persistence\Core\RepositoriesIF\**" />
+    <None Remove="Persistence\Interfaces\RepositoriesIF\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,12 +1,8 @@
-using Microsoft.AspNetCore.Identity;
-using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
-using System.Threading.Tasks;
-using WearHouse_WebApp.Models.Entities;
+using Microsoft.AspNetCore.Identity;
+using WearHouse_WebApp.Models.Domain;
 
-namespace WearHouse_WebApp.Models
+namespace WearHouse_WebApp.Models.Entities
 {
     public class ApplicationUser : IdentityUser
     {
@@ -16,5 +12,10 @@ namespace WearHouse_WebApp.Models
         public string ProfileImageUrl { get; set; }
 
         public List<dbWearable> Wearables { get; set; }
+
+        public UserModel ConvertToUserModel()
+        {
+            return new UserModel(this);
+        }
     }
 }

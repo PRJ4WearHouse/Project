@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -7,17 +8,16 @@ using Microsoft.EntityFrameworkCore;
 using WearHouse_WebApp.Data;
 using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Models.Entities;
+using WearHouse_WebApp.Persistence.Interfaces;
 
 namespace WearHouse_WebApp.Persistence.Repositories
 {
-    public class WearableRepository
+    public class WearableRepository : RepositoryEfCore<dbWearable>, IWearableRepository
     {
-        private readonly DbContext Context;
         private readonly DbSet<dbWearable> _entities;
 
-        public WearableRepository(DbContext context)
+        public WearableRepository(DbContext context) : base(context)
         {
-            Context = context;
             _entities = context.Set<dbWearable>();
         }
 
@@ -26,58 +26,21 @@ namespace WearHouse_WebApp.Persistence.Repositories
             get { return Context as ApplicationDbContext; }
         }
 
-        public async Task Add(dbWearable entity)
+        public Task<List<dbWearable>> GetAllWearablesWithUsers()
         {
-            await _entities.AddAsync(entity);
+            return DbContext.dbWearables.Include(w => w.ApplicationUser).ToListAsync();
         }
 
-        public async Task AddRange(IEnumerable<dbWearable> entities)
-        {
-            await _entities.AddRangeAsync(entities);
-        }
-
-        public Task<List<WearableModel>> Find(Expression<Func<dbWearable, bool>> predicate)
-        {
-            return Context.Set<dbWearable>()
-                .Where(predicate)
-                .Select(item => item.ConvertToModel())
-                .ToListAsync();
-        }
-
-        public WearableModel Get(int id)
-        {
-            return _entities.Find(id)?.ConvertToModel();
-        }
-
-        public Task<List<WearableModel>> GetAll()
-        {
-            return _entities
-                .Select(item => item.ConvertToModel())
-                .ToListAsync();
-        }
-
-        public void Remove(dbWearable entity)
-        {
-            _entities.Remove(entity);
-        }
-
-        public void RemoveRange(List<dbWearable> entities)
-        {
-            _entities.RemoveRange(entities);
-        }
-
-        public async Task<WearableModel> SingleOrDefault(Expression<Func<dbWearable, bool>> predicate)
-        {
-            var res = await _entities.SingleOrDefaultAsync(predicate);
-            return res?.ConvertToModel();
-        }
-
-        public Task<List<WearableModel>> GetWearablesByUserId(string userId)
+        public Task<dbWearable> GetSingleWearablesWithUser(int id)
         {
             return DbContext.dbWearables
-                .Where(w => w.UserId == userId)
-                .Select(item => item.ConvertToModel())
-                .ToListAsync();
+                .Include(w => w.ApplicationUser)
+                .FirstOrDefaultAsync(w => w.WearableId == id);
+        }
+
+        public Task<List<dbWearable>> GetWearablesByUserId(string userId)
+        {
+            return _entities.Where(w => w.UserId == userId).ToListAsync();
         }
     }
 }

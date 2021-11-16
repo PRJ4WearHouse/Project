@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using WearHouse_WebApp.Models;
+using WearHouse_WebApp.Models.Entities;
 
 namespace WearHouse_WebApp.Areas.Identity.Pages.Account
 {

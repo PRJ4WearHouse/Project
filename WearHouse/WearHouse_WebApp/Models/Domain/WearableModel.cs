@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Http;
 using WearHouse_WebApp.Models.Entities;
 
@@ -6,51 +8,48 @@ namespace WearHouse_WebApp.Models.Domain
 {
     public class WearableModel
     {
-        private WearableState _state;
-        public WearableState State
-        {
-            get => _state;
-            set
-            {
-                _state = value;
-                if (dbModel == null)
-                    dbModel = new dbWearable(); 
-                dbModel.State = Enum.GetName(typeof(WearableState), value);
-            }
-        }
-
+        public WearableState State { get; set; }
+        [Required]
+        public int ID { get; set; }
+        [Required]
+        public string Title { get; set; }
+        [Required]
+        public string Description { get; set; }
+        public ApplicationUser Owner { get; set; }
         public IFormFile[] ImageFiles { get; set; }
-        public string Username { get; set; }
+
+        //OBS Slet mig!
         public dbWearable dbModel { get; set; }
         
-        //OBS Never really used
-        public WearableModel(string title, string description, WearableState wearableState = WearableState.Inactive)
-        {
-            dbModel = new dbWearable
-            {
-                Title = title,
-                Description = description
-            };
-            State = wearableState;
-        }
-
-        //Copy constructor
-        public WearableModel(WearableModel wearableModel)
-        {
-            dbModel = new dbWearable
-            {
-                Title = wearableModel.dbModel.Title,
-                Description = wearableModel.dbModel.Description
-            };
-            State = wearableModel.State;
-            ImageFiles = wearableModel.ImageFiles;
-        }
-
-        //OBS conversion. Take care of image URL's
         public WearableModel(dbWearable dbWearable)
         {
+            Title = dbWearable.Title;
+            Description = dbWearable.Description;
+            ID = dbWearable.WearableId;
+            Owner = new ApplicationUser() {Id = dbWearable.UserId}; //May be a better way to do this.
+            State = (WearableState)Enum.Parse(typeof(WearableState), dbWearable.State);
+
+            //OBS Slet også mig!
             dbModel = dbWearable;
-            State = (WearableState)Enum.Parse(typeof(WearableState), dbModel.State);
+        }
+
+        //Can only convert, if user is set. (User is Primary key)
+        //OBS This check might need to be reserved in Repo class
+        public dbWearable ConvertToDbWearable()
+        {
+            if(Owner != null)
+                return new dbWearable()
+                {
+                    Description = this.Description,
+                    Title = this.Title,
+                    State = Enum.GetName(typeof(WearableState), this.State),
+                    UserContactInfo = this.Owner.Email,
+                    UserId = Owner.Id,
+                };
+            else
+            {
+                throw new Exception("No owner defined");
+            }
         }
 
         //OBS So far only used in test
