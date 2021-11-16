@@ -32,30 +32,6 @@ namespace WearHouse_WebApp.Persistence
         public IUserRepository UserRepository { get; }
         public UserManager<ApplicationUser> UserManager { get; }
 
-        public List<WearableModel> GetWearablesWithImagesByUserId(string userId)
-        {
-            var wearables = Wearables.GetWearablesByUserId(userId).Result
-                .Select(item => item.ConvertToModel()).ToList();
-
-            foreach (var wearable in wearables)
-            {
-                wearable.ImageFiles = ImageStorage.RetriveImagesByWearableId(wearable.ID).Result;
-            }
-
-            return wearables;
-        }
-
-        public UserModel GetUserWithWearablesAndImagesByUserId(string userId)
-        {
-            var user = UserRepository.GetUserWithWearables(userId).Result.ConvertToUserModel();
-            foreach (var wearableModel in user.Wearables)
-            {
-                wearableModel.ImageFiles = ImageStorage.RetriveImagesByWearableId(wearableModel.ID).Result;
-            }
-
-            return user;
-        }
-
         public Task<int> Complete()
         {
             return _context.SaveChangesAsync();

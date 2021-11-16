@@ -10,7 +10,7 @@ namespace WearHouse_WebApp.Models.Domain
 {
     public class UserModel
     {
-        public UserModel(ApplicationUser applicationUser)
+        public UserModel(ApplicationUser applicationUser, bool WithWearables)
         {
             Username = applicationUser.UserName;
             UserId = applicationUser.Id;
@@ -18,8 +18,13 @@ namespace WearHouse_WebApp.Models.Domain
             FirstName = applicationUser.FirstName;
             LastName = applicationUser.LastName;
             ContactInfo = applicationUser.Email;
-            Wearables = applicationUser.Wearables.Select(item => item.ConvertToModel()).ToList();
+            Wearables = (WithWearables)
+                ? applicationUser.Wearables.Select(item => item.ConvertToWearableModel()).ToList()
+                : null;
+
         }
+
+
 
         public string Username { get; set; }
         public string UserId { get; set; }

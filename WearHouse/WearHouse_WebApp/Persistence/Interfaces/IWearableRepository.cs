@@ -8,5 +8,6 @@ namespace WearHouse_WebApp.Persistence.Interfaces
     {
         Task<List<dbWearable>> GetWearablesByUserId(string userId);
         Task<dbWearable> GetSingleWearableWithUser(int id);
+        Task<List<dbWearable>> GetAllWithUsers();
     }
 }

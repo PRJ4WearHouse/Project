@@ -20,9 +20,13 @@ namespace WearHouse_WebApp.Models.Entities
 
         public dbWearable() { }
 
-        public WearableModel ConvertToModel()
+        public WearableModel ConvertToWearableModelWithoutOwner()
         {
-            return new WearableModel(this);
+            return new WearableModel(this, false);
+        }
+        public WearableModel ConvertToWearableModel()
+        {
+            return new WearableModel(this, true);
         }
     }
 }
