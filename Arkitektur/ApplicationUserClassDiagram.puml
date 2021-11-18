@@ -1,0 +1,36 @@
+@startuml
+
+package "Class Diagram - ApplicationUser WearHouse" <<Frame>> {
+  skinparam classAttributeIconSize 0
+
+  namespace Models {
+    class IdentityUser {
+      ...
+    }
+
+    note right of IdentityUser
+      This class is provided by <b>ASP.Net Core</b>.
+      To attach more properties, it is customary to extend it
+      in a class called <i>ApplicationUser</i>.
+      Please, consult Microsofts official documentation for
+      more information about this class.
+    end note
+
+    class ApplicationUser {
+      +Location : string
+      +FirstName : string
+      +LastName : string
+      +ProfileImageUrl : string
+      +Wearables : List<dbWearable>
+    }
+
+    note right of ApplicationUser
+      The <i>dbWearable</i> class is part of the <i>Models.dbModels</i>
+      namespace and is documented elsewhere.
+    end note
+
+    IdentityUser <|-- ApplicationUser
+  }
+}
+
+@enduml

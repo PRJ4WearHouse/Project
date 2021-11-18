@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WearHouse_WebApp.Data;
+using WearHouse_WebApp.Models;
+using WearHouse_WebApp.Models.Entities;
 
 namespace WearHouse_WebApp
 {
@@ -27,11 +29,38 @@ namespace WearHouse_WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+            }).AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.Configure<IdentityOptions>(options =>
+                        {
+                            // Password settings.
+#if (!DEBUG)
+                            options.Password.RequireDigit = true;
+                            options.Password.RequireLowercase = true;
+                            options.Password.RequireNonAlphanumeric = true;
+                            options.Password.RequireUppercase = true;
+                            options.Password.RequiredLength = 6;
+                            options.Password.RequiredUniqueChars = 1;
+                            // Lockout settings.
+                            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                            options.Lockout.MaxFailedAccessAttempts = 5;
+                            options.Lockout.AllowedForNewUsers = true;
+#endif
+                            // User settings.
+                            options.User.AllowedUserNameCharacters =
+                                        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                            options.User.RequireUniqueEmail = false;
+                            options.SignIn.RequireConfirmedEmail = false;
+                            options.SignIn.RequireConfirmedAccount = false;
+                            options.SignIn.RequireConfirmedPhoneNumber = false;
+                        });
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -42,7 +71,7 @@ namespace WearHouse_WebApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {
@@ -62,7 +91,18 @@ namespace WearHouse_WebApp
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action}/{id?}",
+                    new { controller = "Home", action = "Index"});
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action}",
+                    new { controller = "Home", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "default2",
+                    pattern: "{controller}/{action}");
+
                 endpoints.MapRazorPages();
             });
         }

@@ -1,0 +1,112 @@
+@using Microsoft.AspNetCore.Identity
+@using WearHouse_WebApp.Models.Entities
+@using WearHouse_WebApp.Models.Domain
+@model UserModel
+
+@{
+    ViewData["Title"] = "Profile - ";
+}
+
+@if (Model == null)
+{
+    <p>
+        No user were found! Seems like something went wrong...
+    </p>
+}
+
+else if (Model != null)
+{
+    <h1>Personal Profile</h1>
+    <div id="profile-content">
+        <div id="profile-leftside">
+            <div class="profile-border profile-image-div">
+                @if (Model.ProfileImageUrl != "")
+                {
+                    <img href="@Model.ProfileImageUrl" width="250" height="250" />
+                }
+                else
+                {
+                    <img src="https://img.icons8.com/fluency-systems-filled/90/000000/user.png" width="250" height="250" />
+                }
+            </div>
+            <div>
+                <h2>
+                    Username: @Model.Username
+                </h2>
+                <!--Tilføj denne igen når der smides mere til databasen-->
+                <!--p class="profile-border">
+        Description: <br />
+        Little about who i am...
+    </!--p>-->
+
+                <div class="profile-image-div profile-border">
+                    <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
+                </div>
+                <div>
+                    @Model.Address
+                </div>
+                @if (Model.Username == User.Identity.Name)
+                {
+                    <form asp-controller="Home" asp-action="Error">
+                        <button>
+                            Edit Profile
+                        </button>
+                    </form>
+                }
+            </div>
+        </div>
+
+        <div id="profile-rightside">
+            @if (Model.Username == User.Identity.Name)
+            {
+                <div>
+                    <input type="button" value="Add Wearable" onclick="location.href='@Url.Action("Create", "Wearables")'" class="profile-add-wearables" />
+                </div>
+            }
+            <div id="wearable-posts">
+
+                @if (Model.Wearables != null && Model.Wearables.Count >= 0)
+                {
+                    if (Model.Wearables.Count > 0)
+                    {
+                        @foreach (var post in Model.Wearables)
+                        {
+                            @if (post.Title != "" && post.Title != null)
+                            {
+                                <div class="profile-wearable">
+                                    <form  asp-controller="Home" asp-action="WearablePost" asp-route-id="@post.ID">
+                                        <button class="seethrough-button" />
+
+                                        <div>
+                                            <img src="@post.ImageUrls[0]" class="profile-image-location" />
+                                        </div>
+
+                                        <p class="profile-wearable-title">
+                                            @post.Title
+                                        </p>
+                                    </form>
+                                </div>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <div>
+                            <p>
+                                No Wearables found on this profile
+                            </p>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        @Url.Action("Error", "Home")
+    </div>
+}
+
+@*<button onclick="location.href='@Url.Action("Error", "Home")'" class="seethrough-button" />*@

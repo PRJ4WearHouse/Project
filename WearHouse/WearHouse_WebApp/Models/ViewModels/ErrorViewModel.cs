@@ -1,6 +1,4 @@
-using System;
-
-namespace WearHouse_WebApp.Models
+namespace WearHouse_WebApp.Models.ViewModels
 {
     public class ErrorViewModel
     {

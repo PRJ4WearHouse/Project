@@ -24,6 +24,130 @@ a {
   border-color: #1861ac;
 }
 
+/* Landing Page Styling
+-------------------------------------------------- */
+.row {
+    display: flex;
+}
+
+.column1 {
+    flex: 25%;
+    flex-wrap: wrap;
+}
+.column2 {
+    flex: 25%;
+}
+.column3 {
+    flex: 25%;
+}
+.column4 {
+    flex: 25%;
+}
+
+/*.column {
+    float: left;
+    width: 50%;*/
+    /*border: 0px 20px;*/
+/*}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}*/
+
+/* Profile styling
+-------------------------------------------------- */
+#profile-content{
+    display:flex;
+    justify-content: space-between;
+}
+
+#profile-leftside {
+    width: 30%;
+}
+
+.profile-border {
+    border: solid black 1px;
+    width: 100%;
+    padding: 10px;
+}
+.profile-image-location{
+    width: 100px;
+    height: 100px;
+}
+.profile-image-div{
+    text-align: center;
+    border: solid black 1px;
+}
+
+#profile-rightside{
+    width: 60%;
+}
+
+.profile-add-wearables{
+    width: 100%;
+}
+
+#wearable-posts{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.profile-wearable{
+    margin-bottom: 20px; 
+    border: solid black 1px;
+    width: 30%;
+    flex-basis: 30%;
+    text-align: center;
+}
+
+.profile-wearable-title{
+    border-top: solid black 1px;
+}
+
+.seethrough-button {
+    float:left; 
+    width:100%; 
+    height:100%; 
+    border:none; 
+    background-color: transparent;
+    float: none;
+}
+
+/* Wearable Details styling*/
+#wearablePost-content{
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#wearablePost-user-info{
+    width: 30%;
+}
+
+#wearablePost-images{
+    display: flex;
+    flex-wrap: wrap;
+    width: 60%;
+}
+
+.wearablePost-text-field{
+    padding: 5px;
+    border:solid black 1px;
+}
+
+.wearablePost-wearable-image{
+    margin: 5px;
+    width: 150px;
+    height: 150px;
+    padding: 5px;
+    border: solid black 1px;
+}
+
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -68,4 +192,20 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
+}
+
+
+/* CSS for Add Wearable*/
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.grid-item {
+    padding: 20px;
+}
+
+.preview-img {
+    width: 150px;
+    max-height: 170px;
 }

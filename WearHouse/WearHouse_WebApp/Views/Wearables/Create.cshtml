@@ -1,0 +1,84 @@
+﻿@using Microsoft.Extensions.Hosting
+@model WearHouse_WebApp.Models.Domain.WearableModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Add your wearableViewModel item</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <!-->Remove summary for no validation</-->
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea cols="2" rows="5" asp-for="Description" class="form-control" placeholder="Describe your product"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFiles" class="control-label">X number of images left</label>
+                <input multiple asp-for="ImageFiles" accept="image/*" onchange="preview()" type="file" id="files"/>
+                <span asp-validation-for="ImageFiles" class="text-danger"></span>
+            </div>
+            <div class="grid-container">
+                @for (int i = 0; i < 9; i++)
+                {
+                    string frameId = "frame0" + i; 
+                    <div class="grid-item">
+                        <img id="@frameId" src="/Image/noShirtSmall.png" class="preview-img"/>
+                        <button type="button" onclick="removePreview(@frameId, @i)">Slet</button>
+                    </div>
+                }
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="javascript:history.back();" >Go back</a>
+</div>
+
+<script>
+    function preview() {
+        // Check for the various File API support.
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            // Great success! All the File APIs are supported.
+            var files = document.getElementById('files').files; // FileList object
+            console.log(files);
+            // files is a FileList of File objects. List some properties.
+            var output = [];
+            for (var i = 0; i < files.length; i++) {
+                document.getElementById('frame0' + i).src = window.URL.createObjectURL(files[i]);
+            }
+
+        } else {
+            alert('The File APIs are not fully supported in this browser.');
+        }
+    }
+
+    function removePreview(frame, i) {
+        var id = frame.id;
+        console.log(id);
+        console.log(i);
+        console.log(document.getElementById(id));
+        document.getElementById(id).src = "/Image/noShirtSmall.png";
+        document.getElementById('files').files[parseInt(i)].delete;
+    }
+
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
