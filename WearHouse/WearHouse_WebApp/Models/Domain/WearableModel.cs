@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Http;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -18,6 +20,7 @@ namespace WearHouse_WebApp.Models.Domain
         public string Description { get; set; }
         public UserModel Owner { get; set; }
         public IFormFile[] ImageFiles { get; set; }
+        public List<string> ImageUrls { get; set; }
 
         //OBS Slet mig!
         public dbWearable dbModel { get; set; }
@@ -32,6 +35,8 @@ namespace WearHouse_WebApp.Models.Domain
                 Owner = (dbWearable.ApplicationUser != null)
                     ? dbWearable.ApplicationUser.ConvertToUserModelWithoutWearables()
                     : null ;
+            if (dbWearable.ImageUrls != null)
+                ImageUrls = dbWearable.ImageUrls.Split("\n").ToList();
 
             //OBS Slet også mig!
             dbModel = dbWearable;

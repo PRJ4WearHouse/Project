@@ -95,7 +95,7 @@ namespace WearHouse_WebApp.Controllers
 
         public IActionResult WearablePost(int id)
         {
-            WearableModel wearableModel = new(_unitOfWork.Wearables.GetSingleWearableWithUser(id).Result);
+            WearableModel wearableModel = new WearableModel(_unitOfWork.Wearables.GetSingleWearableWithUser(id).Result, true);
             
             return View(wearableModel);           
         }

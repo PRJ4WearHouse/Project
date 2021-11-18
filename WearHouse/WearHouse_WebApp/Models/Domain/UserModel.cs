@@ -12,6 +12,7 @@ namespace WearHouse_WebApp.Models.Domain
     {
         public UserModel(ApplicationUser applicationUser, bool WithWearables)
         {
+            ProfileImageUrl = applicationUser.ProfileImageUrl;
             Username = applicationUser.UserName;
             UserId = applicationUser.Id;
             Address = null;
@@ -32,6 +33,7 @@ namespace WearHouse_WebApp.Models.Domain
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public IFormFile ProfileImage { get; set; }
+        public string ProfileImageUrl { get; set; }
         public List<WearableModel> Wearables { get; set; }
         public string ContactInfo { get; set; }
     }

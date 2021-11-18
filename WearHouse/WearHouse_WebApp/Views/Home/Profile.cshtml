@@ -14,16 +14,15 @@
     </p>
 }
 
-else if (Model != null && signInManager.IsSignedIn(User))
+else if (Model != null)
 {
     <h1>Personal Profile</h1>
     <div id="profile-content">
-
         <div id="profile-leftside">
             <div class="profile-border profile-image-div">
-                @if (Model.ProfileImageUrl != "" && Model.ProfileImageUrl != null)
+                @if (Model.ProfileImageUrl != "")
                 {
-                    <img alt="Profile Picture" src="@("~/Image/"+Model.ProfileImageUrl)" asp-append-version="true" width="250" height="250" />
+                    <img href="@Model.ProfileImageUrl" width="250" height="250" />
                 }
                 else
                 {

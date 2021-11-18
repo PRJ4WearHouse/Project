@@ -29,11 +29,11 @@
     </div>
 
     <div id="wearablePost-images">
-        @if (Model.ImageFiles != null && Model.ImageFiles.Length > 0)
+        @if (Model.ImageUrls != null)
         {
-            @foreach (var img in Model.ImageFiles)
+            @foreach (var img in Model.ImageUrls)
             {
-                <img src="~/Presets/image-not-found.jpg" class="wearablePost-wearable-image" />
+                <img src="@img" class="wearablePost-wearable-image" />
             }
         }
         else

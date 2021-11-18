@@ -22,13 +22,15 @@ namespace WearHouse_WebApp.Persistence.Repositories
             //OBS Consider overwriting images, if already exists
             await containerClient.CreateIfNotExistsAsync(PublicAccessType.BlobContainer);
 
+            List<string> blobUrls = new List<string>();
             int i = 0;
             foreach (var image in imagesFiles)
             {
                 string imageName = "Img" + i++ + Path.GetExtension(image.FileName);
                 await containerClient.UploadBlobAsync(imageName, image.OpenReadStream());
+                blobUrls.Add(containerClient.Uri + "/" + imageName + "");
             }
-            return i.ToString();
+            return String.Join("\n", blobUrls);
         }
 
         //OBS! Download image files doesn't work yet!
