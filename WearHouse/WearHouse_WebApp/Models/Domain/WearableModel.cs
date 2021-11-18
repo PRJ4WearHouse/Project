@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Http;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using WearHouse_WebApp.Models.Entities;
 
 namespace WearHouse_WebApp.Models.Domain
@@ -21,13 +22,16 @@ namespace WearHouse_WebApp.Models.Domain
         //OBS Slet mig!
         public dbWearable dbModel { get; set; }
         
-        public WearableModel(dbWearable dbWearable)
+        public WearableModel(dbWearable dbWearable, bool withOwner)
         {
             Title = dbWearable.Title;
             Description = dbWearable.Description;
             ID = dbWearable.WearableId;
-            Owner = dbWearable.ApplicationUser.ConvertToUserModel(); //May be a better way to do this.
             State = (WearableState)Enum.Parse(typeof(WearableState), dbWearable.State);
+            if(withOwner)
+                Owner = (dbWearable.ApplicationUser != null)
+                    ? dbWearable.ApplicationUser.ConvertToUserModelWithoutWearables()
+                    : null ;
 
             //OBS Slet også mig!
             dbModel = dbWearable;

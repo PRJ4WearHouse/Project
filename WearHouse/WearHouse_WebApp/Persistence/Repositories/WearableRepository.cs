@@ -37,6 +37,7 @@ namespace WearHouse_WebApp.Persistence.Repositories
                 .Include(w => w.ApplicationUser)
                 .FirstOrDefaultAsync(w => w.WearableId == id);
         }
+        
 
         public Task<List<dbWearable>> GetWearablesByUserId(string userId)
         {

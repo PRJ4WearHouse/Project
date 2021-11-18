@@ -36,7 +36,7 @@ namespace WearHouse_WebApp.Test.Unit
             var dbModel = new dbWearable() { State = StateAsString };
 
             //Act
-            uut = new WearableModel(dbModel);
+            uut = new WearableModel(dbModel, false);
 
             //Assert
             Assert.That(uut.State, Is.EqualTo(StateAsEnum));

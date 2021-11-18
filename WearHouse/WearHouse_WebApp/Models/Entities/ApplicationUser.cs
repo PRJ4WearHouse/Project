@@ -15,7 +15,12 @@ namespace WearHouse_WebApp.Models.Entities
 
         public UserModel ConvertToUserModel()
         {
-            return new UserModel(this);
+            return new UserModel(this, true);
+        }
+
+        public UserModel ConvertToUserModelWithoutWearables()
+        {
+            return new UserModel(this, false);
         }
     }
 }
