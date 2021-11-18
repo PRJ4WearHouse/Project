@@ -67,18 +67,17 @@ namespace WearHouse_WebApp.Controllers
             if (id == null)
                 return View();
 
-            ApplicationUser user = userManager.Users.First(u => u.Id == id);
+            //ApplicationUser user = userManager.Users.First(u => u.Id == id);
 
-            List<dbWearable> wearables = new List<dbWearable>();
-            foreach (var dbmodel in dbContext.dbWearables
-                .Where(m => m.UserId == id))
-            {
-                wearables.Add(dbmodel);
-            }
+            //List<dbWearable> wearables = new List<dbWearable>();
+            //foreach (var dbmodel in dbContext.dbWearables
+            //    .Where(m => m.UserId == id))
+            //{
+            //    wearables.Add(dbmodel);
+            //}
 
-
-
-            user.Wearables = wearables;
+            ApplicationUser applicationUser = _unitOfWork.UserRepository.GetUserWithWearables(id).Result;
+            UserModel user= applicationUser.ConvertToUserModel();
 
             return View(user);
         }

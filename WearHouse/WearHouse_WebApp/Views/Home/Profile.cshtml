@@ -1,13 +1,13 @@
 @using Microsoft.AspNetCore.Identity
 @using WearHouse_WebApp.Models.Entities
-@model ApplicationUser
-@inject SignInManager<ApplicationUser> signInManager
+@using WearHouse_WebApp.Models.Domain
+@model UserModel
 
 @{
     ViewData["Title"] = "Profile - ";
 }
 
-@if (Model == null && signInManager.IsSignedIn(User))
+@if (Model == null)
 {
     <p>
         No user were found! Seems like something went wrong...
@@ -31,7 +31,7 @@ else if (Model != null)
             </div>
             <div>
                 <h2>
-                    Username: @Model.UserName
+                    Username: @Model.Username
                 </h2>
                 <!--Tilføj denne igen når der smides mere til databasen-->
                 <!--p class="profile-border">
@@ -43,9 +43,9 @@ else if (Model != null)
                     <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
                 </div>
                 <div>
-                    @Model.Location
+                    @Model.Address
                 </div>
-                @if (Model.UserName == User.Identity.Name)
+                @if (Model.Username == User.Identity.Name)
                 {
                     <form asp-controller="Home" asp-action="Error">
                         <button>
@@ -57,7 +57,7 @@ else if (Model != null)
         </div>
 
         <div id="profile-rightside">
-            @if (Model.UserName == User.Identity.Name)
+            @if (Model.Username == User.Identity.Name)
             {
                 <div>
                     <input type="button" value="Add Wearable" onclick="location.href='@Url.Action("Create", "Wearables")'" class="profile-add-wearables" />
@@ -74,12 +74,11 @@ else if (Model != null)
                             @if (post.Title != "" && post.Title != null)
                             {
                                 <div class="profile-wearable">
-                                    <form  asp-controller="Home" asp-action="WearablePost" asp-route-id="@post.WearableId">
-                                        @*onclick="location.href='@Url.Action("WearablePost", "Home", post.WearableId)'"*@
+                                    <form  asp-controller="Home" asp-action="WearablePost" asp-route-id="@post.ID">
                                         <button class="seethrough-button" />
 
                                         <div>
-                                            <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
+                                            <img src="@post.ImageUrls[0]" class="profile-image-location" />
                                         </div>
 
                                         <p class="profile-wearable-title">
@@ -95,24 +94,6 @@ else if (Model != null)
                         <div>
                             <p>
                                 No Wearables found on this profile
-                            </p>
-                        </div>
-                    }
-                }
-
-                else if (Model.Wearables == null && Model != null)
-                {
-                    @for (int i = 0; i < 6; i++)
-                    {
-                        <div class="profile-wearable">
-                            <button class="seethrough-button" />
-
-                            <div>
-                                <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
-                            </div>
-
-                            <p class="profile-wearable-title">
-                                Wearable Post Title
                             </p>
                         </div>
                     }
