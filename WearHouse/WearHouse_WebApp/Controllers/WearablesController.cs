@@ -12,11 +12,11 @@ namespace WearHouse_WebApp.Controllers
 {
     public class WearablesController : Controller
     {
-        private readonly UnitOfWorkCreatingWearable _unitOfWork;
+        private readonly UnitOfWork _unitOfWork;
 
         public WearablesController(UserManager<ApplicationUser> userManager, ApplicationDbContext context,IWebHostEnvironment hostEnvironment)
         {
-            _unitOfWork = new UnitOfWorkCreatingWearable(context, userManager, "DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
+            _unitOfWork = new UnitOfWork(context, userManager, "DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
         }
 
         // GET: Wearables/Create
