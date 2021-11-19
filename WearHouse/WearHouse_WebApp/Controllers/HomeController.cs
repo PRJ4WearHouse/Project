@@ -1,18 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using WearHouse_WebApp.Models;
 using WearHouse_WebApp.Models.ViewModels;
 using WearHouse_WebApp.Data;
-using Microsoft.EntityFrameworkCore;
 using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Models.Entities;
-using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Persistence;
 
 namespace WearHouse_WebApp.Controllers
@@ -21,27 +15,27 @@ namespace WearHouse_WebApp.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ApplicationDbContext dbContext;
-        private readonly UnitOfWorkGettingWearables _unitOfWork;
+        private readonly UnitOfWork _unitOfWork;
 
         public HomeController(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
-            _unitOfWork = new UnitOfWorkGettingWearables(dbContext, userManager, "DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
+            _unitOfWork = new UnitOfWork(dbContext, userManager, "DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
         }
 
         public IActionResult Index()
         {
-            /*List<WearableModel> wearables = _unitOfWork.Wearables
+            List<WearableModel> wearables = _unitOfWork.Wearables
                 .GetAllWearablesWithUsers().Result
                 .Select(item => item.ConvertToWearableModel())
-                .ToList();*/
-            var DbWearables = dbContext.dbWearables.ToList();
-            List<WearableModel> wearables = new();
-            foreach (var item in DbWearables)
-            {
-                wearables.Add(new WearableModel(item, true));
-            }
+                .ToList();
+            //var DbWearables = dbContext.dbWearables.ToList();
+            //List<WearableModel> wearables = new();
+            //foreach (var item in DbWearables)
+            //{
+            //    wearables.Add(new WearableModel(item, true));
+            //}
             
             /*
             var wearables = dbContext.dbWearables
@@ -49,10 +43,10 @@ namespace WearHouse_WebApp.Controllers
                 .Select(item => item.ConvertToWearableModelWithoutOwner())
                 .ToList();
             /*.Username == userManager.Users.Where(uid => item.UserId == uid.Id).First().UserName*/
-            foreach (var post in wearables)
-            {
-                post.Owner = userManager.Users.Where(uid => post.dbModel.UserId == uid.Id).First().ConvertToUserModel();
-            }
+            //foreach (var post in wearables)
+            //{
+            //    post.Owner = userManager.Users.Where(uid => post.dbModel.UserId == uid.Id).First().ConvertToUserModel();
+            //}
             return View("LandingPage", wearables);
         }
 

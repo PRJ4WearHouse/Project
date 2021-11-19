@@ -14,10 +14,10 @@ using WearHouse_WebApp.Persistence.Repositories;
 
 namespace WearHouse_WebApp.Persistence
 {
-    public class UnitOfWorkCreatingWearable : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
-        public UnitOfWorkCreatingWearable(ApplicationDbContext context, UserManager<ApplicationUser> userManger, string azureConnString)
+        public UnitOfWork(ApplicationDbContext context, UserManager<ApplicationUser> userManger, string azureConnString)
         {
             _context = context;
             Wearables = new WearableRepository(_context);
