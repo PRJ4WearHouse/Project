@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Models.ViewModels;
 
@@ -17,6 +18,8 @@ namespace WearHouse_WebApp.Models.Entities
         public string UserContactInfo { get; set; }
         public string State { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+
+        public List<dbComments> Comments { get; set; }
 
         public dbWearable() { }
 

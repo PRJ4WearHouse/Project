@@ -209,3 +209,9 @@ body {
     width: 150px;
     max-height: 170px;
 }
+
+/*Text in box*/
+.boxed {
+    border: dashed 2px;
+    text-align: center;
+}
