@@ -34,6 +34,9 @@ namespace WearHouse_WebApp.Persistence
         public AzureImageStorage ImageStorage { get; }
         public IUserRepository UserRepository { get; }
         public UserManager<ApplicationUser> UserManager { get; }
+        public List<dbComments> dbComments { get; }
+
+        public IComment Comment { get; }
 
         public async Task<bool> SaveWearableWithImages(WearableModel wearable)
         {

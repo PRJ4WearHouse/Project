@@ -11,6 +11,7 @@ namespace WearHouse_WebApp.Models.Domain
 {
     public class WearableModel
     {
+        public List<CommentModel> Comments { get; set; } //Kommentarerne
         public WearableState State { get; set; }
         [Required]
         public int ID { get; set; }
@@ -37,7 +38,7 @@ namespace WearHouse_WebApp.Models.Domain
                     : null ;
             if (dbWearable.ImageUrls != null)
                 ImageUrls = dbWearable.ImageUrls.Split("\n").ToList();
-
+            
             //OBS Slet også mig!
             dbModel = dbWearable;
         }

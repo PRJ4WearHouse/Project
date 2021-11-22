@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WearHouse_WebApp.Data;
 using WearHouse_WebApp.Models.Domain;
@@ -43,6 +45,21 @@ namespace WearHouse_WebApp.Controllers
                     return RedirectToAction("Profile", "Home", new {wearable.Owner.UserId });
             }
             return View(wearable);
+        }
+
+        //Create Comment
+        public async Task<IActionResult> CreateComment(string comment, DateTime dateTime, UserModel author, int wearableId)
+        {
+            dbComments newComment = new CommentModel(comment, dateTime, author).ConvertToDbModel(wearableId);
+            await _unitOfWork.Comment.Add(newComment);
+
+            return View();
+        }
+
+        public async Task<IActionResult> GetAllCommentsForWearable(int wearableId)
+        {
+            await _unitOfWork.
+            await wearableId
         }
     }
 }

@@ -15,6 +15,8 @@ namespace WearHouse_WebApp.Persistence.Repositories
     public class WearableRepository : RepositoryEfCore<dbWearable>, IWearableRepository
     {
         private readonly DbSet<dbWearable> _entities;
+        private readonly DbSet<dbComments> comments;
+        //CommentRepository localCommentRepo = comments;
 
         public WearableRepository(DbContext context) : base(context)
         {
@@ -43,5 +45,11 @@ namespace WearHouse_WebApp.Persistence.Repositories
         {
             return _entities.Where(w => w.UserId == userId).ToListAsync();
         }
+
+
+        //public Task<List<dbComments>> GetdbCommentsOnWearable(int wearableId)
+        //{
+        //    return comments.Where(c => c.WearableId == wearableId).ToListAsync();
+        //}
     }
 }
