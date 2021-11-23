@@ -11,8 +11,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using WearHouse_WebApp.Data;
 using WearHouse_WebApp.Models;
 using WearHouse_WebApp.Models.Entities;
+using WearHouse_WebApp.Persistence;
 using WearHouse_WebApp.Persistence.Repositories;
 
 namespace WearHouse_WebApp.Areas.Identity.Pages.Account
@@ -24,22 +26,20 @@ namespace WearHouse_WebApp.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly LocalImageRepository _repository;
-        private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly UnitOfWork _unitOfWork;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            IWebHostEnvironment hostEnvironment)
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _hostingEnvironment = hostEnvironment;
-            _repository = new LocalImageRepository(_hostingEnvironment.WebRootPath);
+            _unitOfWork = new UnitOfWork(context, _userManager, "DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
         }
 
         [BindProperty]
@@ -108,12 +108,23 @@ namespace WearHouse_WebApp.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     Location = Input.Location,
-                };
+                    ProfileImageUrl = (Input.ImageFile != null)
+                        //OBS !! Username has fewer restrictions than image storage! May need new structure
+                        ? await _unitOfWork.ImageStorage.SaveProfileImageToUsername(Input.UserName, Input.ImageFile)
+                        : null
+            };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    user.ProfileImageUrl = await _repository.SaveProfileImage(user.Id, Input.ImageFile);
+                    /*
+                    if (Input.ImageFile != null)
+                    {
+                        user.ProfileImageUrl = await
+                            _unitOfWork.ImageStorage.SaveProfileImageToUsername(user.UserName, Input.ImageFile);
+                            //_repository.SaveProfileImage(user.Id, Input.ImageFile);
+                    }*/
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

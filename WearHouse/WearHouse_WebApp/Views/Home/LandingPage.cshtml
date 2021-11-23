@@ -4,24 +4,38 @@
 
 <!--Henter denne model, da den indeholder wearables med states, titel, description, user-->
 @model List<WearHouse_WebApp.Models.Domain.WearableModel>
+@using WearHouse_WebApp.Models.Domain
 <!--Alle Wearables opdeles i deres status - Alle Wearables fremvises-->
 <div class="row">
     <div class="column1">
         @foreach (var post in Model)
         {
-            @if (post.dbModel.Title != "" && post.dbModel.Title != null && post.dbModel.State != "Inactive")
+            @if (post.Title != "" && post.Title != null && post.State != WearableState.Inactive)
             {
-                @if (post.dbModel.State == "Selling")
+                @if (post.State == WearableState.Selling)
                 {
                     <div>
-                        <div class="align-content-center" style="float: none">
-                            <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
+                        <div class="wearablePost-wearable-image">
+                            <form asp-controller="Home" asp-action="WearablePost" asp-route-id="@post.ID">
+                                <button class="seethrough-button" />
+
+                                <div>
+                                    <img src="@post.ImageUrls[0]" class="profile-image-location" />
+                                </div>
+
+                                <p class="profile-wearable-title">
+                                    @post.Title
+                                </p>
+                            </form>
                         </div>
 
-                        <div style="white-space: pre">
-                            @post.dbModel.Title
-                            @post.dbModel.Description
-                            @post.Owner.Username
+                        <div class="boxed">
+                            <p class="profile-wearable-title">
+                                @post.Description
+                            </p>
+                            <p class="profile-wearable-title">
+                                @post.Owner.Username
+                            </p>
                         </div>
                     </div>
                 }
@@ -31,21 +45,34 @@
     <div class="column2">
         @foreach (var post in Model)
         {
-            @if (post.dbModel.Title != "" && post.dbModel.Title != null && post.dbModel.State != "Inactive")
+            @if (post.Title != "" && post.Title != null && post.State != WearableState.Inactive)
             {
-                @if (post.dbModel.State == "Renting")
+                @if (post.State == WearableState.Renting)
                 {
-                    <div class="column2">
-                        <div style="float: none">
-                            <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
-                        </div>
+        <div class="column2">
+            <div class="wearablePost-wearable-image">
+                <form asp-controller="Home" asp-action="WearablePost" asp-route-id="@post.ID">
+                    <button class="seethrough-button" />
 
-                        <p class="profile-wearable-title">
-                            @post.dbModel.Title
-                            @post.dbModel.Description
-                            @post.Owner.Username
-                        </p>
+                    <div>
+                        <img src="@post.ImageUrls[0]" class="profile-image-location" />
                     </div>
+
+                    <p class="profile-wearable-title">
+                        @post.Title
+                    </p>
+                </form>
+            </div>
+
+            <div class="boxed">
+                <p class="profile-wearable-title">
+                    @post.Description
+                </p>
+                <p class="profile-wearable-title">
+                    @post.Owner.Username
+                </p>
+            </div>
+        </div>
                 }
 
             }
@@ -54,21 +81,34 @@
     <div class="column3">
         @foreach (var post in Model)
         {
-            @if (post.dbModel.Title != "" && post.dbModel.Title != null && post.dbModel.State != "Inactive")
+            @if (post.Title != "" && post.Title != null && post.State != WearableState.Inactive)
             {
-                @if (post.dbModel.State == "Borrowing")
+                @if (post.State == WearableState.Borrowing)
                 {
-                    <div class="column3">
-                        <div style="float: none">
-                            <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
-                        </div>
+        <div class="column3">
+            <div class="wearablePost-wearable-image">
+                <form asp-controller="Home" asp-action="WearablePost" asp-route-id="@post.ID">
+                    <button class="seethrough-button" />
 
-                        <p class="profile-wearable-title">
-                            @post.dbModel.Title
-                            @post.dbModel.Description
-                            @post.Owner.Username
-                        </p>
+                    <div>
+                        <img src="@post.ImageUrls[0]" class="profile-image-location" />
                     </div>
+
+                    <p class="boxed">
+                        @post.Title
+                    </p>
+                </form>
+            </div>
+
+            <div class="boxed">
+                <p class="profile-wearable-title">
+                    @post.Description
+                </p>
+                <p class="profile-wearable-title">
+                    @post.Owner.Username
+                </p>
+            </div>
+        </div>
                 }
             }
         }
@@ -76,21 +116,34 @@
     <div class="column4">
         @foreach (var post in Model)
         {
-            @if (post.dbModel.Title != "" && post.dbModel.Title != null && post.dbModel.State != "Inactive")
+            @if (post.Title != "" && post.Title != null && post.State != WearableState.Inactive)
             {
-                @if (post.dbModel.State == "Giving")
+                @if (post.State == WearableState.Giving)
                 {
-                    <div class="column4">
-                        <div style="float: none">
-                            <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
-                        </div>
+        <div class="column4">
+            <div class="wearablePost-wearable-image">
+                <form asp-controller="Home" asp-action="WearablePost" asp-route-id="@post.ID">
+                    <button class="seethrough-button" />
 
-                        <p class="profile-wearable-title">
-                            @post.dbModel.Title
-                            @post.dbModel.Description
-                            @post.Owner.Username
-                        </p>
+                    <div>
+                        <img src="@post.ImageUrls[0]" class="profile-image-location" />
                     </div>
+
+                    <p class="boxed">
+                        @post.Title
+                    </p>
+                </form>
+            </div>
+
+            <div class="boxed">
+                <p class="profile-wearable-title">
+                    @post.Description
+                </p>
+                <p class="profile-wearable-title">
+                    @post.Owner.Username
+                </p>
+            </div>
+        </div>
                 }
             }
         }
