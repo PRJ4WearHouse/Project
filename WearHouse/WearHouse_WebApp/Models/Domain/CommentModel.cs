@@ -7,15 +7,16 @@ namespace WearHouse_WebApp.Models.Domain
 {
     public class CommentModel
     {
-        public string Comment { get; }
-        public DateTime Moment { get; }
-        public UserModel Author { get; }
+        public string Comment { get; set; }
+        public DateTime Moment { get; set; }
+        public UserModel Author { get; set; }
+        public int WearableId { get; set; }
 
-
+        public CommentModel() { }
         public CommentModel(Entities.dbComments databaseCommentString)
         {
             Comment = databaseCommentString.Comments;
-            Moment = databaseCommentString.Moment.ToString();
+            Moment = databaseCommentString.Moment;
 
             if (databaseCommentString.Author != null)
                 Author = databaseCommentString.Author.ConvertToUserModelWithoutWearables();
@@ -26,7 +27,7 @@ namespace WearHouse_WebApp.Models.Domain
             Moment = moment;
             Author = author;
         }
-        public Entities.dbComments ConvertToDbModel(int wearableId)
+        public Entities.dbComments ConvertToDbModel()
         {
             if (Author != null)
             {
@@ -35,7 +36,7 @@ namespace WearHouse_WebApp.Models.Domain
                     Comments = this.Comment,
                     Moment = this.Moment,
                     userId = this.Author.UserId,
-                    WearableId = wearableId,
+                    WearableId = this.WearableId,
                 };
             }
             else

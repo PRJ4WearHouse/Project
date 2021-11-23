@@ -15,7 +15,7 @@ namespace WearHouse_WebApp.Persistence.Repositories
     public class WearableRepository : RepositoryEfCore<dbWearable>, IWearableRepository
     {
         private readonly DbSet<dbWearable> _entities;
-        private readonly DbSet<dbComments> comments;
+        //private readonly DbSet<dbComments> comments;
         //CommentRepository localCommentRepo = comments;
 
         public WearableRepository(DbContext context) : base(context)

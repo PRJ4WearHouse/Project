@@ -16,7 +16,6 @@ namespace WearHouse_WebApp.Data
         {
 
         }
-
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
             modelbuilder.Entity<ApplicationUser>()
