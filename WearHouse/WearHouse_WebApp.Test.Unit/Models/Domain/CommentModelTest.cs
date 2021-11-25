@@ -183,5 +183,58 @@ namespace WearHouse_WebApp.Test.Unit.Models
                 Assert.AreEqual(expected_author.ContactInfo, uut.Author.ContactInfo);
             });
         }
+
+        [Test]
+        public void DbCommentConstructor_AuthorIsNull_ConvertToDbModel_Throws()
+        {
+            // Arrange
+            var dbComment = new dbComments()
+            {
+                Comments = "First Comment",
+                Moment = DateTime.Today
+            };
+
+            uut = new CommentModel(dbComment);
+
+            // Act & Assert
+            Assert.Throws<Exception>(() => uut.ConvertToDbModel());
+        }
+
+        [Test]
+        public void DbCommentConstructor_AuthorIsValid_ConvertToDbModel_Succeeds()
+        {
+            // Arrange
+            var dbComment = new dbComments()
+            {
+                Comments = "First Comment",
+                Moment = DateTime.Today,
+                Author = new ApplicationUser()
+                {
+                    ProfileImageUrl = "profile.png",
+                    UserName = "Tester",
+                    Id = "1",
+                    FirstName = "Clever",
+                    LastName = "Tester",
+                    Email = "clever@tester.org"
+                },
+            };
+
+            var expected = dbComment;
+            expected.userId = "1";
+
+            uut = new CommentModel(dbComment);
+
+            // Act
+            var actual = uut.ConvertToDbModel();
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(expected.Comments, actual.Comments);
+                Assert.AreEqual(expected.Moment, actual.Moment);
+                Assert.AreEqual(expected.userId, actual.userId);
+                Assert.AreEqual(null, actual.Author);
+            });
+        }
     }
 }
