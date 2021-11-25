@@ -25,20 +25,20 @@ namespace WearHouse_WebApp.Models.Domain
 
         //OBS Slet mig!
         public dbWearable dbModel { get; set; }
-        
+
         public WearableModel(dbWearable dbWearable, bool withOwner)
         {
             Title = dbWearable.Title;
             Description = dbWearable.Description;
             ID = dbWearable.WearableId;
             State = (WearableState)Enum.Parse(typeof(WearableState), dbWearable.State);
-            if(withOwner)
+            if (withOwner)
                 Owner = (dbWearable.ApplicationUser != null)
                     ? dbWearable.ApplicationUser.ConvertToUserModelWithoutWearables()
-                    : null ;
+                    : null;
             if (dbWearable.ImageUrls != null)
                 ImageUrls = dbWearable.ImageUrls.Split("\n").ToList();
-            
+
             //OBS Slet også mig!
             dbModel = dbWearable;
         }
@@ -47,7 +47,7 @@ namespace WearHouse_WebApp.Models.Domain
         //OBS This check might need to be reserved in Repo class
         public dbWearable ConvertToDbWearable()
         {
-            if(Owner != null)
+            if (Owner != null)
                 return new dbWearable()
                 {
                     Description = this.Description,
