@@ -13,6 +13,8 @@ namespace WearHouse_WebApp.Models.Entities
 
         public List<dbWearable> Wearables { get; set; }
 
+        public List<dbComments> Comments { get; set; }
+
         public UserModel ConvertToUserModel()
         {
             return new UserModel(this, true);

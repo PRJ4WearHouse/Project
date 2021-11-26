@@ -15,5 +15,8 @@ namespace WearHouse_WebApp.Models.Entities
 
         public string userId { get; set; }
         public int WearableId { get; set; }
+
+        public ApplicationUser Author { get; set; }
+        public dbWearable Wearable { get; set; }
     }
 }

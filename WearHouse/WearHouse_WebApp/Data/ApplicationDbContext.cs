@@ -16,6 +16,7 @@ namespace WearHouse_WebApp.Data
         {
 
         }
+
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
             modelbuilder.Entity<ApplicationUser>()
@@ -23,6 +24,16 @@ namespace WearHouse_WebApp.Data
                 .WithOne(w => w.ApplicationUser)
                 .HasForeignKey(k => k.UserId)
                 .IsRequired();
+
+            modelbuilder.Entity<ApplicationUser>()
+                .HasMany<dbComments>(u => u.Comments)
+                .WithOne(c => c.Author)
+                .HasForeignKey(k => k.userId);
+
+            modelbuilder.Entity<dbWearable>()
+                .HasMany(w => w.Comments)
+                .WithOne(c => c.Wearable)
+                .HasForeignKey(k => k.WearableId);
 
             base.OnModelCreating(modelbuilder);
         }
