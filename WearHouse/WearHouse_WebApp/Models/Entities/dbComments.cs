@@ -6,20 +6,14 @@ using System.Threading.Tasks;
 
 namespace WearHouse_WebApp.Models.Entities
 {
-    public class dbComments //Der er kun 1 kommentar
+    public class dbComments
     {
         [Key]
         public int CommentId { get; set; }
-        public string Comments { get; set; } //Der er kun 1 kommentar
+        public string Comments { get; set; }
         public DateTime Moment { get; set; }
 
         public string userId { get; set; }
         public int WearableId { get; set; }
-        public ApplicationUser Author { get; set; }
-        public dbWearable Wearable { get; set; }
-        public Domain.CommentModel ConvertToDomainCommentModel()
-        {
-            return new Domain.CommentModel(this);
-        }
     }
 }

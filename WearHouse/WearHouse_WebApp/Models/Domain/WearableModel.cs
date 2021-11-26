@@ -11,7 +11,6 @@ namespace WearHouse_WebApp.Models.Domain
 {
     public class WearableModel
     {
-        public List<CommentModel> Comments { get; set; } //Kommentarerne
         public WearableState State { get; set; }
         [Required]
         public int ID { get; set; }
