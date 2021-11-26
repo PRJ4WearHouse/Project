@@ -8,6 +8,9 @@ using WearHouse_WebApp.Data;
 using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Models.Entities;
 using WearHouse_WebApp.Persistence;
+using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
+using System;
 
 namespace WearHouse_WebApp.Controllers
 {
@@ -89,14 +92,32 @@ namespace WearHouse_WebApp.Controllers
         public IActionResult WearablePost(int id)
         {
             WearableModel wearableModel = new WearableModel(_unitOfWork.Wearables.GetSingleWearableWithUser(id).Result, true);
-            
-            return View(wearableModel);           
+            WearableViewModel model = new WearableViewModel { Wearable = wearableModel };
+            return View(model);           
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateComment([Bind("CommentToAdd,Wearable")] Models.ViewModels.WearableViewModel model)
+        {
+            //dbComments newComment = new CommentModel(Comment, DateTime.Now, _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModel()).ConvertToDbModel(wearableId);
+            CommentModel newComment = new CommentModel();
+            newComment.Moment = DateTime.Now;
+            newComment.Comment = model.CommentToAdd;
+            newComment.Author = _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModelWithoutWearables();
+            newComment.WearableId = model.Wearable.ID;
+            model.Wearable.Comments.Add(newComment);
+            await _unitOfWork.CommentRepository.Add(newComment.ConvertToDbModel());
+            await _unitOfWork.Complete();
+            model.CommentToAdd = null;
+            return View(model);
         }
     }
 }

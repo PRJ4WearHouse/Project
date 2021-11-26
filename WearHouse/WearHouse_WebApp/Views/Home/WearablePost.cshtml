@@ -1,7 +1,7 @@
 ﻿@using WearHouse_WebApp.Models.ViewModels
 @using WearHouse_WebApp.Models.Domain
 @using WearHouse_WebApp.Models.Entities
-@model WearableModel
+@model WearableViewModel
 @{
     ViewData["title"] = "WearableViewModel Post";
 }
@@ -9,29 +9,29 @@
 <div id="wearablePost-content">
     <div id="wearablePost-user-info">
         <h1>
-            @Model.dbModel.Title
+            @Model.Wearable.dbModel.Title
         </h1>
         <p class="wearablePost-text-field">
             Description: <br />
-            @Model.Description
+            @Model.Wearable.Description
         </p>
         <p class="wearablePost-text-field">
             Username: <br />
-            @Model.Owner.Username
+            @Model.Wearable.Owner.Username
         </p>
         <div class="profile-image-div">
             <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
         </div>
         <p class="wearablePost-text-field">
             City: <br />
-            @Model.Owner.Address
+            @Model.Wearable.Owner.Address
         </p>
     </div>
 
     <div id="wearablePost-images">
-        @if (Model.ImageUrls != null)
+        @if (Model.Wearable.ImageUrls != null)
         {
-            @foreach (var img in Model.ImageUrls)
+            @foreach (var img in Model.Wearable.ImageUrls)
             {
                 <img src="@img" class="wearablePost-wearable-image" />
             }
@@ -47,18 +47,19 @@
     </div>
         
     <!--This is where you comment-->
-    <form>
+    <form asp-action="CreateComment" >
+        <input type="hidden" asp-for="Wearable" />
         <label>Comment here:</label>
-        <input type="text" id="comment" name="comment" asp-for="Comments.FirstOrDefault().Comment" class="form-control"><br><br>
+        <input type="text" id="comment" name="comment" asp-for="CommentToAdd" class="form-control"><br><br>
         <input type="submit" value="Submit">
     </form>
     <!--Dette skal forbindes til controlleren på en eller anden måde-->
 
     <!--This is where the comments are-->
     <div id="WearablePost-Comments">
-        @if (Model.Comments != null)
+        @if (Model.Wearable.Comments != null)
         {
-            @foreach(var comment in Model.Comments)
+            @foreach(var comment in Model.Wearable.Comments)
             {
                 <div class="column3">
                     <img src="@comment.Author.ProfileImageUrl" class="profile-image-div" />

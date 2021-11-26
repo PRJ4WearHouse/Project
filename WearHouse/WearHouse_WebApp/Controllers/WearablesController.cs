@@ -44,19 +44,27 @@ namespace WearHouse_WebApp.Controllers
                 if(await _unitOfWork.SaveWearableWithImages(wearable))
                     return RedirectToAction("Profile", "Home", new {wearable.Owner.UserId });
             }
-            return View(wearable);
+            return View();
         }
 
         //Create Comment
-        public async Task<IActionResult> CreateComment([Bind("Comment,WearableId")] CommentModel commentToBeCreated)
-        {
-            //dbComments newComment = new CommentModel(Comment, DateTime.Now, _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModel()).ConvertToDbModel(wearableId);
-            commentToBeCreated.Moment = DateTime.Now;
-            commentToBeCreated.Author = _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModel();
-            await _unitOfWork.CommentRepository.Add(commentToBeCreated.ConvertToDbModel());
-            await _unitOfWork.Complete();
-            return View();
-        }
+        //[Authorize]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> CreateComment([Bind("CommentToAdd,Wearable")] Models.ViewModels.WearableViewModel model)
+        //{
+        //    //dbComments newComment = new CommentModel(Comment, DateTime.Now, _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModel()).ConvertToDbModel(wearableId);
+        //    CommentModel newComment = new CommentModel();
+        //    newComment.Moment = DateTime.Now;
+        //    newComment.Comment = model.CommentToAdd;
+        //    newComment.Author = _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModel();
+        //    newComment.WearableId = model.Wearable.ID;
+        //    model.Wearable.Comments.Add(newComment);
+        //    await _unitOfWork.CommentRepository.Add(newComment.ConvertToDbModel());
+        //    await _unitOfWork.Complete();
+        //    model.CommentToAdd = null;
+        //    return View(model);
+        //}
 
         //Load
         //public async Task<IActionResult> GetAllCommentsForWearable(int wearableId)
