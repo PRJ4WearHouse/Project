@@ -38,7 +38,13 @@ namespace WearHouse_WebApp.Models.Domain
                     : null ;
             if (dbWearable.ImageUrls != null)
                 ImageUrls = dbWearable.ImageUrls.Split("\n").ToList();
-            
+            //Her skal kommentarerne indsættes, tænker Sigurd
+            //Vælg alle og konverter alle samtidig?
+            //Tilføj i dbWearable: Funktion der konvertere alle kommentarer? Eller bør der være en funktion der konverterer fra dbcomments? Nej, det håndterer ikke listen ordentligt
+            //Comments = dbWearable.Comments.Select(c => new CommentModel { ID == dbWearable.WearableId });
+            //Comments = dbWearable.Comments;
+            Comments = dbWearable.ConvertToDomainComments();
+
             //OBS Slet også mig!
             dbModel = dbWearable;
         }

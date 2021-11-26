@@ -37,8 +37,8 @@ namespace WearHouse_WebApp.Persistence.Repositories
         {
             return DbContext.dbWearables
                 .Include(w => w.ApplicationUser)
-                .FirstOrDefaultAsync(w => w.WearableId == id);
-        }
+                .FirstOrDefaultAsync(w => w.WearableId == id); //kommer der kommentarer med her? | Nej der kommer ikke kommentarer med her. Længden af Comments listen er 0.
+        } //Hej Søren! Mit bud er at kommentarerne ikke bliver sendt med fra databasen :)
         
 
         public Task<List<dbWearable>> GetWearablesByUserId(string userId)

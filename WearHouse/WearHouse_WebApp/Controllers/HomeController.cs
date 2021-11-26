@@ -93,6 +93,13 @@ namespace WearHouse_WebApp.Controllers
         {
             WearableModel wearableModel = new WearableModel(_unitOfWork.Wearables.GetSingleWearableWithUser(id).Result, true);
             WearableViewModel model = new WearableViewModel { Wearable = wearableModel };
+            //model.Wearable.Comments =
+            //List<dbComments> allComments = _unitOfWork.CommentRepository.GetAll();
+            //model.Wearable.Comments = allComments.ConvertToDomainCommentModel();
+
+            //Jeg tror noget i denne retning ville løse det. Ideelt skulle kommentarerne vel være gemt ind wearablen, som findesi linje 94
+            //Undskyld Søren, men jeg lader denne linje være ukommenteret, så du kan se de tanker jeg har gjort mig
+            //model.Wearable.Comments = _unitOfWork.CommentRepository.GetdbCommentsOnWearable(model.Wearable.ID);
             return View(model);           
         }
 
