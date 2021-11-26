@@ -48,7 +48,7 @@
 
     <!--This is where you comment-->
     <form asp-action="CreateComment">
-        <input value="@Model.Wearable.ID" asp-for="Wearable.ID" />
+        <input type="hidden" value="@Model.Wearable.ID" asp-for="Wearable.ID" />
         <label>Comment here:</label>
         <input asp-for="CommentToAdd" class="form-control"><br><br>
         <input type="submit" value="Submit">
