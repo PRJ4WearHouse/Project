@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
+using WearHouse_WebApp.Persistence.Interfaces;
 
 namespace WearHouse_WebApp.Persistence.Repositories
 {
-    public class AzureImageStorage
+    public class AzureImageStorage : IAzureImageStorage
     {
         //To save files on public server
         private string _connectionString;

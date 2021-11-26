@@ -11,7 +11,7 @@ namespace WearHouse_WebApp.Persistence
     public interface IUnitOfWork : IDisposable
     {
         IWearableRepository Wearables { get; }
-        AzureImageStorage ImageStorage { get; }
+        IAzureImageStorage ImageStorage { get; }
         IUserRepository UserRepository { get; }
         UserManager<ApplicationUser> UserManager { get; }
         Task<int> Complete();

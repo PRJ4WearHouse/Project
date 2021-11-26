@@ -19,7 +19,7 @@ namespace WearHouse_WebApp.Models.Domain
             FirstName = applicationUser.FirstName;
             LastName = applicationUser.LastName;
             ContactInfo = applicationUser.Email;
-            Wearables = (WithWearables)
+            Wearables = (WithWearables && applicationUser.Wearables != null)
                 ? applicationUser.Wearables.Select(item => item.ConvertToWearableModel()).ToList()
                 : null;
 

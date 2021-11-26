@@ -31,7 +31,7 @@ namespace WearHouse_WebApp.Persistence
         }
 
         public IWearableRepository Wearables { get; }
-        public AzureImageStorage ImageStorage { get; }
+        public IAzureImageStorage ImageStorage { get; }
         public IUserRepository UserRepository { get; }
         public UserManager<ApplicationUser> UserManager { get; }
 
