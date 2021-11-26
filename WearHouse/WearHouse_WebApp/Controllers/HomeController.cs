@@ -105,7 +105,8 @@ namespace WearHouse_WebApp.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateComment([Bind("CommentToAdd,Wearable")] Models.ViewModels.WearableViewModel model)
+        [HttpGet]
+        public async Task<IActionResult> CreateComment([Bind("CommentToAdd,ID","Wearable")] Models.ViewModels.WearableViewModel model)
         {
             //dbComments newComment = new CommentModel(Comment, DateTime.Now, _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModel()).ConvertToDbModel(wearableId);
             CommentModel newComment = new CommentModel();
@@ -113,11 +114,11 @@ namespace WearHouse_WebApp.Controllers
             newComment.Comment = model.CommentToAdd;
             newComment.Author = _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModelWithoutWearables();
             newComment.WearableId = model.Wearable.ID;
-            model.Wearable.Comments.Add(newComment);
+
             await _unitOfWork.CommentRepository.Add(newComment.ConvertToDbModel());
             await _unitOfWork.Complete();
             model.CommentToAdd = null;
-            return View(model);
+            return Redirect($"WearablePost/{model.Wearable.ID}");
         }
     }
 }
