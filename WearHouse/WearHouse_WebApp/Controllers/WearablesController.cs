@@ -48,7 +48,6 @@ namespace WearHouse_WebApp.Controllers
         }
 
         //Create Comment
-        //[Authorize]
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public async Task<IActionResult> CreateComment([Bind("CommentToAdd,Wearable")] Models.ViewModels.WearableViewModel model)

@@ -91,6 +91,7 @@ namespace WearHouse_WebApp.Controllers
 
         public IActionResult WearablePost(int id)
         {
+
             WearableModel wearableModel = new WearableModel(_unitOfWork.Wearables.GetSingleWearableWithUser(id).Result, true);
             WearableViewModel model = new WearableViewModel { Wearable = wearableModel };
             //model.Wearable.Comments =
@@ -109,10 +110,10 @@ namespace WearHouse_WebApp.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [Authorize]
+
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        [HttpGet]
         public async Task<IActionResult> CreateComment([Bind("CommentToAdd,ID","Wearable")] Models.ViewModels.WearableViewModel model)
         {
             //dbComments newComment = new CommentModel(Comment, DateTime.Now, _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModel()).ConvertToDbModel(wearableId);
@@ -122,10 +123,15 @@ namespace WearHouse_WebApp.Controllers
             newComment.Author = _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModelWithoutWearables();
             newComment.WearableId = model.Wearable.ID;
 
+            model.Wearable = new WearableModel(_unitOfWork.Wearables.GetSingleWearableWithUser(model.Wearable.ID).Result, true);
+            model.Wearable.Comments.Add(newComment);
             await _unitOfWork.CommentRepository.Add(newComment.ConvertToDbModel());
             await _unitOfWork.Complete();
+
+
             model.CommentToAdd = null;
-            return Redirect($"WearablePost/{model.Wearable.ID}");
+
+            return View("WearablePost", model);
         }
     }
 }

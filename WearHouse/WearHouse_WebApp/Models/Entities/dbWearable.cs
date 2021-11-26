@@ -37,9 +37,12 @@ namespace WearHouse_WebApp.Models.Entities
         public List<CommentModel> ConvertToDomainComments()
         {
             List<CommentModel> domainList = new List<CommentModel>();
-            foreach (dbComments comment in Comments) //Kommentarer hentes ikke engang fra databasen! Hvad pokker er det for noget skarn? Dette konkluderer Sigurds arbejde for 26-11-2021
+            if (Comments != null)
             {
-                domainList.Add(comment.ConvertToDomainCommentModel());
+                foreach (dbComments comment in Comments) //Kommentarer hentes ikke engang fra databasen! Hvad pokker er det for noget skarn? Dette konkluderer Sigurds arbejde for 26-11-2021
+                {
+                    domainList.Add(comment.ConvertToDomainCommentModel());
+                }
             }
             return domainList;
         }

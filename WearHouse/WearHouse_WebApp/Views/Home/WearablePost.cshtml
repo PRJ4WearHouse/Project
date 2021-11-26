@@ -60,15 +60,16 @@
     <div id="WearablePost-Comments">
         @if (Model.Wearable.Comments != null)
         {
-            @foreach (var comment in Model.Wearable.Comments)
+            @for (int i = Model.Wearable.Comments.Count-1; i >= 0; i--)
             {
                 <div class="column3">
-                    <img src="@comment.Author.ProfileImageUrl" class="profile-image-div" />
-                    <p>@comment.Author.FirstName</p>
-                    <p>@comment.Moment</p>
+                    @if(Model.Wearable.Comments[i].Author.ProfileImageUrl!=null)
+                    { <img src="@Model.Wearable.Comments[i].Author.ProfileImageUrl" class="profile-image-div" />}
+                    <p>@Model.Wearable.Comments[i].Author.Username</p>
+                    <p>@Model.Wearable.Comments[i].Moment</p>
                 </div>
                 <div class="column4">
-                    <p>@comment.Comment</p>
+                    <p>@Model.Wearable.Comments[i].Comment</p>
                 </div>
             }
         }
