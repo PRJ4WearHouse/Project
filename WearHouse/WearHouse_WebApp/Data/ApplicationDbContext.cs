@@ -41,6 +41,6 @@ namespace WearHouse_WebApp.Data
         //https://stackoverflow.com/questions/51934680/add-relationships-to-the-applicationuser-class-in-asp-net-identity-database-fir
         //public DbSet<ApplicationUser> applicationUser { get; set; }
         public DbSet<dbWearable> dbWearables { get; set; }
-        public DbSet<dbComments> dbCommentss { get; set; }
+        public DbSet<dbComments> dbComments { get; set; }
     }
 }

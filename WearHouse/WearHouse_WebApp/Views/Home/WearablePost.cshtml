@@ -1,7 +1,7 @@
 ﻿@using WearHouse_WebApp.Models.ViewModels
 @using WearHouse_WebApp.Models.Domain
 @using WearHouse_WebApp.Models.Entities
-@model WearableModel
+@model WearableViewModel
 @{
     ViewData["title"] = "WearableViewModel Post";
 }
@@ -9,42 +9,80 @@
 <div id="wearablePost-content">
     <div id="wearablePost-user-info">
         <h1>
-            @Model.dbModel.Title
+            @Model.Wearable.dbModel.Title
         </h1>
         <p class="wearablePost-text-field">
             Description: <br />
-            @Model.Description
+            @Model.Wearable.Description
         </p>
         <p class="wearablePost-text-field">
             Username: <br />
-            @Model.Owner.Username
+            @Model.Wearable.Owner.Username
         </p>
         <div class="profile-image-div">
             <img src="~/Presets/Location_Default_Image.jpg" class="profile-image-location" />
         </div>
         <p class="wearablePost-text-field">
             City: <br />
-            @Model.Owner.Address
+            @Model.Wearable.Owner.Address
         </p>
     </div>
+    <div id="wearablePost-Main">
+        <div id="wearablePost-images">
+            @if (Model.Wearable.ImageUrls != null)
+            {
+                @foreach (var img in Model.Wearable.ImageUrls)
+                {
+                    <img src="@img" class="wearablePost-wearable-image" />
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    <img src="~/Presets/image-not-found.jpg" class="wearablePost-wearable-image" />
+                }
+            }
+        </div>
 
-    <div id="wearablePost-images">
-        @if (Model.ImageUrls != null)
-        {
-            @foreach (var img in Model.ImageUrls)
+        <form asp-action="CreateComment" class="form-group">
+            <ul></ul>
+            <input type="hidden" value="@Model.Wearable.ID" asp-for="Wearable.ID" />
+            <label>Comment here:</label>
+            <input asp-for="CommentToAdd" class="form-control">
+            <input type="submit" value="Submit">
+        </form>
+        <div id="wearablePost-Comments">
+            @if (Model.Wearable.Comments != null)
             {
-                <img src="@img" class="wearablePost-wearable-image" />
+
+                @for (int i = Model.Wearable.Comments.Count - 1; i >= 0; i--)
+                {
+                    <table id="wearable-post-comments-table">
+                        <tr>
+                            <th>
+                                @if (Model.Wearable.Comments[i].Author.ProfileImageUrl != null)
+                                {
+                                    <img class="wearablePost-author-image" src="@Model.Wearable.Comments[i].Author.ProfileImageUrl" 2 />
+                                }
+                            </th>
+                            <th>@Model.Wearable.Comments[i].Author.Username</th>
+                            <th>@Model.Wearable.Comments[i].Moment</th>
+
+                        </tr>
+                    </table>
+                            @Model.Wearable.Comments[i].Comment
+                }
             }
-        }
-        else
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                <img src="~/Presets/image-not-found.jpg" class="wearablePost-wearable-image" />
-            }
-        }
-        <input type="button" asp-controller="Home" asp-action="Error" style="flex-basis: 100%; height:30px; width: 150px;" />
+        </div>
     </div>
+    <!--This is where you comment-->
+    
+    <!--type="text" id="comment" name="comment" -->
+
+    <!--Dette skal forbindes til controlleren på en eller anden måde-->
+    <!--This is where the comments are-->
+    
 </div>
 
 <!--

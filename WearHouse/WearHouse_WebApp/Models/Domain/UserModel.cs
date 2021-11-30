@@ -27,8 +27,6 @@ namespace WearHouse_WebApp.Models.Domain
 
         }
 
-
-
         public string Username { get; set; }
         public string UserId { get; set; }
         public string Address { get; set; }

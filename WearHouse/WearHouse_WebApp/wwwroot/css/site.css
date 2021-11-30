@@ -116,11 +116,18 @@ a {
     float: none;
 }
 
+
 /* Wearable Details styling*/
+
+
 #wearablePost-content{
     margin-top: 40px;
     display: flex;
     justify-content: space-between;
+}
+#wearablePost-Main {
+    display: block;
+    width:65%
 }
 
 #wearablePost-user-info{
@@ -129,8 +136,15 @@ a {
 
 #wearablePost-images{
     display: flex;
-    flex-wrap: wrap;
-    width: 60%;
+    flex-wrap:wrap;
+}
+
+.wearablePost-author-image{
+    height: auto;
+    max-width: 50px;
+    margin: 1px;
+    border-radius: 5px;
+    display: inline;
 }
 
 .wearablePost-text-field{
@@ -145,6 +159,8 @@ a {
     padding: 5px;
     border: solid black 1px;
 }
+
+
 
 
 

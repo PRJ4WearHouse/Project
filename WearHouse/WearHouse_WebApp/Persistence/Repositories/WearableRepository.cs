@@ -37,9 +37,17 @@ namespace WearHouse_WebApp.Persistence.Repositories
         {
             return DbContext.dbWearables
                 .Include(w => w.ApplicationUser)
-                .FirstOrDefaultAsync(w => w.WearableId == id);
-        }
+                .FirstOrDefaultAsync(w => w.WearableId == id); 
+        } 
         
+        public Task<dbWearable> GetWearableWithComments(int id)
+        {
+            return DbContext.dbWearables
+                .Include(w => w.ApplicationUser)
+                .Include(w => w.Comments)
+                .ThenInclude(w => w.Author)
+                .FirstOrDefaultAsync(w => w.WearableId == id);
+        }//kommentarer med Authors kommer nu med fra Db
 
         public Task<List<dbWearable>> GetWearablesByUserId(string userId)
         {
