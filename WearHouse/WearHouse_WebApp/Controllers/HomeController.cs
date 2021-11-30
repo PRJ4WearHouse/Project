@@ -92,7 +92,7 @@ namespace WearHouse_WebApp.Controllers
         public IActionResult WearablePost(int id)
         {
 
-            WearableModel wearableModel = new WearableModel(_unitOfWork.Wearables.GetSingleWearableWithUser(id).Result, true);
+            WearableModel wearableModel = new WearableModel(_unitOfWork.Wearables.GetWearableWithComments(id).Result, true);
             WearableViewModel model = new WearableViewModel { Wearable = wearableModel };
             //model.Wearable.Comments =
             //List<dbComments> allComments = _unitOfWork.CommentRepository.GetAll();
@@ -123,7 +123,7 @@ namespace WearHouse_WebApp.Controllers
             newComment.Author = _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModelWithoutWearables();
             newComment.WearableId = model.Wearable.ID;
 
-            model.Wearable = new WearableModel(_unitOfWork.Wearables.GetSingleWearableWithUser(model.Wearable.ID).Result, true);
+            model.Wearable = new WearableModel(_unitOfWork.Wearables.GetWearableWithComments(model.Wearable.ID).Result, true);
             model.Wearable.Comments.Add(newComment);
             await _unitOfWork.CommentRepository.Add(newComment.ConvertToDbModel());
             await _unitOfWork.Complete();
