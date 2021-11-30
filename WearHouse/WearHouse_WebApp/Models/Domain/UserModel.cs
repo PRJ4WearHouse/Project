@@ -10,6 +10,8 @@ namespace WearHouse_WebApp.Models.Domain
 {
     public class UserModel
     {
+        public UserModel()
+        { }
         public UserModel(ApplicationUser applicationUser, bool WithWearables)
         {
             ProfileImageUrl = applicationUser.ProfileImageUrl;

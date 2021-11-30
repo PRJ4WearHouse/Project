@@ -24,6 +24,7 @@ namespace WearHouse_WebApp.Persistence
             ImageStorage = new AzureImageStorage(azureConnString);
             UserRepository = new UserRepository(_context);
             UserManager = userManger;
+            CommentRepository = new CommentRepository(context);
         }
         public void Dispose()
         {
@@ -34,6 +35,8 @@ namespace WearHouse_WebApp.Persistence
         public IAzureImageStorage ImageStorage { get; }
         public IUserRepository UserRepository { get; }
         public UserManager<ApplicationUser> UserManager { get; }
+        public List<dbComments> dbComments { get; }
+        public IComment CommentRepository { get; }
 
         public async Task<bool> SaveWearableWithImages(WearableModel wearable)
         {

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WearHouse_WebApp.Data;
 using WearHouse_WebApp.Models.Domain;
@@ -44,5 +46,23 @@ namespace WearHouse_WebApp.Controllers
             }
             return View(wearable);
         }
+
+        //Create Comment
+        public async Task<IActionResult> CreateComment([Bind("Comment,WearableId")] CommentModel commentToBeCreated)
+        {
+            //dbComments newComment = new CommentModel(Comment, DateTime.Now, _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModel()).ConvertToDbModel(wearableId);
+            commentToBeCreated.Moment = DateTime.Now;
+            commentToBeCreated.Author = _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModel();
+            await _unitOfWork.CommentRepository.Add(commentToBeCreated.ConvertToDbModel());
+            await _unitOfWork.Complete();
+            return View();
+        }
+
+        //Load
+        //public async Task<IActionResult> GetAllCommentsForWearable(int wearableId)
+        //{
+        //    await _unitOfWork.Comment.
+        //    await wearableId
+        //}
     }
 }

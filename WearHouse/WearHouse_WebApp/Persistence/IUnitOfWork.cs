@@ -14,6 +14,7 @@ namespace WearHouse_WebApp.Persistence
         IAzureImageStorage ImageStorage { get; }
         IUserRepository UserRepository { get; }
         UserManager<ApplicationUser> UserManager { get; }
+        IComment CommentRepository { get; }
         Task<int> Complete();
     }
 }
