@@ -22,10 +22,7 @@ namespace WearHouse_WebApp.Models.Domain
         public UserModel Owner { get; set; }
         public IFormFile[] ImageFiles { get; set; }
         public List<string> ImageUrls { get; set; }
-
-        //OBS Slet mig!
-        public dbWearable dbModel { get; set; }
-
+        
         public WearableModel(dbWearable dbWearable, bool withOwner)
         {
             Title = dbWearable.Title;
@@ -44,9 +41,6 @@ namespace WearHouse_WebApp.Models.Domain
             //Comments = dbWearable.Comments.Select(c => new CommentModel { ID == dbWearable.WearableId });
             //Comments = dbWearable.Comments;
             Comments = dbWearable.ConvertToDomainComments();
-
-            //OBS Slet også mig!
-            dbModel = dbWearable;
         }
 
         //Can only convert, if user is set. (User is Primary key)

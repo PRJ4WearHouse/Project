@@ -34,7 +34,7 @@ namespace WearHouse_WebApp.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Description,ImageFiles","dbModel")] WearableModel wearable)
+        public async Task<IActionResult> Create([Bind("Title,Description,ImageFiles,State")] WearableModel wearable)
         {
             if (ModelState.IsValid)
             {
