@@ -23,7 +23,6 @@ namespace WearHouse_WebApp.Persistence.Repositories
         }
 
         //OBS Should be a way to override the Get(int id) function, since userID is a string, and it will therefore not work.
-
         public Task<ApplicationUser> GetUserWithWearables(string id)
         {
             return DbContext.Users.Include(u => u.Wearables).SingleOrDefaultAsync(u => u.Id == id);

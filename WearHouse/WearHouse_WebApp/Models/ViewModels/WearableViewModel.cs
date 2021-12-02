@@ -9,7 +9,6 @@ using WearHouse_WebApp.Models.Entities;
 
 namespace WearHouse_WebApp.Models.ViewModels
 {
-    //Would it make sense to just inherit from dbModel?
     public class WearableViewModel
     {
         public Domain.WearableModel Wearable{get;set;}

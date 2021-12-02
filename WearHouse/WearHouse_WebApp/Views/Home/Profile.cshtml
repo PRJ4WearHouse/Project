@@ -47,11 +47,9 @@ else if (Model != null)
                 </div>
                 @if (Model.Username == User.Identity.Name)
                 {
-                    <form asp-controller="Home" asp-action="Error">
-                        <button>
-                            Edit Profile
-                        </button>
-                    </form>
+                    <button onclick="NoEdit()">
+                        Edit Profile
+                    </button>
                 }
             </div>
         </div>
@@ -116,5 +114,11 @@ else
         @Url.Action("Error", "Home")
     </div>
 }
+
+<script>
+    function NoEdit() {
+        alert("This functionality has not been implemented yet..");
+    }
+</script>
 
 @*<button onclick="location.href='@Url.Action("Error", "Home")'" class="seethrough-button" />*@

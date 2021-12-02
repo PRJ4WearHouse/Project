@@ -50,19 +50,11 @@ namespace WearHouse_WebApp.Controllers
         //Create Comment
         public async Task<IActionResult> CreateComment([Bind("Comment,WearableId")] CommentModel commentToBeCreated)
         {
-            //dbComments newComment = new CommentModel(Comment, DateTime.Now, _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModel()).ConvertToDbModel(wearableId);
             commentToBeCreated.Moment = DateTime.Now;
             commentToBeCreated.Author = _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModel();
             await _unitOfWork.CommentRepository.Add(commentToBeCreated.ConvertToDbModel());
             await _unitOfWork.Complete();
             return View();
         }
-
-        //Load
-        //public async Task<IActionResult> GetAllCommentsForWearable(int wearableId)
-        //{
-        //    await _unitOfWork.Comment.
-        //    await wearableId
-        //}
     }
 }

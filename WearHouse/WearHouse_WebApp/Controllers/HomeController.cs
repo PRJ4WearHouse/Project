@@ -33,23 +33,6 @@ namespace WearHouse_WebApp.Controllers
                 .GetAllWearablesWithUsers().Result
                 .Select(item => item.ConvertToWearableModel())
                 .ToList();
-            //var DbWearables = dbContext.dbWearables.ToList();
-            //List<WearableModel> wearables = new();
-            //foreach (var item in DbWearables)
-            //{
-            //    wearables.Add(new WearableModel(item, true));
-            //}
-            
-            /*
-            var wearables = dbContext.dbWearables
-                .Where(l => l.State != "Inactive")
-                .Select(item => item.ConvertToWearableModelWithoutOwner())
-                .ToList();
-            /*.Username == userManager.Users.Where(uid => item.UserId == uid.Id).First().UserName*/
-            //foreach (var post in wearables)
-            //{
-            //    post.Owner = userManager.Users.Where(uid => post.dbModel.UserId == uid.Id).First().ConvertToUserModel();
-            //}
             return View("LandingPage", wearables);
         }
 
@@ -59,21 +42,12 @@ namespace WearHouse_WebApp.Controllers
             return View(users);
         }
 
-        public IActionResult Profile(string id = null)
+        [Route("/Home/Profile/{UserId}")]
+        public IActionResult Profile(string UserId = null)
         {
-            if (id == null)
+            if (UserId == null)
                 return View();
-
-            //ApplicationUser user = userManager.Users.First(u => u.Id == id);
-
-            //List<dbWearable> wearables = new List<dbWearable>();
-            //foreach (var dbmodel in dbContext.dbWearables
-            //    .Where(m => m.UserId == id))
-            //{
-            //    wearables.Add(dbmodel);
-            //}
-
-            ApplicationUser applicationUser = _unitOfWork.UserRepository.GetUserWithWearables(id).Result;
+            ApplicationUser applicationUser = _unitOfWork.UserRepository.GetUserWithWearables(UserId).Result;
             UserModel user= applicationUser.ConvertToUserModel();
 
             return View(user);
@@ -84,23 +58,11 @@ namespace WearHouse_WebApp.Controllers
             return View("Posts");
         }
 
-        public IActionResult Privacy()
-        {
-            return View("Privacy");
-        }
-
         public IActionResult WearablePost(int id)
         {
 
             WearableModel wearableModel = new WearableModel(_unitOfWork.Wearables.GetWearableWithComments(id).Result, true);
             WearableViewModel model = new WearableViewModel { Wearable = wearableModel };
-            //model.Wearable.Comments =
-            //List<dbComments> allComments = _unitOfWork.CommentRepository.GetAll();
-            //model.Wearable.Comments = allComments.ConvertToDomainCommentModel();
-
-            //Jeg tror noget i denne retning ville løse det. Ideelt skulle kommentarerne vel være gemt ind wearablen, som findesi linje 94
-            //Undskyld Søren, men jeg lader denne linje være ukommenteret, så du kan se de tanker jeg har gjort mig
-            //model.Wearable.Comments = _unitOfWork.CommentRepository.GetdbCommentsOnWearable(model.Wearable.ID);
             return View(model);           
         }
 
@@ -116,7 +78,6 @@ namespace WearHouse_WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateComment([Bind("CommentToAdd,ID","Wearable")] Models.ViewModels.WearableViewModel model)
         {
-            //dbComments newComment = new CommentModel(Comment, DateTime.Now, _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.ConvertToUserModel()).ConvertToDbModel(wearableId);
             CommentModel newComment = new CommentModel();
             newComment.Moment = DateTime.Now;
             newComment.Comment = model.CommentToAdd;

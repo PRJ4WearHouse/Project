@@ -20,10 +20,5 @@ namespace WearHouse_WebApp.Persistence.Repositories
         {
             return Comments_.Where(c => c.WearableId == wearableId).ToListAsync();
         }
-
-        //public Task<dbComments> GetCommentsOnWearable(int wearableId)
-        //{
-        //    return Comments_.Where(c => c.WearableId == wearableId).ToListAsync();
-        //}
     }
 }

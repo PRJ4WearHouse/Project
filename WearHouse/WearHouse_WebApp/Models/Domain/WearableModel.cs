@@ -11,6 +11,10 @@ namespace WearHouse_WebApp.Models.Domain
 {
     public class WearableModel
     {
+        public WearableModel()
+        {
+            
+        }
         public List<CommentModel> Comments { get; set; } //Kommentarerne
         public WearableState State { get; set; }
         [Required]
@@ -35,11 +39,6 @@ namespace WearHouse_WebApp.Models.Domain
                     : null;
             if (dbWearable.ImageUrls != null)
                 ImageUrls = dbWearable.ImageUrls.Split("\n").ToList();
-            //Her skal kommentarerne indsættes, tænker Sigurd
-            //Vælg alle og konverter alle samtidig?
-            //Tilføj i dbWearable: Funktion der konvertere alle kommentarer? Eller bør der være en funktion der konverterer fra dbcomments? Nej, det håndterer ikke listen ordentligt
-            //Comments = dbWearable.Comments.Select(c => new CommentModel { ID == dbWearable.WearableId });
-            //Comments = dbWearable.Comments;
             Comments = dbWearable.ConvertToDomainComments();
         }
 
@@ -60,12 +59,6 @@ namespace WearHouse_WebApp.Models.Domain
             {
                 throw new Exception("No owner defined");
             }
-        }
-
-        //OBS So far only used in test
-        public WearableModel()
-        {
-            State = WearableState.Inactive;
         }
     }
 
