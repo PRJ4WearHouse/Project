@@ -16,15 +16,14 @@ namespace WearHouse_WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly ApplicationDbContext dbContext;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
+        public HomeController(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, IUnitOfWork unitOfWork = null)
         {
-            this.dbContext = dbContext;
-            this.userManager = userManager;
-            _unitOfWork = new UnitOfWork(dbContext, userManager, "DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net");
+            _unitOfWork = (unitOfWork == null)
+                ? new UnitOfWork(dbContext, userManager,
+                    "DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net")
+                : unitOfWork;
         }
 
         public IActionResult Index()
@@ -38,7 +37,7 @@ namespace WearHouse_WebApp.Controllers
 
         public IActionResult Users()
         {
-            var users = userManager.Users;
+            var users = _unitOfWork.UserRepository.GetAll().Result.ToList();
             return View(users);
         }
 

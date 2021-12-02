@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Models.Entities;
@@ -15,6 +17,8 @@ namespace WearHouse_WebApp.Persistence
         IUserRepository UserRepository { get; }
         UserManager<ApplicationUser> UserManager { get; }
         IComment CommentRepository { get; }
+        Task<ApplicationUser> GetCurrentUserWithoutWearables(HttpContext context);
+        Task<bool> SaveWearableWithImages(WearableModel item);
         Task<int> Complete();
     }
 }
