@@ -9,13 +9,17 @@ using WearHouse_WebApp.Models.Entities;
 
 namespace WearHouse_WebApp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public interface IApplicationDbContext
     {
+        public DbSet<dbWearable> dbWearables { get; set; }
+    }
+
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+    {
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
-        {
-
-        }
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {

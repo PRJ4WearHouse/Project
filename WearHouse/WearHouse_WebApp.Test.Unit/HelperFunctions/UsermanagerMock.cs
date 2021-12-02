@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using WearHouse_WebApp.Models.Entities;
 
 namespace WearHouse_WebApp.Test.Unit.HelperFunctions
 {
     // https://stackoverflow.com/questions/49165810/how-to-mock-usermanager-in-net-core-testing
-    public class FakeUserManager
+    public class Fakes
     {
         public static Mock<UserManager<TUser>> MockUserManager<TUser>(List<TUser> ls) where TUser : class
         {
@@ -26,12 +27,18 @@ namespace WearHouse_WebApp.Test.Unit.HelperFunctions
 
             return mgr;
         }
-
-        private List<ApplicationUser> _users = new List<ApplicationUser>
+        // https://stackoverflow.com/questions/54219742/mocking-ef-core-dbcontext-and-dbset
+        public static DbSet<T> GetQueryableMockDbSet<T>(List<T> sourceList) where T : class
         {
-            new ApplicationUser() {Id = "1"},
-            new ApplicationUser() {Id = "2"},
-            new ApplicationUser() {Id = "3"}
-        };
+            var queryable = sourceList.AsQueryable();
+
+            var dbSet = new Mock<DbSet<T>>();
+            dbSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
+            dbSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
+            dbSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
+            dbSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
+
+            return dbSet.Object;
+        }
     }
 }

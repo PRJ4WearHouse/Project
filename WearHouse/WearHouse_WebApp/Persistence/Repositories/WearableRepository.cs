@@ -18,7 +18,8 @@ namespace WearHouse_WebApp.Persistence.Repositories
         //private readonly DbSet<dbComments> comments;
         //CommentRepository localCommentRepo = comments;
 
-        public WearableRepository(DbContext context) : base(context)
+        public WearableRepository(DbContext context) 
+            : base(context)
         {
             _entities = context.Set<dbWearable>();
         }
