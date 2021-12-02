@@ -6,50 +6,63 @@
 @model List<WearHouse_WebApp.Models.Domain.WearableModel>
 @using WearHouse_WebApp.Models.Domain
 <!--Alle Wearables opdeles i deres status - Alle Wearables fremvises-->
-<div class="row">
-    <div class="column1">
-        <h2>Selling items</h2>
-        @foreach (var post in Model)
-        {
-            @if (post.Title != "" && post.Title != null && post.State != WearableState.Inactive)
-            {
-                @if (post.State == WearableState.Selling)
-                {
-                    <div>
-                        <div class="wearablePost-wearable-image">
-                            <form asp-controller="Home" asp-action="WearablePost" asp-route-id="@post.ID">
-                                <button class="seethrough-button"/>
-                                @if (post.ImageUrls != null)
-                                {
-                                    <div>
-                                        <img src="@post.ImageUrls[0]" class="profile-image-location"/>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div>
-                                        <img src="Image/noShirt.png" class="profile-image-location"/>
-                                    </div>
-                                }
-                                <p class="profile-wearable-title">
-                                    @post.Title
-                                </p>
-                            </form>
-                        </div>
 
-                        <div class="boxed">
-                            <p class="profile-wearable-title">
-                                @post.Description
-                            </p>
-                            <p class="profile-wearable-title">
-                                @post.Owner.Username
-                            </p>
-                        </div>
-                    </div>
-                }
-            }
+@{
+    //List of valid states, by removing "Inactive"
+    List<WearableState> validStates = Enum.GetValues(typeof(WearableState)).Cast<WearableState>().ToList();
+    validStates.Remove(WearableState.Inactive);
+
+    //
+    List<List<WearableModel>> modelsSorted = new List<List<WearableModel>>();
+
+    foreach (var state in validStates)
+    {
+        modelsSorted.Add(Model.Where(item => item.State == state).ToList());
+    }
+
+    int colNum = 1;
+}
+
+
+
+<div class="row">
+@foreach (var state in validStates)
+{
+    <div class=column@{colNum++;}>
+        <h2>@state</h2>
+        @foreach (var post in Model.Where(post => post.State == state))
+        {
+            <div class="boxed">
+                <div class="wearablePost-wearable-image">
+                    <form asp-controller="Home" asp-action="WearablePost" asp-route-id="@post.ID">
+                        <button class="seethrough-button"/>
+                        @if (post.ImageUrls != null)
+                        {
+                            <div>
+                                <img src="@post.ImageUrls[0]" class="profile-image-location"/>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <img src="Image/noShirt.png" class="profile-image-location"/>
+                            </div>
+                        }
+                        <p class="profile-wearable-title">
+                            @post.Title
+                        </p>
+                    </form>
+                </div>
+                <div>
+                    <p class="profile-wearable-title">
+                        @post.Owner.Username
+                    </p>
+                </div>
+            </div>
         }
     </div>
+}
+<!--
     <div class="column2">
         <h2>Renting items</h2>
         @foreach (var post in Model)
@@ -160,8 +173,4 @@
         }
     </div>
 </div>
-
-<!--div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</--div>-->
+-->
