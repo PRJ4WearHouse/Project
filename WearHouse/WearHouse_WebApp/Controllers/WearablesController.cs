@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using WearHouse_WebApp.Data;
 using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Models.Entities;
@@ -16,11 +17,10 @@ namespace WearHouse_WebApp.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public WearablesController(UserManager<ApplicationUser> userManager, ApplicationDbContext context,IWebHostEnvironment hostEnvironment, IUnitOfWork unitOfWork)
+        public WearablesController(UserManager<ApplicationUser> userManager, ApplicationDbContext context,IWebHostEnvironment hostEnvironment, IConfiguration config, IUnitOfWork unitOfWork = null)
         {
             _unitOfWork = (_unitOfWork == null)
-                ? new UnitOfWork(context, userManager,
-                    "DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net")
+                ? new UnitOfWork(context, userManager,config["ConnectionsStrings:StorageConnection"])
                 : unitOfWork;
         }
 

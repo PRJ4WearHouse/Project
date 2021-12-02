@@ -11,6 +11,7 @@ using WearHouse_WebApp.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using System;
+using Microsoft.Extensions.Configuration;
 
 namespace WearHouse_WebApp.Controllers
 {
@@ -18,11 +19,10 @@ namespace WearHouse_WebApp.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, IUnitOfWork unitOfWork = null)
+        public HomeController(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, IConfiguration config, IUnitOfWork unitOfWork = null)
         {
             _unitOfWork = (unitOfWork == null)
-                ? new UnitOfWork(dbContext, userManager,
-                    "DefaultEndpointsProtocol=https;AccountName=wearhouseimages;AccountKey=XsPSwlsWqpM67glYBUVc/d5Tm5XBKx3KTgZg3dCo6Hz2rHnz9+mQH3cmgnSLJsRK6gmDtOPEj0y0860AhGgWBw==;EndpointSuffix=core.windows.net")
+                ? new UnitOfWork(dbContext, userManager, config["ConnectionsStrings:StorageConnection"])
                 : unitOfWork;
         }
 
