@@ -17,13 +17,20 @@
                     <div>
                         <div class="wearablePost-wearable-image">
                             <form asp-controller="Home" asp-action="WearablePost" asp-route-id="@post.ID">
-                                <button class="seethrough-button" />
-
+                            <button class="seethrough-button" />
+                            @if (post.ImageUrls != null)
+                            {
                                 <div>
-                                    <img src="@post.ImageUrls[0]" class="profile-image-location" />
+                                    <img src="@post.ImageUrls[0]" class="profile-image-location"/>
                                 </div>
-
-                                <p class="profile-wearable-title">
+                            }
+                            else
+                            {
+                            <div>
+                                <img src="Image/noShirt.png" class="profile-image-location"/>
+                            </div>
+                            }
+                            <p class="profile-wearable-title">
                                     @post.Title
                                 </p>
                             </form>

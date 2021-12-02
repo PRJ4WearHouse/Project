@@ -22,9 +22,6 @@ namespace WearHouse_WebApp.Models.Domain
         public UserModel Owner { get; set; }
         public IFormFile[] ImageFiles { get; set; }
         public List<string> ImageUrls { get; set; }
-
-        //OBS Slet mig!
-        public dbWearable dbModel { get; set; }
         
         public WearableModel(dbWearable dbWearable, bool withOwner)
         {
@@ -32,22 +29,25 @@ namespace WearHouse_WebApp.Models.Domain
             Description = dbWearable.Description;
             ID = dbWearable.WearableId;
             State = (WearableState)Enum.Parse(typeof(WearableState), dbWearable.State);
-            if(withOwner)
+            if (withOwner)
                 Owner = (dbWearable.ApplicationUser != null)
                     ? dbWearable.ApplicationUser.ConvertToUserModelWithoutWearables()
-                    : null ;
+                    : null;
             if (dbWearable.ImageUrls != null)
                 ImageUrls = dbWearable.ImageUrls.Split("\n").ToList();
-            
-            //OBS Slet også mig!
-            dbModel = dbWearable;
+            //Her skal kommentarerne indsættes, tænker Sigurd
+            //Vælg alle og konverter alle samtidig?
+            //Tilføj i dbWearable: Funktion der konvertere alle kommentarer? Eller bør der være en funktion der konverterer fra dbcomments? Nej, det håndterer ikke listen ordentligt
+            //Comments = dbWearable.Comments.Select(c => new CommentModel { ID == dbWearable.WearableId });
+            //Comments = dbWearable.Comments;
+            Comments = dbWearable.ConvertToDomainComments();
         }
 
         //Can only convert, if user is set. (User is Primary key)
         //OBS This check might need to be reserved in Repo class
         public dbWearable ConvertToDbWearable()
         {
-            if(Owner != null)
+            if (Owner != null)
                 return new dbWearable()
                 {
                     Description = this.Description,

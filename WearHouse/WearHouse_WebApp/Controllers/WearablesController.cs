@@ -34,7 +34,7 @@ namespace WearHouse_WebApp.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Description,ImageFiles","dbModel")] WearableModel wearable)
+        public async Task<IActionResult> Create([Bind("Title,Description,ImageFiles,State")] WearableModel wearable)
         {
             if (ModelState.IsValid)
             {
@@ -44,7 +44,7 @@ namespace WearHouse_WebApp.Controllers
                 if(await _unitOfWork.SaveWearableWithImages(wearable))
                     return RedirectToAction("Profile", "Home", new {wearable.Owner.UserId });
             }
-            return View(wearable);
+            return View();
         }
 
         //Create Comment

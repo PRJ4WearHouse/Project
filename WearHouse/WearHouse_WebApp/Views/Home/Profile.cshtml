@@ -76,10 +76,18 @@ else if (Model != null)
                                 <div class="profile-wearable">
                                     <form  asp-controller="Home" asp-action="WearablePost" asp-route-id="@post.ID">
                                         <button class="seethrough-button" />
-
-                                        <div>
-                                            <img src="@post.ImageUrls[0]" class="profile-image-location" />
-                                        </div>
+                                        @if (post.ImageUrls != null)
+                                        {
+                                            <div>
+                                                <img src="@post.ImageUrls[0]" class="profile-image-location" />
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div>
+                                                <img src="Image/noShirt.png" class="profile-image-location" />
+                                            </div>
+                                        }
 
                                         <p class="profile-wearable-title">
                                             @post.Title

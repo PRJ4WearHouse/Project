@@ -12,6 +12,7 @@ namespace WearHouse_WebApp.Models.Entities
         public string ProfileImageUrl { get; set; }
 
         public List<dbWearable> Wearables { get; set; }
+        public List<dbComments> Comments { get; set; }
 
         public UserModel ConvertToUserModel()
         {
