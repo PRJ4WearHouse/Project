@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using WearHouse_WebApp.Data;
 using WearHouse_WebApp.Models;
 using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Models.Entities;
+using WearHouse_WebApp.Models.ViewModels;
 using WearHouse_WebApp.Persistence;
 
 namespace WearHouse_WebApp.Controllers
@@ -58,25 +60,17 @@ namespace WearHouse_WebApp.Controllers
         }
 
         //Update state from JS
-        [HttpPut]
-        public async Task<IActionResult> UpdateState(string newState)
+        [HttpPost]
+        public async Task<IActionResult> UpdateState([Bind("State,ID")] WearableModel wearable)
         {
-            Console.WriteLine("Raw shit: " + newState);
-            //Console.WriteLine("Got the ID: " + id);
-            //fetch wearable from db
-
-            //Authorize action
-            //if()
-
-
-            //update state
-
-            //save changes
-
-            //if ok, return ok
-            return Ok();
-
-            //else return error
+            var dbWearable = _unitOfWork.Wearables.Get(wearable.ID);
+            if (dbWearable.UserId == _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.Id)
+            {
+                dbWearable.State = WearableModel.GetWearableStateAsString(wearable.State);
+                await _unitOfWork.Complete();
+                return Redirect($"../Home/WearablePost/{wearable.ID}");
+            }
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
