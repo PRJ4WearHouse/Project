@@ -6,12 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WearHouse_WebApp.Data;
+using WearHouse_WebApp.Models;
 using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Models.Entities;
 using WearHouse_WebApp.Persistence;
 
 namespace WearHouse_WebApp.Controllers
 {
+    [Authorize]
     public class WearablesController : Controller
     {
         private readonly UnitOfWork _unitOfWork;
@@ -22,7 +24,6 @@ namespace WearHouse_WebApp.Controllers
         }
 
         // GET: Wearables/Create
-        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -31,7 +32,6 @@ namespace WearHouse_WebApp.Controllers
         // POST: Wearables/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Description,ImageFiles,State")] WearableModel wearable)
@@ -55,6 +55,28 @@ namespace WearHouse_WebApp.Controllers
             await _unitOfWork.CommentRepository.Add(commentToBeCreated.ConvertToDbModel());
             await _unitOfWork.Complete();
             return View();
+        }
+
+        //Update state from JS
+        [HttpPut]
+        public async Task<IActionResult> UpdateState(string newState)
+        {
+            Console.WriteLine("Raw shit: " + newState);
+            //Console.WriteLine("Got the ID: " + id);
+            //fetch wearable from db
+
+            //Authorize action
+            //if()
+
+
+            //update state
+
+            //save changes
+
+            //if ok, return ok
+            return Ok();
+
+            //else return error
         }
     }
 }

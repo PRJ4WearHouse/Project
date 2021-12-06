@@ -3,7 +3,7 @@
 
 @{
     //Only want active items
-    List<WearableState> validStates = Enum.GetValues(typeof(WearableState)).Cast<WearableState>().ToList();
+    List<WearableState> validStates = WearableModel.GetWearableStatesList();
     validStates.Remove(WearableState.Inactive);
 }
 
@@ -30,7 +30,7 @@
                     </div>
                     <p class="profile-wearable-title"> @post.Title </p>
                     <p class="wearable-owner">
-                        Owner: <span id="owner-username">@post.Owner.Username</span>
+                        Username: <span id="owner-username">@post.Owner.Username</span>
                     </p>
                 </form>
             </div>

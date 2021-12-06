@@ -51,7 +51,7 @@ namespace WearHouse_WebApp.Models.Domain
                 {
                     Description = this.Description,
                     Title = this.Title,
-                    State = Enum.GetName(typeof(WearableState), this.State),
+                    State = GetWearableStateAsString(this.State),
                     UserContactInfo = this.Owner.ContactInfo,
                     UserId = Owner.UserId,
                 };
@@ -59,6 +59,16 @@ namespace WearHouse_WebApp.Models.Domain
             {
                 throw new Exception("No owner defined");
             }
+        }
+
+        public static string GetWearableStateAsString(WearableState state)
+        {
+            return Enum.GetName(typeof(WearableState), state);
+        }
+
+        public static List<WearableState> GetWearableStatesList()
+        {
+            return Enum.GetValues(typeof(WearableState)).Cast<WearableState>().ToList();
         }
     }
 
@@ -70,4 +80,6 @@ namespace WearHouse_WebApp.Models.Domain
         Giving,
         Inactive
     }
+
+    
 }

@@ -9,7 +9,7 @@
 <div id="wearablePost-content">
     <div id="wearablePost-user-info">
         <h1>
-            @Model.Wearable.Title
+            This is my title: @Model.Wearable.Title
         </h1>
         <p class="wearablePost-text-field">
             Description: <br />
@@ -26,6 +26,31 @@
             City: <br />
             @Model.Wearable.Owner.Address
         </p>
+        @if (Model.Wearable.Owner.Username != User.Identity.Name)
+        {
+            <h5 class="wearablePost-text-field">
+                Currently: @WearableModel.GetWearableStateAsString(Model.Wearable.State)
+            </h5>
+        }
+        else
+        {
+            <div class="wearablePost-text-field">
+                <h5>Currently: <span>@WearableModel.GetWearableStateAsString(Model.Wearable.State) </span> </h5>
+                <form>
+                    <select id="newState">
+                        @foreach (var state in WearableModel.GetWearableStatesList()
+                           .Select(w => WearableModel.GetWearableStateAsString(w)))
+                        {
+                            <option value="@state">@state</option>
+                        }
+                        <option hidden selected disabled value="">--set a new state here--</option>
+                    </select>
+                    <button onclick="updateWearableState(@Model.Wearable.ID, document.getElementById('newState').value)" class="btn-primary">
+                        Update state
+                    </button>
+                </form>
+            </div>
+        }
     </div>
     <div id="wearablePost-Main">
         <div id="wearablePost-images">
@@ -68,7 +93,6 @@
                             </th>
                             <th>@Model.Wearable.Comments[i].Author.Username</th>
                             <th>@Model.Wearable.Comments[i].Moment</th>
-
                         </tr>
                     </table>
                             @Model.Wearable.Comments[i].Comment
@@ -85,6 +109,23 @@
     
 </div>
 
+<script>
+    async function updateWearableState(id, newState) {
+        console.log("New state: " + newState + " with id: " + id);
+        await fetch('/Wearables/UpdateState'/*.concat(id,"/",newState)*/, {
+            method: 'PUT',
+            body: newState,
+            headers: new Headers({
+                'content-Type': 'application/json'
+            })
+        });
+        //return await response.json();
+
+        //alert("Set the new state on item " + id + " To state: " + newState);
+
+        //window.reload();
+    }
+</script>
 <!--
     Comments og user "og dato" til side
     Skal hentes fra wearablepost
