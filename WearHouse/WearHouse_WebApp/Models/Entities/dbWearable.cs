@@ -32,14 +32,14 @@ namespace WearHouse_WebApp.Models.Entities
             return new WearableModel(this, true);
         }
 
-        //26-11-2021
+        //26-11-2021 Sigurd
         //Måske noget i denne retning?
         public List<CommentModel> ConvertToDomainComments()
         {
             List<CommentModel> domainList = new List<CommentModel>();
             if (Comments != null)
             {
-                foreach (dbComments comment in Comments) //Kommentarer hentes ikke engang fra databasen! Hvad pokker er det for noget skarn? Dette konkluderer Sigurds arbejde for 26-11-2021
+                foreach (dbComments comment in Comments)
                 {
                     domainList.Add(comment.ConvertToDomainCommentModel());
                 }
