@@ -9,7 +9,7 @@
 <div id="wearablePost-content">
     <div id="wearablePost-user-info">
         <h1>
-            @Model.Wearable.Title
+            This is my title: @Model.Wearable.Title
         </h1>
         <p class="wearablePost-text-field">
             Description: <br />
@@ -26,6 +26,29 @@
             City: <br />
             @Model.Wearable.Owner.Address
         </p>
+        @if (Model.Wearable.Owner.Username != User.Identity.Name)
+        {
+            <h5 class="wearablePost-text-field">
+                Currently: @WearableModel.GetWearableStateAsString(Model.Wearable.State)
+            </h5>
+        }
+        else
+        {
+            <div class="wearablePost-text-field">
+                <h5>Currently: <span>@WearableModel.GetWearableStateAsString(Model.Wearable.State) </span> </h5>
+                <form asp-controller="Wearables" asp-action="UpdateState">
+                    <select id="newState" asp-for="Wearable.State">
+                        @foreach (var state in WearableModel.GetWearableStatesList())
+                        {
+                            <option value="@state">@WearableModel.GetWearableStateAsString(state)</option>
+                        }
+                        <option hidden selected disabled value="">--set a new state here--</option>
+                    </select>
+                    <input type="hidden" value="@Model.Wearable.ID" asp-for="Wearable.ID" />
+                    <input type="submit" value="Update State" />
+                </form>
+            </div>
+        }
     </div>
     <div id="wearablePost-Main">
         <div id="wearablePost-images">
@@ -68,7 +91,6 @@
                             </th>
                             <th>@Model.Wearable.Comments[i].Author.Username</th>
                             <th>@Model.Wearable.Comments[i].Moment</th>
-
                         </tr>
                     </table>
                             @Model.Wearable.Comments[i].Comment
@@ -76,19 +98,4 @@
             }
         </div>
     </div>
-    <!--This is where you comment-->
-    
-    <!--type="text" id="comment" name="comment" -->
-
-    <!--Dette skal forbindes til controlleren på en eller anden måde-->
-    <!--This is where the comments are-->
-    
 </div>
-
-<!--
-    Comments og user "og dato" til side
-    Skal hentes fra wearablepost
-    Wearablepost skal hente fra entitetsmodellen (dbmodel)
-    Så der skal tilføjes et nyt table O to M til wearablepost og en M to O til User: Commentdata, som indeholder et id, en string, en datetime, en foreign key til user
-    Der skal være en knap som gemmer denne data i modellen og sender det til dbmodel som nyt entry i tabellen
--->
