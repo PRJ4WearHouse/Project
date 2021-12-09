@@ -4,15 +4,19 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using WearHouse_WebApp.Data;
+using WearHouse_WebApp.Models;
 using WearHouse_WebApp.Models.Domain;
 using WearHouse_WebApp.Models.Entities;
+using WearHouse_WebApp.Models.ViewModels;
 using WearHouse_WebApp.Persistence;
 
 namespace WearHouse_WebApp.Controllers
 {
+    [Authorize]
     public class WearablesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -25,7 +29,6 @@ namespace WearHouse_WebApp.Controllers
         }
 
         // GET: Wearables/Create
-        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -34,7 +37,6 @@ namespace WearHouse_WebApp.Controllers
         // POST: Wearables/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Description,ImageFiles,State")] WearableModel wearable)
@@ -58,6 +60,20 @@ namespace WearHouse_WebApp.Controllers
             await _unitOfWork.CommentRepository.Add(commentToBeCreated.ConvertToDbModel());
             await _unitOfWork.Complete();
             return View();
+        }
+
+        //Update state from JS
+        [HttpPost]
+        public async Task<IActionResult> UpdateState([Bind("State,ID")] WearableModel wearable)
+        {
+            var dbWearable = _unitOfWork.Wearables.Get(wearable.ID);
+            if (dbWearable.UserId == _unitOfWork.GetCurrentUserWithoutWearables(HttpContext).Result.Id)
+            {
+                dbWearable.State = WearableModel.GetWearableStateAsString(wearable.State);
+                await _unitOfWork.Complete();
+                return Redirect($"../Home/WearablePost/{wearable.ID}");
+            }
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

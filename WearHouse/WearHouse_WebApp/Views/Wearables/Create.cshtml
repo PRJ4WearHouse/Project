@@ -33,11 +33,10 @@
             <div class="form-group">
                 <label asp-for="State" class="control-label"></label>
                 <select asp-for="State">
-                    <option value="@WearableState.Giving">Giving</option>
-                    <option value="@WearableState.Borrowing">Borrowing</option>
-                    <option value="@WearableState.Renting">Renting</option>
-                    <option value="@WearableState.Selling">Selling</option>
-                    <option value="@WearableState.Inactive">Inactive</option>
+                    @foreach (var state in WearableModel.GetWearableStatesList())
+                    {
+                        <option value="@state">@WearableModel.GetWearableStateAsString(state)</option>
+                    }
                 </select>
             </div>
             <div class="grid-container">

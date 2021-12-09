@@ -12,10 +12,17 @@ a {
   color: #0366d6;
 }
 
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+    width: -webkit-fill-available;
+}
+
+
+.btn-primary:active {
+    box-shadow: 0 8px 12px 0 rgb(34, 60, 80) inset;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -34,12 +41,41 @@ a {
     flex: 25%;
     flex-wrap: wrap;
 }
+
+.index-element {
+    height: 190px;
+    margin-block: 0;
+    border: solid 1px;
+    text-align: center;
+    margin: 15px 5px;
+    min-width: 12em;
+    max-width: 16em;
+    border-radius: 4%;
+}
+
+.index-element:hover {
+    box-shadow: 0 8px 12px 0 rgb(34, 60, 80);
+    zoom: 1.01;
+}
+
+.wearable-owner {
+    color: grey;
+    text-align: left;
+    margin: 0px;
+}
+
+#owner-username {
+    float: right
+}
+
 .column2 {
     flex: 25%;
 }
+
 .column3 {
     flex: 25%;
 }
+
 .column4 {
     flex: 25%;
 }
@@ -47,7 +83,7 @@ a {
 /*.column {
     float: left;
     width: 50%;*/
-    /*border: 0px 20px;*/
+/*border: 0px 20px;*/
 /*}
 
 .row:after {
@@ -55,7 +91,6 @@ a {
     display: table;
     clear: both;
 }*/
-
 /* Profile styling
 -------------------------------------------------- */
 #profile-content{
@@ -105,6 +140,8 @@ a {
 
 .profile-wearable-title{
     border-top: solid black 1px;
+    height: 3.5em;
+    margin: 0;
 }
 
 .seethrough-button {
@@ -224,10 +261,4 @@ body {
 .preview-img {
     width: 150px;
     max-height: 170px;
-}
-
-/*Text in box*/
-.boxed {
-    border: dashed 2px;
-    text-align: center;
 }
