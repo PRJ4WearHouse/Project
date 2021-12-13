@@ -63,7 +63,7 @@ else if (Model != null)
                     {
                         @foreach (var post in Model.Wearables)
                         {
-                            @if (post.Title != "" && post.Title != null)
+                            @if ((post.Owner.Username == User.Identity.Name) || (post.State != WearableState.Inactive))
                             {
                                 <div class="profile-wearable">
                                     <form  asp-controller="Home" asp-action="WearablePost" asp-route-id="@post.ID">
