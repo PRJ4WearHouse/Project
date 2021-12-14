@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace WearHouse_WebApp.Persistence.Interfaces
 {
+    /// <summary>
+    /// Interface for general actions on the database
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public interface IRepository<TEntity> where TEntity : class
     {
         Task Add(TEntity entity);

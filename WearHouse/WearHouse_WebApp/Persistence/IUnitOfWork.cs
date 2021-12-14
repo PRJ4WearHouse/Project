@@ -10,14 +10,27 @@ using WearHouse_WebApp.Persistence.Repositories;
 
 namespace WearHouse_WebApp.Persistence
 {
+    /// <summary>
+    /// Interface for the UnitOfWork class
+    /// </summary>
     public interface IUnitOfWork : IDisposable
     {
         IWearableRepository Wearables { get; }
         IAzureImageStorage ImageStorage { get; }
         IUserRepository UserRepository { get; }
-        UserManager<ApplicationUser> UserManager { get; }
+        UserManager<ApplicationUser> UserManager { get; } 
         IComment CommentRepository { get; }
+        /// <summary>
+        /// Gets the currently logged in user without its wearables
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         Task<ApplicationUser> GetCurrentUserWithoutWearables(HttpContext context);
+        /// <summary>
+        /// Save wearable with related images to database
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         Task<bool> SaveWearableWithImages(WearableModel item);
         Task<int> Complete();
     }
