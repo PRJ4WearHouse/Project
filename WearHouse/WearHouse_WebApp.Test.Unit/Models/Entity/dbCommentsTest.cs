@@ -23,7 +23,7 @@ namespace WearHouse_WebApp.Test.Unit.Models
             // Arrange takes place in SetUp()
 
             // Act
-            var actual = uut.ConvertToDomainCommentModel();
+            var actual = uut.ConvertToCommentModel();
 
             // Assert
             Assert.Multiple(() =>
@@ -46,7 +46,7 @@ namespace WearHouse_WebApp.Test.Unit.Models
             };
 
             // Act
-            var actual = uut.ConvertToDomainCommentModel();
+            var actual = uut.ConvertToCommentModel();
 
             // Assert
             Assert.Multiple(() =>
@@ -78,7 +78,7 @@ namespace WearHouse_WebApp.Test.Unit.Models
             };
 
             // Act
-            var actual = uut.ConvertToDomainCommentModel();
+            var actual = uut.ConvertToCommentModel();
 
             // Assert
             Assert.Multiple(() =>

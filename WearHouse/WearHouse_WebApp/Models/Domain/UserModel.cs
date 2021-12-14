@@ -32,7 +32,6 @@ namespace WearHouse_WebApp.Models.Domain
         public string Address { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public IFormFile ProfileImage { get; set; }
         public string ProfileImageUrl { get; set; }
         public List<WearableModel> Wearables { get; set; }
         public string ContactInfo { get; set; }

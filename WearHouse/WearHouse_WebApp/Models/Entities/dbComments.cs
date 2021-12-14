@@ -17,7 +17,7 @@ namespace WearHouse_WebApp.Models.Entities
         public int WearableId { get; set; }
         public ApplicationUser Author { get; set; }
         public dbWearable Wearable { get; set; }
-        public Domain.CommentModel ConvertToDomainCommentModel()
+        public Domain.CommentModel ConvertToCommentModel()
         {
             return new Domain.CommentModel(this);
         }

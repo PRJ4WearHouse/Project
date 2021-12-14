@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WearHouse_WebApp.Models.Entities;
 
 namespace WearHouse_WebApp.Models.Domain
 {
@@ -13,7 +14,7 @@ namespace WearHouse_WebApp.Models.Domain
         public int WearableId { get; set; }
 
         public CommentModel() { }
-        public CommentModel(Entities.dbComments databaseCommentString)
+        public CommentModel(dbComments databaseCommentString)
         {
             Comment = databaseCommentString.Comments;
             Moment = databaseCommentString.Moment;
@@ -21,13 +22,7 @@ namespace WearHouse_WebApp.Models.Domain
             if (databaseCommentString.Author != null)
                 Author = databaseCommentString.Author.ConvertToUserModelWithoutWearables();
         }
-        public CommentModel(string comment, DateTime moment, UserModel author)
-        {
-            Comment = comment;
-            Moment = moment;
-            Author = author;
-        }
-        public Entities.dbComments ConvertToDbModel()
+        public dbComments ConvertToDbModel()
         {
             if (Author != null)
             {

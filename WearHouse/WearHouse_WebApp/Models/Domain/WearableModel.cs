@@ -39,7 +39,7 @@ namespace WearHouse_WebApp.Models.Domain
                     : null;
             if (dbWearable.ImageUrls != null)
                 ImageUrls = dbWearable.ImageUrls.Split("\n").ToList();
-            Comments = dbWearable.ConvertToDomainComments();
+            Comments = dbWearable.RetriveCommentsAsModels();
         }
 
         //Can only convert, if user is set. (User is Primary key)

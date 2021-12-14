@@ -34,14 +34,14 @@ namespace WearHouse_WebApp.Models.Entities
 
         //26-11-2021 Sigurd
         //Måske noget i denne retning?
-        public List<CommentModel> ConvertToDomainComments()
+        public List<CommentModel> RetriveCommentsAsModels()
         {
             List<CommentModel> domainList = new List<CommentModel>();
             if (Comments != null)
             {
                 foreach (dbComments comment in Comments)
                 {
-                    domainList.Add(comment.ConvertToDomainCommentModel());
+                    domainList.Add(comment.ConvertToCommentModel());
                 }
             }
             return domainList;
